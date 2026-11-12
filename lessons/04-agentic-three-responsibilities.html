@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>代理時代工程師的三職責 — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表</a>
+  <article>
+    <h1>代理時代工程師的三職責：指定意圖 → 評估軌跡 → 收回控制</h1>
+    <p class="summary">當 AI agent 能自己跨多步執行，工程師的工作從「自己寫 code」變成三件事。</p>
+
+    <section class="card">
+      <h2>是什麼</h2>
+      <p>以前寫程式是你一行一行敲。當 AI agent 能**自己規劃、跨多步執行**之後，工程師的角色換成三個職責：</p>
+      <p>
+        <strong>① 指定意圖（specify intent）</strong>：把模糊的想法，寫成**精確到 agent 能可靠執行**的規格——讓它做你「真正想要的」，不是只做你「字面寫的」。<br>
+        <strong>② 評估軌跡（evaluate trajectory）</strong>：不只看單一輸出對不對，而是看 agent **整條路徑**有沒有朝對的目標走。<br>
+        <strong>③ 知道何時收回控制（take back control）</strong>：察覺 agent 走偏時，把手動控制權拿回來。
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要</h2>
+      <p>關鍵在第②點：<strong>單一輸出可以「看起來對」，整條軌跡卻歪掉</strong>。例如一個 agent 正確修好了眼前的 bug，卻在過程中引入一個安全漏洞——輸出合格，軌跡有害。所以「評估軌跡」比「評估輸出」更要命，而這正是<strong>可信度／忠實度</strong>的核心問題。</p>
+      <p>而「把模糊意圖變成精確規格」不是軟實力，是**有可測產出影響的技術技能**，目前被嚴重低估。這條線接得起整站：<a href="03-intent-output-gap.html">意圖↔輸出落差</a>就是職責①的微觀練習；而職責②（驗證生成內容是否真的可信）正是我 <a href="01-rag-faithfulness.html">RAG 忠實度</a> 研究在做的事。</p>
+      <div class="src">出處：CSIC30216《AI-in-the-Loop in Software Project Cycle》Week 1 導論（Dennis Wang 王邦任、顏羽君），作者改寫重述。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走</h2>
+      <p>代理時代工程師的工作不是「會用 AI 工具」，而是：**指定意圖、評估軌跡、知道何時收回控制**。</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 · 言而有據</footer>
+</body>
+</html>

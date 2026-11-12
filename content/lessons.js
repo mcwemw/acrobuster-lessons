@@ -21,5 +21,12 @@ const LESSONS = [
     title: "提示工程的核心：意圖 vs 輸出的落差",
     summary: "模型回的是你「寫出來的」,不是你「心裡想的」。那條縫就是提示工程要收的。",
     tag: "提示工程"
+  },
+  {
+    id: "04",
+    slug: "agentic-three-responsibilities",
+    title: "代理時代工程師的三職責：指定意圖 → 評估軌跡 → 收回控制",
+    summary: "AI 能自己跨步執行後,工程師的工作從「寫 code」變成三件事。",
+    tag: "代理工程"
   }
 ];
