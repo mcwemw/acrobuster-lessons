@@ -48,5 +48,9 @@ section.card h2{margin:0 0 8px;font-size:20px;color:var(--navy)}
 .tag-fail{background:var(--red)}
 .src{font-size:13px;color:#737d9e;border-left:3px solid var(--green);
   padding:4px 0 4px 12px;margin-top:10px}
+.en{color:#5a6687;font-size:15px;margin-top:6px}
+.lesson-card .en{font-size:13px;color:#77809e;margin-top:2px}
+h3 .en,h1 .en{display:block;font-weight:600;font-size:0.72em;color:#8a93b2;margin-top:3px}
+section.card h2 .en{font-size:0.72em;color:#8a93b2;font-weight:600}
 footer.site{border-top:1px solid var(--line);color:#8a93b2;font-size:13px;
   text-align:center;padding:22px}
