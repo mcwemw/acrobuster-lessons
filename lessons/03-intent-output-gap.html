@@ -19,15 +19,15 @@
 
     <section class="card">
       <h2>是什麼 <span class="en">· What it is</span></h2>
-      <p>你寫 prompt 時，心裡其實已經有個「想要的答案」。但模型看不到你的意圖，它只看到你**實際寫出的字**。凡是你沒講清楚的地方，它都會自己替你做決定——讀者是誰？要多深入？要不要點名「遞迴」這個技術？要不要處理空輸入的邊界情況？這些**你沒明說、模型替你決定**的選擇，加起來就是「意圖」與「輸出」之間的落差。</p>
+      <p>你寫 prompt 時，心裡其實已經有個「想要的答案」。但模型看不到你的意圖，它只看到你<strong>實際寫出的字</strong>。凡是你沒講清楚的地方，它都會自己替你做決定——讀者是誰？要多深入？要不要點名「遞迴」這個技術？要不要處理空輸入的邊界情況？這些<strong>你沒明說、模型替你決定</strong>的選擇，加起來就是「意圖」與「輸出」之間的落差。</p>
       <p class="en">When you write a prompt, you already have a desired answer in mind. But the model can't see your intent — it only sees the <strong>words you actually wrote</strong>. Wherever you were vague, it decides for you: who's the reader? how deep? name "recursion" or not? handle the empty-input edge case or not? Each of these <strong>implicit decisions you delegated</strong> adds up to the gap between intent and output.</p>
     </section>
 
     <section class="card">
       <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
-      <p>這個落差**不是模型「錯」**——它只是對你寫的字做了最可能的解讀。真正的工程功夫在於：先看出模型替你做了哪些隱性決定，然後**一次只改一件事**（補上讀者、補上格式、補上重點），把落差一步步收窄。它是**迭代**，不是一次到位——收掉一個隱性決定，常常會冒出另一個你原本沒注意到的。</p>
+      <p>這個落差<strong>不是模型「錯」</strong>——它只是對你寫的字做了最可能的解讀。真正的工程功夫在於：先看出模型替你做了哪些隱性決定，然後<strong>一次只改一件事</strong>（補上讀者、補上格式、補上重點），把落差一步步收窄。它是<strong>迭代</strong>，不是一次到位——收掉一個隱性決定，常常會冒出另一個你原本沒注意到的。</p>
       <p class="en">The gap is <strong>not the model being "wrong"</strong> — it just made the most probable reading of your words. The real engineering move: first spot which implicit decisions the model made for you, then <strong>change only one thing at a time</strong> (add the reader, add a format, add a focus) and narrow the gap step by step. It's <strong>iterative</strong>, not one-shot — closing one implicit decision often reveals another you hadn't noticed.</p>
-      <p>這跟我研究的 <a href="01-rag-faithfulness.html">RAG 忠實度</a> 其實同源：一個是「意圖 vs 輸出」的 gap，一個是「主張 vs 來源支持」的 gap，本質都是**生成內容與應有依據之間的落差**。</p>
+      <p>這跟我研究的 <a href="01-rag-faithfulness.html">RAG 忠實度</a> 其實同源：一個是「意圖 vs 輸出」的 gap，一個是「主張 vs 來源支持」的 gap，本質都是<strong>生成內容與應有依據之間的落差</strong>。</p>
       <p class="en">This shares a root with my <a href="01-rag-faithfulness.html">RAG faithfulness</a> work: one is the "intent vs output" gap, the other the "claim vs source-support" gap — both are, at heart, the gap between what was generated and what it should rest on.</p>
       <div class="src">出處 Source：作者觀點（延伸自 CSIC30216《AI-in-the-Loop》課堂 Lab 的 intent↔output 概念）。Author's view, extending the intent–output concept from the CSIC30216 "AI-in-the-Loop" lab.</div>
     </section>

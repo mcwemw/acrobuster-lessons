@@ -36,5 +36,14 @@ const LESSONS = [
     summary: "AI 能自己跨步執行後,工程師的工作從「寫 code」變成三件事。",
     summary_en: "Once AI can execute across steps on its own, the engineer's job shifts from writing code to three things.",
     tag: "代理工程"
+  },
+  {
+    id: "05",
+    slug: "how-llms-work",
+    title: "LLM 怎麼運作：下一個字預測 + 注意力",
+    title_en: "How LLMs Work: Next-Token Prediction + Attention",
+    summary: "模型不是在「查資料庫」,是在猜「最可能的下一個字」;attention 讓它決定每個詞該看句中哪些詞。",
+    summary_en: "Not a database lookup — the model guesses the \"most likely next token\"; attention decides which words each word looks at.",
+    tag: "模型原理"
   }
 ];
