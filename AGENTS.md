@@ -88,4 +88,17 @@
 
 ---
 
-遵守本檔 = 任何人／AI 都能在 5 分鐘內長出一張風格一致、言而有據的新講義卡。
+## 7. 每日論文筆記（notes.html，自動）
+
+站上有一個獨立的「每日論文筆記」區（`notes.html`），跟 §4 的原創概念卡**分開**，不混淆。由每天 05:00 的 cron 自動產生：
+
+- 圖檔放 `notes/YYYY-MM-DD_slug.png`（康乃爾四色筆記）。
+- 清單登記在 `content/notes.js` 的 `NOTES` 陣列，**最新的 unshift 到最前面**（欄位：date / title / title_en / source / img）。
+- `notes.html` 自動從 `NOTES` 渲染，**不必手改**。
+- 紅線同 §5：只導讀公開論文、標 CC 授權、每條主張可回源 abstract。
+
+AI 新增一篇筆記＝① 產圖存 `notes/` ② 在 `notes.js` 最前面加一筆 ③ commit+push。
+
+---
+
+遵守本檔 = 任何人／AI 都能在 5 分鐘內長出一張風格一致、言而有據的新講義卡或論文筆記。

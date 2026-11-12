@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>每日論文筆記 · Daily Paper Notes — ACROBUSTER</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <h1><span class="ac">AC</span><span class="ro">ROBUST</span>er · 每日論文筆記 Daily Paper Notes</h1>
+    <p>每天從 Zotero 書庫挑一篇論文，做成康乃爾四色筆記 · One paper a day, as a Cornell-style note</p>
+  </div>
+</header>
+<main>
+  <p><a href="index.html">← 回研究講義站 Back to lessons</a></p>
+  <p>每天自動更新、不重複。每條主張可回源論文 abstract。
+     <span class="en">Auto-updated daily, never repeating. Every claim traces back to the paper's abstract.</span></p>
+  <div id="notes"></div>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創導讀 Original digests · 言而有據 Grounded</footer>
+
+<script src="content/notes.js"></script>
+<script>
+  var box = document.getElementById("notes");
+  NOTES.forEach(function (n) {
+    var card = document.createElement("section");
+    card.className = "card";
+    card.innerHTML =
+      '<div class="id">' + n.date + '</div>' +
+      '<h2 style="margin:4px 0 2px">' + n.title + '</h2>' +
+      '<p class="en" style="margin:0 0 4px">' + n.title_en + '</p>' +
+      '<div class="src">出處 Source：' + n.source + '</div>' +
+      '<p style="margin-top:12px"><img src="notes/' + n.img + '" alt="' + n.title + '" style="width:100%;border:1px solid var(--line);border-radius:10px"></p>';
+    box.appendChild(card);
+  });
+</script>
+</body>
+</html>
