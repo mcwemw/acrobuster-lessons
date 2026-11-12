@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG 忠實度三層 — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表</a>
+  <article>
+    <h1>RAG 忠實度三層：PASS / WARN / FAIL</h1>
+    <p class="summary">別只問 AI「有沒有附來源」，要問「來源到底有沒有支持這句」。</p>
+
+    <section class="card">
+      <h2>是什麼</h2>
+      <p>RAG（檢索增強生成）讓語言模型先去「檢索」一批來源，再「生成」答案。但附上來源不等於有據——模型可能引了一篇文章，卻講出文章裡根本沒說的內容。<strong>忠實度（faithfulness）</strong>就是逐句去驗：這句話到底有沒有被它所引的來源支持。驗完分成三層：</p>
+      <p>
+        <span class="tag-pass">PASS 有據</span>　句子被來源支持。<br>
+        <span class="tag-warn">WARN 真但離題</span>　句子是真的，但不在這次檢索到的脈絡裡——模型在背書自己的記憶，不是用檢索證據。<br>
+        <span class="tag-fail">FAIL 捏造</span>　來源完全不支持。
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要</h2>
+      <p>一般 RAG 的引用檢查只看「<em>有沒有附來源</em>」，不驗「<em>來源有沒有支持這句</em>」。最危險的是中間那層 <span class="tag-warn">WARN</span>：答案看起來有憑有據、內容也是真的，卻不是從檢索證據來的——使用者最容易被這種「聽起來對」的答案騙。把 WARN 當成一個<strong>獨立的失效類別</strong>去抓，才擋得住這個灰色地帶。</p>
+      <div class="src">出處：作者研究框架（faithfulness 三層分類），延伸自 RAG 忠實度評測文獻（如 RAGTruth）。屬作者觀點之處已標明。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走</h2>
+      <p>有引用 ≠ 有據。忠實度要逐句比對來源，而「真事實但離題（WARN）」是最該獨立抓出來的一類。</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 · 言而有據</footer>
+</body>
+</html>

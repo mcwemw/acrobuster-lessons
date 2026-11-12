@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站</h1>
+    <p>吳美真 Emma Wu · 原創研究概念卡 · Accept. Robust. Master.</p>
+  </div>
+</header>
+<main>
+  <p>把研究裡反覆用到的概念,拆成一張張可查證的卡片。新增一張卡的規則寫在
+     <a href="AGENTS.md">AGENTS.md</a>——讀完就能照同一套格式繼續長下去。</p>
+  <div class="grid" id="grid"></div>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 · 言而有據</footer>
+
+<script src="content/lessons.js"></script>
+<script>
+  // 依 lessons.js 自動生成卡片 — 新增內容只改 lessons.js,不改本檔(見 AGENTS.md §4)
+  const grid = document.getElementById("grid");
+  LESSONS.forEach(function (l) {
+    const a = document.createElement("a");
+    a.className = "lesson-card";
+    a.href = "lessons/" + l.id + "-" + l.slug + ".html";
+    a.innerHTML =
+      '<div class="id">LESSON ' + l.id + '</div>' +
+      '<h3>' + l.title + '</h3>' +
+      '<p>' + l.summary + '</p>' +
+      '<span class="chip">' + l.tag + '</span>';
+    grid.appendChild(a);
+  });
+</script>
+</body>
+</html>
