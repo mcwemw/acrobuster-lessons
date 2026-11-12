@@ -21,20 +21,26 @@
 </main>
 <footer class="site">ACROBUSTER · 内容為作者原創導讀 Original digests · 言而有據 Grounded</footer>
 
-<script src="content/notes.js"></script>
 <script>
-  var box = document.getElementById("notes");
-  NOTES.forEach(function (n) {
-    var card = document.createElement("section");
-    card.className = "card";
-    card.innerHTML =
-      '<div class="id">' + n.date + '</div>' +
-      '<h2 style="margin:4px 0 2px">' + n.title + '</h2>' +
-      '<p class="en" style="margin:0 0 4px">' + n.title_en + '</p>' +
-      '<div class="src">出處 Source：' + n.source + '</div>' +
-      '<p style="margin-top:12px"><img src="notes/' + n.img + '" alt="' + n.title + '" style="width:100%;border:1px solid var(--line);border-radius:10px"></p>';
-    box.appendChild(card);
-  });
+  // 每次載入都加時間戳,強制抓最新 notes.js(避免瀏覽器快取舊版)
+  function renderNotes() {
+    var box = document.getElementById("notes");
+    NOTES.forEach(function (n) {
+      var card = document.createElement("section");
+      card.className = "card";
+      card.innerHTML =
+        '<div class="id">' + n.date + '</div>' +
+        '<h2 style="margin:4px 0 2px">' + n.title + '</h2>' +
+        '<p class="en" style="margin:0 0 4px">' + n.title_en + '</p>' +
+        '<div class="src">出處 Source：' + n.source + '</div>' +
+        '<p style="margin-top:12px"><img src="notes/' + n.img + '" alt="' + n.title + '" style="width:100%;border:1px solid var(--line);border-radius:10px"></p>';
+      box.appendChild(card);
+    });
+  }
+  var s = document.createElement("script");
+  s.src = "content/notes.js?t=" + Date.now();
+  s.onload = renderNotes;
+  document.head.appendChild(s);
 </script>
 </body>
 </html>

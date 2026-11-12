@@ -23,9 +23,9 @@
 </main>
 <footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
 
-<script src="content/lessons.js"></script>
 <script>
-  // 依 lessons.js 自動生成卡片 — 新增內容只改 lessons.js,不改本檔(見 AGENTS.md §4)
+  // 每次載入加時間戳,強制抓最新 lessons.js(避免瀏覽器快取舊版)
+  function renderLessons() {
   var grid = document.getElementById("grid");
   LESSONS.forEach(function (l) {
     var a = document.createElement("a");
@@ -39,6 +39,11 @@
       '<span class="chip">' + l.tag + '</span>';
     grid.appendChild(a);
   });
+  }
+  var s = document.createElement("script");
+  s.src = "content/lessons.js?t=" + Date.now();
+  s.onload = renderLessons;
+  document.head.appendChild(s);
 </script>
 </body>
 </html>
