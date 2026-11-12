@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>意圖 vs 輸出的落差 — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表</a>
+  <article>
+    <h1>提示工程的核心：意圖 vs 輸出的落差</h1>
+    <p class="summary">模型回的是你「寫出來的」，不是你「心裡想的」。兩者之間的縫，就是提示工程要收的。</p>
+
+    <section class="card">
+      <h2>是什麼</h2>
+      <p>你寫 prompt 時，心裡其實已經有個「想要的答案」。但模型看不到你的意圖，它只看到你**實際寫出的字**。凡是你沒講清楚的地方，它都會自己替你做決定——讀者是誰？要多深入？要不要點名「遞迴」這個技術？要不要處理空輸入的邊界情況？這些**你沒明說、模型替你決定**的選擇，加起來就是「意圖」與「輸出」之間的落差。</p>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要</h2>
+      <p>這個落差**不是模型「錯」**——它只是對你寫的字做了最可能的解讀。真正的工程功夫在於：先看出模型替你做了哪些隱性決定，然後**一次只改一件事**（補上讀者、補上格式、補上重點），把落差一步步收窄。它是**迭代**，不是一次到位——收掉一個隱性決定，常常會冒出另一個你原本沒注意到的。</p>
+      <p>這跟我研究的 <a href="01-rag-faithfulness.html">RAG 忠實度</a> 其實同源：一個是「意圖 vs 輸出」的 gap，一個是「主張 vs 來源支持」的 gap，本質都是**生成內容與應有依據之間的落差**。</p>
+      <div class="src">出處：作者觀點（延伸自 CSIC30216《AI-in-the-Loop》課堂 Lab 的 intent↔output 概念）。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走</h2>
+      <p>模型給的是你「寫的」，不是你「想的」。提示工程＝看出它替你做了哪些隱性決定，然後一次改一個、把落差收窄。</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 · 言而有據</footer>
+</body>
+</html>

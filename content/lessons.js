@@ -14,5 +14,12 @@ const LESSONS = [
     title: "四層工程思維：Prompt → Context → Harness → Loop",
     summary: "把「跟 AI 一起工作」拆成四層槓桿,由近而遠、由戰術到制度。",
     tag: "AI 工程"
+  },
+  {
+    id: "03",
+    slug: "intent-output-gap",
+    title: "提示工程的核心：意圖 vs 輸出的落差",
+    summary: "模型回的是你「寫出來的」,不是你「心裡想的」。那條縫就是提示工程要收的。",
+    tag: "提示工程"
   }
 ];
