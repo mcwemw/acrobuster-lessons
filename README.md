@@ -1,4 +1,4 @@
-# ACROBUSTER 研究講義站
+# ACROBUSTER (Accept Robust Master)研究講義站
 
 一個靜態研究講義站，把作者（吳美真 / Emma Wu）的原創研究概念拆成一張張「概念卡」呈現。像課堂的呆一布講義，但內容全部原創。
 
