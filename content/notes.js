@@ -2,6 +2,13 @@
 // 欄位: date / title(中) / title_en / source / img(notes/ 內的檔名)
 const NOTES = [
   {
+    date: "2026-11-14",
+    title: "Ragas — 不靠人工標準答案,自動評 RAG 的多個維度",
+    title_en: "Ragas — reference-free automated evaluation of RAG pipelines",
+    source: "Es et al. 2023 · arXiv:2309.15217 · CC-BY-4.0",
+    img: "2026-11-14_ragas.png"
+  },
+  {
     date: "2026-11-13",
     title: "The Instruction Hierarchy — 教 LLM 分指令優先級、擋越權",
     title_en: "The Instruction Hierarchy — teaching LLMs to prioritize privileged instructions",
