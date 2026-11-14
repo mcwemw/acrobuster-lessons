@@ -243,5 +243,32 @@ const LESSONS = [
     summary: "沒有誤差棒的 eval 分數不是結果。評估是實驗：題目是樣本，裸的「80% 通過」沒有不確定區間等於沒說。三的法則：某事在 n 次試驗零次發生，真實發生率 95% 上界 ≈ 3/n → 10/10 容得下 ~30% 失效率。比較模型要配對題目（同題抵銷難易雜訊、更有檢定力），差異要看信賴區間有沒有重疊；面向客戶看 pass^k 不是 pass@k（75%³≈42%）；eval 一旦飽和只剩抓退步、量不出進步。",
     summary_en: "An eval score without an error bar isn't a result. Evaluations are experiments: questions are a sample, and a bare \"80% pass\" with no interval says nothing. Rule of three: zero events in n trials → 95% upper bound ≈ 3/n, so 10/10 allows a true failure rate up to ~30%. Compare models with paired questions (same items cancel difficulty noise, more power) and check whether intervals overlap; for customer-facing work read pass^k not pass@k (0.75³≈42%); and once an eval saturates it only catches regressions, not gains.",
     tag: "AI 工程"
+  },
+  {
+    id: "28",
+    slug: "already-testing-badly-silent-failures",
+    title: "你早就在測了，只是測得爛：「試幾次覺得 OK」是一個爛測試套件，而最危險的失效是沉默的",
+    title_en: "You're Already Testing — Just Badly: \"Tried It a Few Times\" Is a Weak Test Suite, and the Most Dangerous Failures Are Silent",
+    summary: "「我在五個例子上試過，看起來不錯」已經是測試了，只是 size-5 的爛套件：①那五個是你自己挑的、②沒寫下「好」是什麼（憑感覺）、③什麼都沒存，改完不能重跑。失效按「多容易被發現」分三種：格式（破壞程式、大聲報）、邊界（奇怪輸入壞結果、有時）、沉默（格式對、讀來合理、但錯，沒人直到很久以後）。沉默失效只有在你先寫下「對」長什麼樣時才現形——這就是 oracle 問題。prompt 測試像軟體測試但非決定性、期望的是行為不是逐字、失敗的測試有時是測試的 bug。",
+    summary_en: "\"Tried it on five examples, looks good\" already is testing — just a weak suite of size 5: the five were self-chosen; nobody wrote down what \"good\" means; nothing is saved to rerun. Failures split by visibility: format (breaks the program, loud), edge (odd input, bad result, sometimes), and silent (well-formed, plausible, wrong — nobody until much later). Silent failures only appear once you've written down what \"right\" looks like — the oracle problem. Prompt testing is like software testing but non-deterministic, expects a behavioral property not exact text, and a failing test is sometimes a bug in the test.",
+    tag: "提示工程"
+  },
+  {
+    id: "29",
+    slug: "prompt-broke-check-withheld-context",
+    title: "Prompt 壞掉，先查你漏給了什麼脈絡：在團隊裡，一半的「規格」藏在沒說出口的慣例裡",
+    title_en: "When a Prompt Breaks, First Check What Context You Withheld: In a Team, Half the \"Spec\" Lives in Unspoken Conventions",
+    summary: "prompt 產出的碼壞掉，最常見原因不是模型笨，是你漏給了脈絡。Assignment 1 的診斷題故意這樣設計：三個隊友 prompt 失敗，正因各漏一個隱藏需求——團隊 CONVENTIONS.md、utils.py 的 helper、或沒明說的 urgency 規則。模型忠實照著不完整的 prompt 做了。所以診斷=指出規格漏了什麼，不是罵模型——這把卡 03「意圖 vs 輸出落差」銳化到團隊維度。附帶：技法不是咒語要刻意選再看差異（Part 1）；評分只給逐字 prompt＋完整回應＋反思，checker 輸出只算佐證。",
+    summary_en: "When prompt-generated code breaks, the usual cause isn't a dumb model — it's context you withheld. Assignment 1's diagnosis task is built on this: three teammates' prompts fail because each omits a hidden requirement — the team CONVENTIONS.md, a utils.py helper, or an unspoken urgency rule. The model did exactly what the incomplete prompt said. So diagnosis = naming what the spec left out, not blaming the model — sharpening card 03's intent–output gap into the team dimension. Riders: techniques aren't magic words, choose deliberately and observe the difference (Part 1); and credit comes from verbatim prompt + full response + reflection, checker output is evidence only.",
+    tag: "提示工程"
+  },
+  {
+    id: "30",
+    slug: "define-success-before-you-build",
+    title: "先定義「怎樣算成功」再開始蓋：驗收標準、最低證據門檻、human-AI 邊界，都在 discovery 就定下",
+    title_en: "Define Success Before You Build: Fix the Acceptance Bar, the Minimum Evidence Threshold, and the Human-AI Boundary at Discovery",
+    summary: "CP1 把「評估」放在「建造」之前：認真開蓋前，先寫下「我們怎麼知道這工具有用」——成功定義＋最低證據門檻＋用 AI 時的 human-AI 邊界；問題要用真實使用者證據撐（≥2 次真人對話），不是自己斷言。評分鐵律：「不確定從不扣分，超出你證據的宣稱才扣分。」這是卡 28「先寫下『對』長什麼樣」的專案版，也是 SDD/TDD/BDD「先定驗收再做」——量一個還不存在的東西，就是在它存在前先決定要量什麼、量到多少才算數；而這在 discovery 最便宜。",
+    summary_en: "CP1 puts evaluation before building: before serious work, write down how you'll know the tool worked — a success definition + a minimum evidence threshold + the human-AI boundary if AI is in the loop — and ground the problem in real-user evidence (≥2 conversations), not assertion. The grading rule: \"Uncertainty is never penalised; claims that go beyond your evidence are.\" It's card 28's \"write down what right looks like\" at the project level, and SDD/TDD/BDD's acceptance-criteria-first: the way to measure a thing that doesn't exist yet is to decide, before it exists, what you'll measure and how much counts — cheapest at discovery.",
+    tag: "AI 工程"
   }
 ];
