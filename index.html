@@ -25,18 +25,28 @@
 
 <script>
   // 每次載入加時間戳,強制抓最新 lessons.js(避免瀏覽器快取舊版)
+  // 標籤中英對照;新增 tag 時在此補一筆英文(沒補到會只顯示中文,不會壞)
+  var TAG_EN = {
+    "RAG": "RAG",
+    "AI 工程": "AI engineering",
+    "提示工程": "prompt engineering",
+    "代理工程": "agent engineering",
+    "模型原理": "how models work",
+    "軟體工程": "software engineering"
+  };
   function renderLessons() {
   var grid = document.getElementById("grid");
   LESSONS.forEach(function (l) {
     var a = document.createElement("a");
     a.className = "lesson-card";
     a.href = "lessons/" + l.id + "-" + l.slug + ".html";
+    var tagEn = TAG_EN[l.tag] ? ' ' + TAG_EN[l.tag] : '';
     a.innerHTML =
       '<div class="id">LESSON ' + l.id + '</div>' +
       '<h3>' + l.title + '<span class="en">' + l.title_en + '</span></h3>' +
       '<p>' + l.summary + '</p>' +
       '<p class="en">' + l.summary_en + '</p>' +
-      '<span class="chip">' + l.tag + '</span>';
+      '<span class="chip">' + l.tag + tagEn + '</span>';
     grid.appendChild(a);
   });
   }

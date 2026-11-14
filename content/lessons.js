@@ -180,5 +180,14 @@ const LESSONS = [
     summary: "Typosquatting 賭你手滑(lodahs←lodash)；slopsquatting 賭 AI 嘴瓢——套件名是 AI 從零捏造、從不存在的，所以拼字過濾擋不住。致命的是幻覺「可預測」(同名跨次重複)，攻擊者能預先搶注埋惡意程式。三層防線：人工確認存在性、human-in-the-loop 安裝審批、SCA/Snyk/Socket 掃描。推薦 ≠ 存在。",
     summary_en: "Typosquatting bets on your typo (lodahs←lodash); slopsquatting bets on the AI's slip — a name the AI fabricated that never existed, so spell-check filters miss it. The killer: hallucinations are predictable (same names recur), so attackers pre-register them with malware. Three-layer defense: verify existence, human-in-the-loop install approval, SCA/Snyk/Socket scanning. Recommended isn't real.",
     tag: "軟體工程"
+  },
+  {
+    id: "21",
+    slug: "tool-use-is-a-tradeoff",
+    title: "代理工具用量是要量測的權衡，不是一次修好的 bug：四種失效會互相拉扯，而「今天沒壞」不算證據",
+    title_en: "Agent Tool-Use Is a Measured Trade-off, Not a One-Time Fix: The Four Failures Pull Against Each Other, and \"Didn't Fail Today\" Isn't Evidence",
+    summary: "把三工具 agent 的描述寫爛，會看到四種工具專屬失效(選錯工具/參數錯/不必要呼叫/漏呼叫)。但真正體悟有二：① 失效互相拉扯——修「少呼叫」會弄壞「多呼叫」，你在調權衡不是修獨立 bug；② 工具呼叫是隨機的，「跑一次沒壞」不是證據，要計次量、壓測逼、持續監控。描述會驅動行為：一句「不知道再查」就能製造漏呼叫。",
+    summary_en: "Weaken a three-tool agent's descriptions and you see four tool-specific failures (wrong tool / wrong params / unnecessary call / missed call). Two real lessons: ① they pull against each other — fixing \"call less\" breaks \"call more,\" so you tune a trade-off, not fix independent bugs; ② tool-calling is stochastic, so one clean run isn't evidence — measure with counts, stress it, monitor it. Descriptions drive behavior: one line like \"look it up only if you don't already know\" manufactures the missed call.",
+    tag: "代理工程"
   }
 ];
