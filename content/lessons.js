@@ -270,5 +270,14 @@ const LESSONS = [
     summary: "CP1 把「評估」放在「建造」之前：認真開蓋前，先寫下「我們怎麼知道這工具有用」——成功定義＋最低證據門檻＋用 AI 時的 human-AI 邊界；問題要用真實使用者證據撐（≥2 次真人對話），不是自己斷言。評分鐵律：「不確定從不扣分，超出你證據的宣稱才扣分。」這是卡 28「先寫下『對』長什麼樣」的專案版，也是 SDD/TDD/BDD「先定驗收再做」——量一個還不存在的東西，就是在它存在前先決定要量什麼、量到多少才算數；而這在 discovery 最便宜。",
     summary_en: "CP1 puts evaluation before building: before serious work, write down how you'll know the tool worked — a success definition + a minimum evidence threshold + the human-AI boundary if AI is in the loop — and ground the problem in real-user evidence (≥2 conversations), not assertion. The grading rule: \"Uncertainty is never penalised; claims that go beyond your evidence are.\" It's card 28's \"write down what right looks like\" at the project level, and SDD/TDD/BDD's acceptance-criteria-first: the way to measure a thing that doesn't exist yet is to decide, before it exists, what you'll measure and how much counts — cheapest at discovery.",
     tag: "AI 工程"
+  },
+  {
+    id: "31",
+    slug: "prompt-builder-is-disciplines-compiled",
+    title: "好的「prompt builder」meta-prompt，其實是把忠實度、測試、失效診斷的紀律「編譯」成可重用的標籤",
+    title_en: "A Good \"Prompt-Builder\" Meta-Prompt Is Just the Faithfulness, Testing, and Failure-Diagnosis Disciplines Compiled Into Reusable Tags",
+    summary: "「用一個 master prompt 生出專家級 prompt」的範本看似魔法，拆開其實是把一串紀律固化成可重用區塊：先問別猜、不准編造、拆步、自我複審、寫測試連同「好結果長怎樣」、最後問「這會在哪裡失敗」。每個區塊都對到本站一張卡（事實規則=01、先問別猜=03/29、寫測試=26/28、失效檢查=18、自我複審=A1 self-correction）。所以好的 meta-prompt 不是咒語，是把你本該做的事編譯起來、讓你少漏幾項。但它是鷹架不是保證：生出的 prompt 仍要測、要量；判斷範本好壞看它對不對應真實失效模式，不是看讚數。",
+    summary_en: "The \"one master prompt that generates expert-level prompts\" templates look like magic but unpack into disciplines baked as reusable blocks: clarify before guessing, never invent, decompose, self-review, write tests plus \"what a good result looks like,\" and a final \"where could this fail?\" Each block maps to a card here (fact-rules=01, clarify=03/29, tests=26/28, failure-check=18, self-review=A1 self-correction). So a good meta-prompt isn't a spell — it's the things you should already do, compiled, so you skip fewer. But it's a scaffold, not a guarantee: the prompt it produces still has to be tested and measured; judge a template by whether its blocks map to real failure modes, not by its likes.",
+    tag: "提示工程"
   }
 ];

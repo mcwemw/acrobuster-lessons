@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>好的 prompt-builder，是把紀律編譯成可重用標籤 — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站 · Research Lessons</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表 Back to lessons</a>
+  <article>
+    <h1>好的「prompt builder」meta-prompt，其實是把忠實度、測試、失效診斷的紀律「編譯」成可重用的標籤<span class="en">A Good "Prompt-Builder" Meta-Prompt Is Just the Faithfulness, Testing, and Failure-Diagnosis Disciplines Compiled Into Reusable Tags</span></h1>
+    <p class="summary">網路上流行的「用一個 master prompt 生出專家級 prompt」範本，看起來像魔法，拆開看其實不神秘：它把一串<strong>紀律</strong>固化成可重用的區塊——先問清楚再動手、不准編造、拆步、自我複審、寫測試連同「好結果長怎樣」、最後問「這會在哪裡失敗」。換句話說，一個好的 meta-prompt 不是咒語，是<strong>把你本來就該做的事編譯起來，讓你少漏幾項</strong>。但它是鷹架不是保證：它生出的 prompt 仍然要測、要量。</p>
+    <p class="summary en">The popular "one master prompt that generates expert-level prompts" templates look like magic, but unpacked they're not mysterious: they bake a list of <strong>disciplines</strong> into reusable blocks — clarify before acting, never invent, decompose, self-review, write tests plus "what a good result looks like," and a final "where could this fail?" In other words, a good meta-prompt isn't a spell — it's <strong>the things you should already do, compiled, so you skip fewer of them</strong>. But it's a scaffold, not a guarantee: the prompt it produces still has to be tested and measured.</p>
+
+    <section class="card">
+      <h2>是什麼 <span class="en">· What it is</span></h2>
+      <p>社群上（這張卡的引子是 IG 創作者 <strong>@sifuyik</strong> 一則「AI 訓練」懶人包裡的「Claude Master Prompt」）常見一種<strong>prompt builder</strong>：你丟一句粗略的需求，它幫你長成一個結構化的 prompt。它的價值不在那些字本身，而在它把一份<strong>檢查清單</strong>做成固定區塊。用我自己的話重述它涵蓋的動作：</p>
+      <ul>
+        <li><strong>定角色與必要輸入</strong>：指名要什麼專家、明列它需要你先給的東西（受眾、來源、格式）。</li>
+        <li><strong>先問、別猜</strong>：缺資訊時最多問幾個關鍵問題、等你回答；不要靜默腦補去填空。</li>
+        <li><strong>拆步</strong>：任務大就切小，每步指名該由哪種專長處理。</li>
+        <li><strong>事實規則</strong>：只用你給的來源；確認過的事實、和「需要查證」的分開放；找不到就說「找不到」；<strong>絕不發明</strong>引述、數字、連結。</li>
+        <li><strong>自我複審</strong>：換一個「沒看過上文的 reviewer」視角，挑出模糊指令、矛盾、漏掉的題目。</li>
+        <li><strong>寫測試</strong>：給幾個測試輸入——一個正常、一個刁鑽、一個「AI 應該拒答或說不知道」的——並說出<strong>每個的好結果長什麼樣</strong>。</li>
+        <li><strong>輸出契約</strong>：講明輸出格式、長度、要附什麼。</li>
+        <li><strong>最後失效檢查</strong>：自問「這個 prompt 最弱的地方在哪？最可能在哪裡失敗？」列出 top 風險與各自的修法。</li>
+      </ul>
+      <p class="en">A common "prompt builder" (this card was prompted by the "Claude Master Prompt" slide in an AI-training carousel from IG creator <strong>@sifuyik</strong>): you give a rough request and it grows a structured prompt. Its value isn't the exact words but that it turns a checklist into fixed blocks. In my own rephrasing, it covers: define the expert role and required inputs; clarify before guessing (ask a few key questions, don't silently fill gaps); decompose big tasks by the expertise each step needs; fact rules (use only given sources, separate confirmed facts from "needs checking," say "not found," never invent quotes/numbers/links); self-review as a fresh reviewer; write test inputs — one normal, one tricky, one the AI should refuse or answer "I don't know" — and state what a good result looks like for each; an output contract; and a final "where is this prompt weakest / where could it fail?" risk check.</p>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
+      <p>把這張範本和本站對照，會發現它<strong>整個就是這學期這條線的「編譯檔」</strong>——每個區塊都對到一張已經寫過的卡：</p>
+      <table>
+        <thead>
+          <tr><th>範本的區塊</th><th>它其實是本站哪一課</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>事實規則（不編、找不到就說）</td><td><a href="01-rag-faithfulness.html">卡 01 忠實度</a></td></tr>
+          <tr><td>先問別猜</td><td><a href="03-intent-output-gap.html">卡 03 意圖落差</a>／<a href="29-prompt-broke-check-withheld-context.html">卡 29 漏給的脈絡</a></td></tr>
+          <tr><td>拆步、指名專長</td><td>Chain-of-Thought（<a href="26-test-prompts-like-code.html">測試</a>的近親）</td></tr>
+          <tr><td>寫測試＋「好結果長怎樣」</td><td><a href="26-test-prompts-like-code.html">卡 26</a>／<a href="28-already-testing-badly-silent-failures.html">卡 28（先寫下「對」）</a></td></tr>
+          <tr><td>自我複審</td><td>Self-correction（A1 的三回合）</td></tr>
+          <tr><td>最後「哪裡會失敗」</td><td><a href="18-prompt-failure-diagnosis.html">卡 18 失效診斷</a></td></tr>
+        </tbody>
+      </table>
+      <p>所以結論很樸素（作者觀點 Author's view）：<strong>一個好的 meta-prompt 不是魔法，是紀律被編譯成可重用的形狀。</strong>它的好處是真的——把好習慣<strong>前置</strong>，你就少漏幾項、不必每次憑記性。這呼應 <a href="02-context-engineering.html">卡 02</a>：這是「prompt 層」的工程，把戰術固化成可重複的樣板。</p>
+      <p>但要守住兩條界線，別被行銷帶走：</p>
+      <ul>
+        <li><strong>範本是鷹架，不是保證。</strong>它讓你<strong>比較不會</strong>跳過某個紀律，但它<strong>不量任何東西</strong>——它產出的還是一個 prompt，你仍然要照 <a href="26-test-prompts-like-code.html">卡 26</a> 測、照 <a href="28-already-testing-badly-silent-failures.html">卡 28</a> 定義「對」、照 <a href="27-error-bars-on-evals.html">卡 27</a> 給分數加誤差棒。前置好習慣 ≠ 取代評估。</li>
+        <li><strong>「留言 PROMPT 領完整版」不是證據。</strong>互動數高不代表範本好。判斷一個 prompt 範本的唯一標準，是它的區塊有沒有對到<strong>真實的失效模式</strong>（而這張剛好有對到）——不是看它多少讚。這本身就是 <a href="30-define-success-before-you-build.html">卡 30</a>「證據勝於斷言」的日常版。</li>
+      </ul>
+      <div class="src">出處 Source：本卡的引子為 Instagram 創作者 <strong>@sifuyik</strong> 一則行銷性質「Best AI Training in 2026」懶人包中的「Claude Master Prompt」單張（2026-11-15 檢視）。該懶人包多為推廣內容，僅該張具實質教學性。<strong>本卡為作者原創重述與綜述，非該範本之重製或逐字轉載，未附原圖</strong>；上述區塊清單以作者自己的話改寫其功能性步驟，僅引其「meta-prompt＝把紀律固化成可重用區塊」此一概念作為討論引子。「meta-prompt 是紀律編譯、是鷹架非保證」「每個區塊對到本站某張卡」「範本好壞看是否對應真實失效模式而非互動數」為作者觀點（Author's view），與本站 <a href="01-rag-faithfulness.html">01</a>／<a href="02-context-engineering.html">02</a>／<a href="03-intent-output-gap.html">03</a>／<a href="18-prompt-failure-diagnosis.html">18</a>／<a href="26-test-prompts-like-code.html">26</a>／<a href="27-error-bars-on-evals.html">27</a>／<a href="28-already-testing-badly-silent-failures.html">28</a>／<a href="29-prompt-broke-check-withheld-context.html">29</a>／<a href="30-define-success-before-you-build.html">30</a> 一致。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
+      <p>一個好的「prompt builder」meta-prompt，其實就是把忠實度（不編）、先問別猜、拆步、自我複審、寫測試連同「好結果長怎樣」、以及最後「這會在哪裡失敗」的紀律，編譯成可重用的標籤。它把好習慣前置、讓你少漏幾項——很有用，但它是鷹架不是保證：它生出的 prompt 仍然要測、要量。判斷範本好壞看它有沒有對到真實失效模式，不是看它多少讚。</p>
+      <p class="en">A good "prompt builder" meta-prompt is just the disciplines compiled into reusable tags — faithfulness (don't invent), clarify-before-guess, decompose, self-review, write tests plus "what a good result looks like," and a final "where could this fail?" It front-loads good habits so you skip fewer — useful, but a scaffold, not a guarantee: the prompt it produces still has to be tested and measured. Judge a template by whether its blocks map to real failure modes, not by how many likes it got.</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
+</body>
+</html>
