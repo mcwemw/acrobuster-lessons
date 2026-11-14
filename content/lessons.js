@@ -117,5 +117,23 @@ const LESSONS = [
     summary: "天真地叫 AI「檢查一下你的答案」，常常只換來「看起來沒問題！」卻什麼都沒改；要真的變好，批判得具體、得「難過關」、得封頂加人審。",
     summary_en: "Naively telling an AI to \"check your answer\" often just yields \"looks fine!\" with nothing changed; to actually improve, the critique must be specific, hard to pass, capped, and backed by human review.",
     tag: "模型原理"
+  },
+  {
+    id: "14",
+    slug: "prompt-engineering-is-empirical",
+    title: "提示工程是量出來的，不是刻出來的：先定指標、再搜尋、用多數決",
+    title_en: "Prompt Engineering Is Measured, Not Hand-Crafted: Metric First, Then Search, Then Vote",
+    summary: "好 prompt 不是坐在那邊想詞想出來的——先有一把尺（成功標準＋能跑的評測），再把 prompt 當成要搜尋的東西優化，必要時多抽幾次取多數。這是把機器學習的老紀律搬到提示上。",
+    summary_en: "A good prompt isn't wordsmithed into existence — first build a ruler (criteria plus a runnable eval), then search-and-optimize the prompt, and sample-and-vote when needed. Classic ML discipline applied to prompting.",
+    tag: "提示工程"
+  },
+  {
+    id: "15",
+    slug: "prompt-structure-five-components",
+    title: "提示有結構，不只有技術：五個組件讓規格變成評測表",
+    title_en: "Prompts Have Structure, Not Just Technique: Five Components That Turn a Spec into an Eval Checklist",
+    summary: "大多數 prompt 失敗不是因為技術選錯——是結構出了問題。一個 prompt 有五個組件：角色、脈絡、任務、格式、限制條件；在下 prompt 之前先寫規格，那份規格就直接變成驗收清單。",
+    summary_en: "Most prompt failures aren't about which technique you chose — they're structural. A prompt has five components: role, context, task, format, constraints; writing the spec before the prompt turns that spec into your evaluation checklist.",
+    tag: "提示工程"
   }
 ];
