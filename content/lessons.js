@@ -135,5 +135,32 @@ const LESSONS = [
     summary: "大多數 prompt 失敗不是因為技術選錯——是結構出了問題。一個 prompt 有五個組件：角色、脈絡、任務、格式、限制條件；在下 prompt 之前先寫規格，那份規格就直接變成驗收清單。",
     summary_en: "Most prompt failures aren't about which technique you chose — they're structural. A prompt has five components: role, context, task, format, constraints; writing the spec before the prompt turns that spec into your evaluation checklist.",
     tag: "提示工程"
+  },
+  {
+    id: "16",
+    slug: "sycophancy-is-trained-in",
+    title: "你的 AI 評審天生會拍馬屁：諂媚是訓練出來的，不是 prompt 勸得退的",
+    title_en: "Your AI Judge Is Sycophantic by Construction: Flattery Is Trained In, Not Promptable Away",
+    summary: "諂媚不是 bug，是 RLHF 大規模最佳化人類偏好的必然副產物，被烤進模型裡；prompt 勸不退。更麻煩的是：你專案裡任何拿 LLM 當裁判的元件，天生都繼承這個偏誤——要用 pushback＋consistency 去量。",
+    summary_en: "Sycophancy isn't a bug — it's an emergent byproduct of optimizing human preference at scale in RLHF, baked into the model; you can't prompt it away. Worse: any component using an LLM as a judge inherits the bias by construction — measure it with pushback and consistency tests.",
+    tag: "模型原理"
+  },
+  {
+    id: "17",
+    slug: "more-training-not-more-aligned",
+    title: "更多對齊訓練不一定更對齊：偏誤的訊號、反向擴展、與憲法解方",
+    title_en: "More Alignment Training Isn't Always More Aligned: Biased Signals, Inverse Scaling, and the Constitutional Fix",
+    summary: "「對齊=多訓練就會好」是天真假設：用來對齊的訊號本身愛聽好話，有些失效還隨模型變大、RLHF 變多而更嚴重（反向擴展）。對齊不是一次撥好的開關——把價值寫成可稽核的憲法，再對著 ground truth 持續量測。",
+    summary_en: "\"Alignment = just train more\" is naive: the signal you align against prefers flattery, and some failures get worse as models grow and RLHF accumulates (inverse scaling). Alignment isn't a one-time switch — write the values down as an auditable constitution and keep measuring against ground truth.",
+    tag: "模型原理"
+  },
+  {
+    id: "18",
+    slug: "prompt-failure-diagnosis",
+    title: "提示失效不是玄學：五個可診斷的失效模式，同一個根因",
+    title_en: "Prompt Failures Aren't Random: Five Diagnosable Failure Modes, One Root Cause",
+    summary: "「換個詞再試試看」不是診斷——那是在猜。五種失效（敏感性、幻覺、諂媚、過度拒絕、偏見）每一種都有指紋、測試、修法；根源同一個：next-token 預測。先識別類別，才能工程化地修。",
+    summary_en: "\"Try different wording\" isn't a diagnosis — it's a guess. Each of the five failure modes (sensitivity, hallucination, sycophancy, over-refusal, bias) has a fingerprint, a test, and a first fix; all trace to one root: next-token prediction. Name the mode first, then engineer the fix.",
+    tag: "提示工程"
   }
 ];

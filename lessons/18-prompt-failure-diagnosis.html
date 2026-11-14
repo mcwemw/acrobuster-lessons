@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>提示失效不是玄學：五個可診斷的失效模式，同一個根因 — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站 · Research Lessons</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表 Back to lessons</a>
+  <article>
+    <h1>提示失效不是玄學：五個可診斷的失效模式，同一個根因<span class="en">Prompt Failures Aren't Random: Five Diagnosable Failure Modes, One Root Cause</span></h1>
+    <p class="summary">「換個詞再試試看」不是診斷——那是在猜。五種提示失效（敏感性、幻覺、諂媚、過度拒絕、偏見）每一種都有可辨識的指紋、一個可重現的測試、和一個第一步修法；而這五種失效的根源其實是同一件事：next-token 預測。先識別你碰到的是哪一種，才有辦法工程化地修它。</p>
+    <p class="summary en">"Try different wording until it works" isn't a diagnosis — it's a guess. Each of the five prompt failure modes (sensitivity, hallucination, sycophancy, over-refusal, bias) has an identifiable fingerprint, a reproducible test, and a first fix; and all five trace back to the same root: next-token prediction. Name the failure mode first — then you can engineer the fix.</p>
+
+    <section class="card">
+      <h2>是什麼 <span class="en">· What it is</span></h2>
+      <p>Week 6 講義的核心主張（Slide 18）：<strong>「提示為什麼失效——以及為什麼那些失效不是隨機的。」</strong>Slide 19 給出答案：</p>
+      <blockquote>「幻覺不是 bug。諂媚不是人格缺陷。敏感性不是怪癖。它們都是同一個底層機制的後果。」</blockquote>
+      <p>那個底層機制是 <a href="05-how-llms-work.html">next-token 預測（卡 05）</a>——模型在猜「最可能的下一個字」，所以它天生就會：</p>
+      <ul>
+        <li>在不同問法下給出不一致的答案（<strong>敏感性</strong>）</li>
+        <li>用流暢的假話填空（<strong>幻覺</strong>）</li>
+        <li>選讓你開心的答案而不是對的（<strong>諂媚</strong>）</li>
+        <li>把灰色地帶當危險訊號擋掉（<strong>過度拒絕</strong>）</li>
+        <li>把訓練語料的歷史偏見帶進輸出（<strong>偏見</strong>）</li>
+      </ul>
+      <p>Slide 22 說：每種失效都能說清楚它的指紋、成因、測試法、第一步修法。以下是那張診斷表：</p>
+      <table>
+        <thead>
+          <tr><th>失效類別</th><th>長什麼樣</th><th>測試</th><th>第一步修法</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>敏感性</strong></td>
+            <td>換個問法答案就變；格式或措辭的微小差異造成大幅輸出波動</td>
+            <td>Paraphrase test：同一個問題三種問法，答案發散 = 命中敏感性</td>
+            <td>Instruction template（固定問法）+ multi-sample voting（多抽取多數決）</td>
+          </tr>
+          <tr>
+            <td><strong>幻覺</strong></td>
+            <td>自信地給出不存在的資訊——套件名、論文、事實、API</td>
+            <td>要求附來源，再逐條驗；或提問模型「你確定這存在？」</td>
+            <td>檢索接地（RAG）+ 忠實度閘門（見卡 01）</td>
+          </tr>
+          <tr>
+            <td><strong>諂媚</strong></td>
+            <td>順著使用者立場，使用者改變立場它跟著變；對錯誤的反對意見讓步</td>
+            <td>Pushback test + consistency test（見卡 16）</td>
+            <td>分離生成與評審角色；不讓同一個模型自評自改</td>
+          </tr>
+          <tr>
+            <td><strong>過度拒絕</strong></td>
+            <td>把合理請求當危險訊號擋掉；加了上下文後行為才正常</td>
+            <td>換中性框架、加脈絡重問；若加脈絡後通過 = 拒絕是誤判</td>
+            <td>更具體的角色定義 + 明確的 context 說明任務性質</td>
+          </tr>
+          <tr>
+            <td><strong>偏見</strong></td>
+            <td>不同人口群體或社群描述得到系統性不同的答案</td>
+            <td>Demographic swap test：換名字、地區、性別，觀察答案是否系統性改變</td>
+            <td>在 Format / Constraints 組件加多樣性條件；測試集納入多族群</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>其中<strong>幻覺</strong>有一個讓工程師最切身的具體案例：<strong>package hallucination</strong>。Spracklen et al.（arXiv:2406.10279，USENIX Security 2025）對 576,000 個 prompt、16 個模型測試：商業模型有 <strong>5.2%</strong>、開源模型有 <strong>21.7%</strong> 的回覆包含不存在的套件名稱，研究者偵測到逾 <strong>20 萬個</strong>捏造套件名，並把相應的攻擊手法命名為 <strong>slopsquatting</strong>——惡意行為者已把與這些假名完全相同的套件上傳到 npm / PyPI，等工程師跑 <code>npm install</code> 中招。幻覺在你的答案裡只是不準確；在 code generation 裡它成為供應鏈攻擊向量。</p>
+      <p class="en">Week 6 opens with a thesis (Slide 18): <strong>"Why prompts fail — and why those failures are not random."</strong> Slide 19 delivers the answer: "Hallucination is not a bug. Sycophancy is not a personality flaw. Sensitivity is not a quirk. They are all consequences of the same underlying process" — that process being next-token prediction (see <a href="05-how-llms-work.html">card 05</a>). Slide 22 makes the engineering contract explicit: for each failure mode we can state what it looks like, why it happens, a test, and a first fix. The five-row triage table above is that contract.</p>
+      <p class="en">The package hallucination finding (Spracklen et al., USENIX Security 2025, arXiv:2406.10279) puts a dollar figure on what "hallucination as engineering risk" means: across 576k prompts and 16 models, 5.2% of commercial and 21.7% of open-source responses contained fabricated package names; over 200,000 unique fake names were observed; malicious actors have already registered matching packages on npm and PyPI to catch developers who <code>pip install</code> whatever the LLM suggests. The researchers named the attack surface <strong>slopsquatting</strong>.</p>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
+      <p>Slide 22 說得直接：<strong>「'try different wording until it works' is not a diagnosis。」</strong>換詞再試是在玄學，不是在做工程。工程做法是：先識別你碰到的是哪一種失效，再對症下藥——就像你不能靠猜 commit message 修 test failure，你要先看 stack trace。</p>
+      <p>這讓 <a href="03-intent-output-gap.html">卡 03「意圖—輸出落差」</a>和<a href="14-prompt-engineering-is-empirical.html">卡 14「先有評測才調 prompt」</a>進化成可操作的流程（作者觀點 Author's view）：</p>
+      <ol>
+        <li><strong>重現失效</strong>——寫一個能穩定觸發問題的 test case（若你無法重現，就無從診斷）</li>
+        <li><strong>識別類別</strong>——用上面五種失效的指紋比對，確定是哪種</li>
+        <li><strong>對症測試</strong>——用該失效對應的測試法確認（paraphrase / pushback / demographic swap …）</li>
+        <li><strong>第一步修法</strong>——非「試換詞」，而是特定工具：檢索接地、指令模板、voting、角色分離、Context 擴充</li>
+      </ol>
+      <p>Sclar et al.（arXiv:2310.11324，ICLR 2024）對敏感性給了一個讓人驚訝的量化：同一個任務、只改格式——小到加不加句號——就能讓準確率相差 <strong>76 個百分點</strong>。這告訴你：你以為「prompt 設計好了」，但只要換個微小的詞序，模型就已在玩完全不同的遊戲。Paraphrase test 不是謹慎，是最低度的健全性檢查。</p>
+      <div class="src">出處 Source：Dennis Wang 王邦任、顏羽君 Grace Yen，《Prompt Engineering II — Why Prompts Fail》，CSIC30216 AI-in-the-Loop in Software Project Cycle，Week 6 講義，NYCU，2026-10-12。Slide 18（failures are not random）、Slide 19（幻覺/諂媚/敏感性同一底層機制，原文直引）、Slide 22（"try different wording until it works" is not a diagnosis，原文直引；五失效各有 what/why/test/fix 表）。四個一手研究來源：① Sclar et al., "Are Emergent Abilities of Large Language Models a Mirage?"，arXiv:2310.11324（ICLR 2024），敏感性——格式差異造成最高 76 百分點準確率波動。② Kalai &amp; Vempala, "Why Large Language Models Hallucinate"，arXiv:2509.04664（2025），幻覺——next-token 預測在局部流暢性上最佳化，false claims 可能比 true claims 更容易被預測（確認本站卡 05/09 的機制解釋）。③ Spracklen et al., "Hallucinating in Code: LLMs Fabricate Package Identifiers"，arXiv:2406.10279（USENIX Security 2025），package hallucination——576k prompts/16 models/商業 5.2%/開源 21.7%/20 萬+捏造名/slopsquatting 供應鏈攻擊。④ Sharma et al., "Towards Understanding Sycophancy in Language Models"，arXiv:2310.13548（2023），諂媚——五個 RLHF 助理皆現諂媚（詳見 <a href="16-sycophancy-is-trained-in.html">卡 16</a>）。作者改寫重述，未複製原文。「五失效分類診斷框架」「先識別類別再工程化修法」「換詞再試不是診斷」為作者綜述觀點（Author's view），與本站 <a href="03-intent-output-gap.html">03</a>／<a href="05-how-llms-work.html">05</a>／<a href="07-prompt-techniques-pitfalls.html">07</a>／<a href="14-prompt-engineering-is-empirical.html">14</a>／<a href="16-sycophancy-is-trained-in.html">16</a>／<a href="17-more-training-not-more-aligned.html">17</a> 一致。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
+      <p>「換個詞再試試」不是軟體工程——先用 paraphrase / pushback / demographic swap 識別你碰到的是哪一種失效，再對症下藥；幻覺最惡的一種已經有名字了：slopsquatting，不存在的套件被人佔名了。</p>
+      <p class="en">"Try different wording" is not software engineering — first use paraphrase / pushback / demographic-swap tests to name which failure mode you're dealing with, then apply the matching fix. The worst form of hallucination already has a name: slopsquatting, and the fake packages have already been claimed.</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
+</body>
+</html>
