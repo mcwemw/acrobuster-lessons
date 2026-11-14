@@ -45,5 +45,23 @@ const LESSONS = [
     summary: "模型不是在「查資料庫」,是在猜「最可能的下一個字」;attention 讓它決定每個詞該看句中哪些詞。",
     summary_en: "Not a database lookup — the model guesses the \"most likely next token\"; attention decides which words each word looks at.",
     tag: "模型原理"
+  },
+  {
+    id: "06",
+    slug: "ai-loop-discipline",
+    title: "AI 入迴圈，工程紀律不減反前移",
+    title_en: "AI in the Loop Doesn't Remove Engineering Discipline",
+    summary: "讓 AI 幫你寫，省的是打字不是把關；紀律從事後審 code 前移到事前寫規格、當場對規格驗。",
+    summary_en: "AI saves typing, not judgment; discipline moves forward — spec first, verify against it as you go.",
+    tag: "軟體工程"
+  },
+  {
+    id: "07",
+    slug: "prompt-techniques-pitfalls",
+    title: "提示工程技術地圖與它的陷阱",
+    title_en: "A Map of Prompt-Engineering Techniques — and Their Pitfalls",
+    summary: "few-shot、CoT 讓模型更會「看起來對」；但看起來對≠對，技巧的另一半是控制敏感度 + 驗證。",
+    summary_en: "Few-shot and CoT make a model better at \"looking right\" — but looking right isn't being right; the other half is controlling sensitivity and verifying.",
+    tag: "提示工程"
   }
 ];
