@@ -189,5 +189,14 @@ const LESSONS = [
     summary: "把三工具 agent 的描述寫爛，會看到四種工具專屬失效(選錯工具/參數錯/不必要呼叫/漏呼叫)。但真正體悟有二：① 失效互相拉扯——修「少呼叫」會弄壞「多呼叫」，你在調權衡不是修獨立 bug；② 工具呼叫是隨機的，「跑一次沒壞」不是證據，要計次量、壓測逼、持續監控。描述會驅動行為：一句「不知道再查」就能製造漏呼叫。",
     summary_en: "Weaken a three-tool agent's descriptions and you see four tool-specific failures (wrong tool / wrong params / unnecessary call / missed call). Two real lessons: ① they pull against each other — fixing \"call less\" breaks \"call more,\" so you tune a trade-off, not fix independent bugs; ② tool-calling is stochastic, so one clean run isn't evidence — measure with counts, stress it, monitor it. Descriptions drive behavior: one line like \"look it up only if you don't already know\" manufactures the missed call.",
     tag: "代理工程"
+  },
+  {
+    id: "22",
+    slug: "validate-tool-arguments-not-eval",
+    title: "別 eval 模型輸出：工具參數是外人打的字，要驗不要跑",
+    title_en: "Don't Eval Model Output: Treat Every Tool Argument as Input From a Stranger — Parse and Validate, Never Execute",
+    summary: "模型回傳工具參數，但工具是你在跑——所以模型輸出是你的攻擊面。eval() 一個模型回的運算式等於給模型一個 shell；清空 __builtins__ 擋不住類別繼承逃逸；提示注入讓文件裡的惡意文字劫持 tool call。正確做法：AST parser + 白名單，驗每個參數如同外人打的字。MCP 的「Results are untrusted」說的是同一件事。",
+    summary_en: "The model emits tool arguments; you run the tool — so model output is your attack surface. eval()-ing a model-returned expression hands it a shell; stripping __builtins__ doesn't sandbox it; prompt injection in a pasted document can hijack tool calls. Fix: AST parser + allowlist, validate every argument as if a stranger typed it. MCP's \"Results are untrusted\" is the same principle.",
+    tag: "軟體工程"
   }
 ];
