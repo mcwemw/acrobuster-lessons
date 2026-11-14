@@ -162,5 +162,14 @@ const LESSONS = [
     summary: "「換個詞再試試看」不是診斷——那是在猜。五種失效（敏感性、幻覺、諂媚、過度拒絕、偏見）每一種都有指紋、測試、修法；根源同一個：next-token 預測。先識別類別，才能工程化地修。",
     summary_en: "\"Try different wording\" isn't a diagnosis — it's a guess. Each of the five failure modes (sensitivity, hallucination, sycophancy, over-refusal, bias) has a fingerprint, a test, and a first fix; all trace to one root: next-token prediction. Name the mode first, then engineer the fix.",
     tag: "提示工程"
+  },
+  {
+    id: "19",
+    slug: "tools-are-contracts",
+    title: "工具不是能力，是契約：模型呼叫工具仍然只是在猜，所以「定義工具」就是寫介面規格",
+    title_en: "A Tool Isn't a Capability, It's a Contract: Calling a Tool Is Still Prediction — So Defining Tools Is Interface Design",
+    summary: "模型不會「做事」——它只吐出一段 tool call(name＋arguments)，由外部 runtime 執行。工具呼叫的品質＝模型對「你寫的工具描述」做 next-token 預測的品質。ReAct 讓它先想再動、Toolformer 證明工具用法是學出來的、Claude 文件說詳細描述是頭號效能因子、MCP 把介面標準化——合起來：寫工具是介面設計，不是 prompt 技巧。",
+    summary_en: "A model doesn't act — it emits a tool call (name + arguments) that an external runtime executes. Call quality equals next-token prediction conditioned on the description you wrote. ReAct: reason before acting; Toolformer: tool use is learned; Claude's docs: detailed descriptions are the top performance factor; MCP: standardize the interface. Together: writing tools is interface design, not a prompting trick.",
+    tag: "代理工程"
   }
 ];
