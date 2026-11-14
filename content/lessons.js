@@ -198,5 +198,14 @@ const LESSONS = [
     summary: "模型回傳工具參數，但工具是你在跑——所以模型輸出是你的攻擊面。eval() 一個模型回的運算式等於給模型一個 shell；清空 __builtins__ 擋不住類別繼承逃逸；提示注入讓文件裡的惡意文字劫持 tool call。正確做法：AST parser + 白名單，驗每個參數如同外人打的字。MCP 的「Results are untrusted」說的是同一件事。",
     summary_en: "The model emits tool arguments; you run the tool — so model output is your attack surface. eval()-ing a model-returned expression hands it a shell; stripping __builtins__ doesn't sandbox it; prompt injection in a pasted document can hijack tool calls. Fix: AST parser + allowlist, validate every argument as if a stranger typed it. MCP's \"Results are untrusted\" is the same principle.",
     tag: "軟體工程"
+  },
+  {
+    id: "23",
+    slug: "rag-two-failure-layers",
+    title: "RAG 是兩個獨立的失效層：先用免費、決定性的指標量檢索，再碰 prompt",
+    title_en: "RAG Has Two Independent Failure Layers: Measure Retrieval First (Free, Deterministic), Then Touch the Prompt",
+    summary: "RAG 不是黑盒，是「檢索→生成」兩層。檢索可以完全不呼叫模型就量——hit@k／MRR 是決定性的、免費的，能跑上百個實驗調 chunk／k／retriever；生成才是花錢又隨機的那層。紀律：檢索沒撈到的證據 prompt 救不回來，所以答錯時先問「是哪一層、哪種錯」（沒撈到／讀錯／衝突／無中生有／跟從注入），答案決定修法。",
+    summary_en: "RAG isn't a black box — it's retrieve → generate. Retrieval scores with no model call: hit@k / MRR are deterministic and free, so you run hundreds of experiments tuning chunk / k / retriever; generation is the expensive, stochastic layer. Discipline: no prompt recovers evidence retrieval never fetched — so when an answer is wrong, first name the layer and failure type (miss / misread / conflict / invented / injection); the name tells you whether to fix retrieval or the prompt.",
+    tag: "RAG"
   }
 ];
