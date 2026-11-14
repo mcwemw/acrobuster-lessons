@@ -2,6 +2,13 @@
 // 欄位: date / title(中) / title_en / source / img(notes/ 內的檔名)
 const NOTES = [
   {
+    date: "2026-11-15",
+    title: "解釋不可盡信 — few-shot 的解釋可能不本於輸入,但能拿來事後驗證",
+    title_en: "The Unreliability of Explanations in Few-shot Prompting for Textual Reasoning",
+    source: "Ye & Durrett 2022 · arXiv:2205.03401 · arXiv 預設授權",
+    img: "2026-11-15_unreliable-explanations.png"
+  },
+  {
     date: "2026-11-14",
     title: "Ragas — 不靠人工標準答案,自動評 RAG 的多個維度",
     title_en: "Ragas — reference-free automated evaluation of RAG pipelines",
