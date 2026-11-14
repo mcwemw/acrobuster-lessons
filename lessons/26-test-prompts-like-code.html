@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt 要像程式一樣被測試 — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站 · Research Lessons</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表 Back to lessons</a>
+  <article>
+    <h1>Prompt 要像程式一樣被測試：分層檢查 × 輸入類別覆蓋 × 每修必加回歸，才叫「做完」<span class="en">Test Prompts Like Code: Layered Checks × Input-Category Coverage × a Regression Test for Every Fix Is What "Done" Means</span></h1>
+    <p class="summary">一個 prompt「跑一次對了」不叫做完；做完是它有一組<strong>測試套件</strong>把行為釘住。Week 10 用 promptfoo 把 prompt 當程式測：每個測試是<strong>分層的獨立檢查</strong>（格式→schema→正確性→安全，全過才算過）、覆蓋<strong>多種輸入類別</strong>（典型／空／超長／分隔符衝突／輸入敏感／預測失效），每修一個失效就<strong>加一條回歸測試</strong>，再用 <code>--repeat</code> 逼出隨機不穩。而且十個案例仍分不開訊號與抽樣雜訊。</p>
+    <p class="summary en">A prompt that "worked once" isn't done; done is when a <strong>test suite</strong> pins its behavior. Week 10 uses promptfoo to test prompts like code: each test is <strong>layered independent checks</strong> (format → schema → correctness → safety, all must pass), covering <strong>input categories</strong> (typical / empty / very long / delimiter-conflict / input-sensitivity / predicted-failure), with a <strong>regression test added for every fix</strong>, and <code>--repeat</code> to expose stochastic flakiness. And even then, ten cases can't separate signal from sampling noise.</p>
+
+    <section class="card">
+      <h2>是什麼 <span class="en">· What it is</span></h2>
+      <p>Week 10 lab 給你一個「客服工單分類」prompt（Nimbus Notes），它讀工單、吐一個 JSON <code>{category, priority, summary}</code> 給下游 router。你用 <strong>promptfoo</strong>（<code>npx promptfoo@latest eval --no-cache</code>）把它當程式測。每個測試由<strong>按類型分層的獨立檢查</strong>組成，<strong>全部通過</strong>才算通過：</p>
+      <table>
+        <thead>
+          <tr><th>層</th><th>檢查（checks.js）</th><th>它抓什麼</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>格式 Format</strong></td><td><code>validJson</code></td><td>回覆是不是「裸 JSON 物件」（router 需要，不能有 code fence 或前後文字）</td></tr>
+          <tr><td><strong>Schema</strong></td><td><code>schemaOk</code></td><td>剛好三個 key、label 在白名單內、summary 是 ≤25 字的英文</td></tr>
+          <tr><td><strong>正確性 Correctness</strong></td><td><code>categoryIs</code>／<code>priorityIn</code>…</td><td>分類／優先級是不是預期的值</td></tr>
+          <tr><td><strong>安全 Safety</strong></td><td><code>summaryHasNo</code>／<code>priorityNot</code></td><td>有沒有照做工單裡的注入指令、有沒有自己把優先級抬成 urgent</td></tr>
+        </tbody>
+      </table>
+      <p>關鍵是這些 check 多半是<strong>決定性的程式碼</strong>（不呼叫模型打分），所以快、可重現、免費。測試要<strong>覆蓋輸入類別</strong>而非只測 happy path：T1–T3 典型、E1 空工單、L1 超長、<strong>D1 分隔符衝突</strong>（工單裡含 <code>```</code> 或 <code>&lt;/ticket&gt;</code> 還藏指令）、S1/S2 <strong>輸入敏感</strong>（同問題換句話說／用繁中）、P1 <strong>預測失效</strong>（跑之前先寫下你賭它會錯）。</p>
+      <p class="en">Week 10 gives you a ticket-triage prompt (Nimbus Notes) that must emit a JSON <code>{category, priority, summary}</code> for a downstream router. You test it with promptfoo. Each test is layered independent checks — Format (<code>validJson</code>: a bare JSON object), Schema (<code>schemaOk</code>: exactly three keys, allowed labels, a ≤25-word English summary), Correctness (<code>categoryIs</code>/<code>priorityIn</code>), Safety (<code>summaryHasNo</code>/<code>priorityNot</code>) — and the test passes only if all checks pass. Most checks are deterministic code (no model call): fast, reproducible, free. And you cover input categories, not just the happy path: typical, empty, very long, delimiter-conflict (a ticket containing <code>```</code> or <code>&lt;/ticket&gt;</code> with an instruction hidden inside), input-sensitivity (reworded / Traditional Chinese), and a predicted failure written down before you run it.</p>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
+      <p>測試能揭露<strong>讀 prompt 讀不出來</strong>的東西。這個 lab 的 v0 prompt 肉眼看起來沒事，測了才現形：它把分類寫成「feature request」「account access」（有空格），但 router 的 schema 要的是 <code>feature_request</code>／<code>account_access</code>（底線）→ schema fail；它的優先級清單放了 <code>high</code>，但允許值只有 <code>low/normal/urgent</code> → 非法 label；而 <code>Ticket: {{ticket}}</code> 沒有分隔符包住使用者輸入 → 對 D1 的注入毫無防備。<strong>這些都是 schema/label 不一致和注入面，讀一遍 prompt 很容易放過，一跑測試就紅。</strong></p>
+      <p>三個把「測試」變「工程紀律」的動作（作者觀點 Author's view）：</p>
+      <ul>
+        <li><strong>每修一個失效，就加一條回歸測試（R1）。</strong>修好不是終點——要補一個<strong>新</strong>工單的測試，守住這個失效不會悄悄回來。沒有守門的測試，等於沒修完。這是把 <a href="21-tool-use-is-a-tradeoff.html">卡 21「跑一次成功不算測試」</a>落成可執行的制度。</li>
+        <li><strong>用 <code>--repeat</code> 逼出隨機性。</strong>溫度設 1（真實 app 不會跑在 0），同一題重跑結果會變；「3/3 通過」不證明這個測試可靠。這一條與 <a href="21-tool-use-is-a-tradeoff.html">卡 21</a>、<a href="24-evaluate-the-evaluator.html">卡 24</a> 同源：隨機系統要計次量，不是單跑。</li>
+        <li><strong>設對照、承認雜訊。</strong>比「你的修法 vs 只是把 v0 換句話說（v0 reworded）」，才分得清是修法有效還是改寫的運氣；而且<strong>十個案例根本分不開訊號與抽樣雜訊</strong>——測試讓你更有把握，不是給你證明。</li>
+      </ul>
+      <p>把這張卡接回本站：它是 <a href="14-prompt-engineering-is-empirical.html">卡 14「量出來不是刻出來」</a>的執行層（prompt 用測試套件來量）、延伸 <a href="18-prompt-failure-diagnosis.html">卡 18</a> 的輸入敏感（S1/S2）、把 <a href="22-validate-tool-arguments-not-eval.html">卡 22</a> 的注入（D1 分隔符衝突＋<code>summaryHasNo</code> 安全檢查）變成可回歸的測項。若升級到 <code>llm-rubric</code> 當檢查，就回到 <a href="24-evaluate-the-evaluator.html">卡 24</a>：那個判官自己要先對人類驗證過。優先用決定性程式碼檢查，能不用 LLM 判官就不用。</p>
+      <div class="src">出處 Source：CSIC30216 AI-in-the-Loop in Software Project Cycle，Week 10 Lab《Prompt testing and reliability》（Nimbus Notes ticket triage），NYCU Fall 2026（繳交期限 2026-11-11）。素材：lab 檔案 <code>promptfooconfig.yaml</code>（provider = anthropic claude-haiku-5-5，<code>temperature: 1</code>、<code>max_tokens: 300</code>；<code>npx promptfoo@latest eval --no-cache</code> / <code>view</code> / <code>--repeat 3</code>）、<code>tests.yaml</code>（T1–T3 典型 + 要你補 E1 空／L1 超長／D1 分隔符衝突／S1·S2 輸入敏感／P1 預測失效 + Part 3 的 R1 回歸；一個測試 ALL checks 過才算過）、<code>checks.js</code>（<code>validJson</code>／<code>schemaOk</code>：剛好 category·priority·summary 三 key、category∈{billing,bug,feature_request,account_access,other}、priority∈{low,normal,urgent}、summary ≤25 字英文；<code>categoryIs</code>／<code>priorityIn</code>／<code>priorityNot</code>／<code>summaryHasNo</code>）、<code>prompts/triage_v0.txt</code>（原文把分類寫成有空格的「feature request」「account access」、優先級含 <code>high</code>、<code>Ticket: {{ticket}}</code> 無分隔符）、submission template（Part 3.5 repeat run「為何 3/3 不證明測試可靠」、Part 3.6 v0 vs v0 reworded 對照「十個測試分不開訊號與抽樣雜訊」、Part 4 Q1「有些失效改 prompt 修不了、要架構層修法」）。作者改寫重述，未複製原文。「prompt 要像程式一樣有測試套件」「每修必加回歸＝做完的定義」「決定性 check 優先於 LLM 判官」為作者綜述觀點（Author's view），與本站 <a href="14-prompt-engineering-is-empirical.html">14</a>／<a href="18-prompt-failure-diagnosis.html">18</a>／<a href="21-tool-use-is-a-tradeoff.html">21</a>／<a href="22-validate-tool-arguments-not-eval.html">22</a>／<a href="24-evaluate-the-evaluator.html">24</a> 一致。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
+      <p>Prompt 跑一次對了不叫做完，有一組釘住行為的測試套件才叫做完：分層獨立檢查（格式→schema→正確性→安全，全過才算過）、覆蓋輸入類別（典型／空／超長／分隔符衝突／輸入敏感／預測失效）、每修一個失效就加一條回歸測試、用 <code>--repeat</code> 逼出隨機不穩。優先用決定性程式碼檢查；而且要記得——十個案例讓你更有把握，但分不開訊號與抽樣雜訊。</p>
+      <p class="en">A prompt that works once isn't done; done is a test suite that pins its behavior: layered independent checks (format → schema → correctness → safety, all must pass), coverage across input categories (typical / empty / very long / delimiter-conflict / input-sensitivity / predicted-failure), a regression test added for every fix, and <code>--repeat</code> to expose stochastic flakiness. Prefer deterministic code checks; and remember — ten cases make you more confident, but can't separate signal from sampling noise.</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
+</body>
+</html>

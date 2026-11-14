@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eval 分數要有誤差棒 — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站 · Research Lessons</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表 Back to lessons</a>
+  <article>
+    <h1>Eval 分數要有誤差棒：「10/10 通過」的真實失效率上界可能是 30%——因為 0 失效 ≠ 0% 失效<span class="en">Put Error Bars on Eval Scores: "10/10 Passed" Allows a True Failure Rate up to ~30% — Because Zero Failures ≠ a Zero Failure Rate</span></h1>
+    <p class="summary">一個沒有誤差棒的 eval 分數不是結果，是幻覺。評估是<strong>實驗</strong>：你的題目是一個樣本，裸的「80% 通過」沒有不確定區間等於沒說。最反直覺的一條是「三的法則」：某事在 n 次試驗中<strong>一次都沒出</strong>，它真實發生率的 95% 上界約是 <strong>3/n</strong>——所以 <a href="26-test-prompts-like-code.html">卡 26</a> 的「10/10 通過」容得下高達 ~30% 的真實失效率。比較兩個模型也一樣：「A 贏 B 兩個百分點」可能整個藏在重疊的信賴區間裡。</p>
+    <p class="summary en">An eval score with no error bar isn't a result — it's a hallucination. Evaluations are <strong>experiments</strong>: your questions are a sample, and a bare "80% pass" with no interval says nothing. The most counter-intuitive piece is the rule of three: if something occurs <strong>zero</strong> times in n trials, the 95% upper bound on its true rate is about <strong>3/n</strong> — so <a href="26-test-prompts-like-code.html">card 26</a>'s "10/10 passed" is consistent with a true failure rate up to ~30%. Same for comparing models: "A beat B by 2%" can hide entirely inside overlapping confidence intervals.</p>
+
+    <section class="card">
+      <h2>是什麼 <span class="en">· What it is</span></h2>
+      <p>Week 10 自學模組的三篇閱讀，講的是同一件事：<strong>評估的統計學</strong>。</p>
+      <ul>
+        <li><strong>Miller（2024）「給 eval 加誤差棒」</strong>：核心一句話是<strong>「評估就是實驗」</strong>。一個準確率是從有限題目樣本估出來的 → 要報信賴區間/標準誤，不是裸數字。三個關鍵：①<strong>題目獨立性</strong>——天真的誤差棒假設每題獨立；但題目<strong>成群（clustering，多題共用同一段落/文件）</strong>會打破獨立性，讓真實標準誤<strong>更大</strong>、裸數字過度自信。②<strong>配對 vs 非配對</strong>——比較兩模型時，讓兩者跑<strong>同一組題目</strong>（配對、看每題差異）會抵銷「題目難易」的雜訊 → 變異更小、同樣題數更有檢定力。③<strong>檢定力分析</strong>——動手前先算：要偵測某個大小的差異，需要多少題。</li>
+        <li><strong>Anthropic（2026）「拆解 agent evals」</strong>：一個 eval 的結構＝任務（輸入＋成功標準）→ 試跑 → grader（評一個面向）→ transcript → 最終狀態；多個相關任務組成 suite（agent 更難，錯誤會跨回合累積）。兩種 eval：<strong>能力（capability）</strong>評估該<strong>從低分起步</strong>（一座要爬的山），<strong>回歸（regression）</strong>評估該<strong>貼近 100%</strong>（抓退步）；能力評估爬高了就「畢業」進回歸套件。非決定性 → 用 <strong>pass@k</strong>（k 次至少成功 1 次，一個好答案就夠）或 <strong>pass^k</strong>（k 次全成功，要一致性，面向客戶時用）：每次 75% 的話，pass^3 ≈ 0.75³ ≈ <strong>42%</strong>。</li>
+        <li><strong>三的法則（rule of three，標準統計；Phillips 2005 指定）</strong>：某事件在 n 次獨立試驗中<strong>觀察到零次</strong>，其真實發生率的 95% 上界 ≈ <strong>3/n</strong>。</li>
+      </ul>
+      <p class="en">Week 10's self-paced readings are all about the statistics of evaluation. Miller (2024): "evaluations are experiments" — an accuracy is estimated from a finite sample of questions, so report a confidence interval, not a bare number; question clustering (several questions sharing one passage) breaks the independence assumption and inflates the true standard error; comparing two models with paired questions (same items, per-question differences) cancels question-difficulty noise and gives more power than unpaired; power analysis tells you how many questions you need up front. Anthropic (2026): capability evals should start low (a hill to climb) while regression evals sit near 100% (catch backsliding); handle non-determinism with pass@k (≥1 of k succeeds) vs pass^k (all k succeed — e.g. 0.75³ ≈ 42%). Rule of three (standard statistics): zero events in n trials → 95% upper bound ≈ 3/n.</p>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
+      <ul>
+        <li><strong>「零失效」不等於「零失效率」。</strong>三的法則給了 <a href="26-test-prompts-like-code.html">卡 26</a>「十個案例分不開訊號與雜訊」一個<strong>公式</strong>：0/10 通過 → 真實失效率上界 ~30%；0/30 → ~10%；0/100 → ~3%。所以「今天全過」遠不足以上線——你的證據只把失效率壓到一個<strong>區間</strong>，沒壓到零。（這也正是把 pilot 從 n=2 擴到 n=30 的統計理由：樣本越大，誤差棒越窄。）</li>
+        <li><strong>比較要配對，差異要看區間。</strong>「模型 A 贏 B 兩個百分點」如果沒用配對題目、題數又不夠，很可能整個落在重疊的信賴區間裡——那不是證據，是雜訊。頭條數字沒有誤差棒、沒有配對，不能當結論。</li>
+        <li><strong>pass@k vs pass^k 看用途。</strong>探索時一個好答案就夠（pass@k）；面向客戶要每次都對（pass^k），而 pass^k 比直覺難得多（每次 75% → 連三次全對只剩 ~42%）。這呼應 <a href="21-tool-use-is-a-tradeoff.html">卡 21</a> 的隨機性與 <a href="24-evaluate-the-evaluator.html">卡 24</a> 的量尺紀律。</li>
+        <li><strong>當心飽和（saturation）。</strong>當模型把你的 eval 全做對，它就<strong>量不出進步</strong>了（只能抓退步）；更騙人的是接近飽和時，巨大的能力提升只顯示成分數的微小跳動（Anthropic 舉 SWE-bench Verified ~30% → &gt;80%）。解法：讀 transcript（是評分不公還是題目模糊？）、加更難的題、把飽和的 eval 移進回歸套件、持續拉高訊噪比。</li>
+      </ul>
+      <p>把這張卡接回本站（作者觀點 Author's view）：它是 <a href="26-test-prompts-like-code.html">卡 26</a>（prompt 測試套件）和 <a href="24-evaluate-the-evaluator.html">卡 24</a>（驗你的判官）底下的<strong>統計層</strong>。紀律一句話：<strong>每個 eval 頭條都是一個區間，不是一個點；而「要多少題」是第一等的設計決定，不是跑完才想。</strong></p>
+      <div class="src">出處 Source：① Evan Miller（2024），《Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations》，arXiv:2411.00640——摘要原句「evaluations are experiments」；題目獨立性/clustering、配對 vs 非配對、檢定力分析為論文主張之改寫（公式細節從略）。② Mikaela Grace、Jeremy Hadfield、Rodrigo Olivares、Jiri De Jonghe，《Demystifying evals for AI agents》，Anthropic Engineering，2026-01-09——eval 結構、capability vs regression、非決定性 pass@k/pass^k（0.75³≈42%）、eval saturation（含 SWE-bench Verified ~30%→&gt;80% 之例）出自原文。③ 三的法則（0 事件於 n 次 → 95% 上界 ≈ 3/n）為<strong>標準統計結果</strong>，指定讀物為 Phillips（2005），《Towards evidence based medicine for paediatricians》（Archimedes 系列），Arch Dis Child 2005;90:642；本卡的數值示例（0/10→~30%、0/30→~10%、0/100→~3%）為該法則之一般代入，非該文之特定 worked example（原文未取得正文、未逐字查證）。作者改寫重述，未複製原文。「沒有誤差棒的 eval 不是結果」「0 失效≠0% 失效、給卡 26 一個公式」「每個 eval 頭條是區間不是點、題數是第一等設計決定」為作者綜述觀點（Author's view），與本站 <a href="14-prompt-engineering-is-empirical.html">14</a>／<a href="21-tool-use-is-a-tradeoff.html">21</a>／<a href="24-evaluate-the-evaluator.html">24</a>／<a href="26-test-prompts-like-code.html">26</a> 一致。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
+      <p>沒有誤差棒的 eval 分數不是結果：評估是實驗，裸的「80% 通過」沒有區間等於沒說。記住三的法則——0 失效於 n 次試驗，真實失效率上界約 3/n（所以 10/10 容得下 ~30% 失效）；比較模型要用配對題目、看區間有沒有重疊；面向客戶看 pass^k 不是 pass@k；eval 一旦飽和就只剩抓退步、量不出進步。題數是第一等的設計決定。</p>
+      <p class="en">An eval score without an error bar isn't a result: evaluations are experiments, and a bare "80% pass" with no interval says nothing. Remember the rule of three — zero failures in n trials bounds the true rate at about 3/n (so 10/10 allows ~30% failure); compare models with paired questions and check whether intervals overlap; for customer-facing work read pass^k not pass@k; and once an eval saturates it only catches regressions, not gains. Sample size is a first-class design decision.</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
+</body>
+</html>

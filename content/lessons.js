@@ -216,5 +216,32 @@ const LESSONS = [
     summary: "RAGAS（Shahul Es 等，2023）把「RAG 答得好不好」拆成三個不需人工標準答案的指標：Faithfulness（答案主張逐條對檢索脈絡查，支持數／總數）、Context Precision（相關段落有沒有排前面）、Answer Relevancy（從答案反生問題再比對原題）。但 Hamel Husain 提醒：指標背後是會錯、會諂媚的 LLM 裁判——要先用人類標註驗證（抓到率＋誤報率、一種失效一個裁判），才有資格信它的分數。沒驗過的裁判＝自動化的自評。",
     summary_en: "RAGAS (Shahul Es et al., 2023) splits \"is the RAG answer good\" into three reference-free metrics: Faithfulness (verify each answer claim against retrieved context, supported/total), Context Precision (are relevant chunks ranked high), Answer Relevancy (generate questions back from the answer, compare to the original). But Hamel Husain's warning: behind the metrics sits an LLM judge that errs and flatters — validate it against human labels (catch rate + false-alarm, one judge per failure type) before trusting its scores. An unvalidated judge is self-evaluation, automated.",
     tag: "RAG"
+  },
+  {
+    id: "25",
+    slug: "context-window-is-a-budget",
+    title: "上下文視窗是預算，不是免費空間：為什麼要檢索——因為「塞好塞滿」會死在成本、雜訊、和「迷失在中間」",
+    title_en: "The Context Window Is a Budget, Not Free Space: Why Retrieve at All — Stuffing Everything In Dies on Cost, Noise, and Lost-in-the-Middle",
+    summary: "模型沒記憶，你送進視窗的就是它知道的全部；而視窗是有限預算。全塞知識庫三面受敵：每個 token 計費（成本）、無關文字讓模型分心（雜訊）、「迷失在中間」讓中段的關鍵事實被忽略（位置，Liu 2023，連長 context 模型也一樣）。所以重要的放兩端、寧少勿濫。不能全塞就必須挑，RAG＝自動挑；挑把風險搬到可量測的問題：「我們挑對文字了嗎？」——這就是卡 23/24 檢索評估的起點。",
+    summary_en: "The model has no memory — what you send is all it knows — and the window is a finite budget. Stuffing the whole KB in fails three ways: every token billed (cost), irrelevant text distracts (noise), lost-in-the-middle ignores mid-context facts (position, Liu 2023, even long-context models). So put important material at the edges, prefer fewer better passages. Can't include everything → you must select; RAG is automated selection; selecting relocates risk to a measurable question — \"did we select the right text?\" — where cards 23/24's retrieval evaluation begins.",
+    tag: "AI 工程"
+  },
+  {
+    id: "26",
+    slug: "test-prompts-like-code",
+    title: "Prompt 要像程式一樣被測試：分層檢查 × 輸入類別覆蓋 × 每修必加回歸，才叫「做完」",
+    title_en: "Test Prompts Like Code: Layered Checks × Input-Category Coverage × a Regression Test for Every Fix Is What \"Done\" Means",
+    summary: "一個 prompt「跑一次對了」不叫做完；做完是它有一組測試套件把行為釘住。Week 10 用 promptfoo 把 prompt 當程式測：每個測試是分層的獨立檢查（格式→schema→正確性→安全，全過才算過）、覆蓋多種輸入類別（典型／空／超長／分隔符衝突／輸入敏感／預測失效），每修一個失效就加一條回歸測試，再用 --repeat 逼出隨機不穩。優先用決定性程式碼檢查；而且十個案例仍分不開訊號與抽樣雜訊。",
+    summary_en: "A prompt that \"worked once\" isn't done; done is a test suite that pins its behavior. Week 10 uses promptfoo to test prompts like code: each test is layered independent checks (format → schema → correctness → safety, all must pass), covering input categories (typical / empty / very long / delimiter-conflict / input-sensitivity / predicted-failure), with a regression test added for every fix, and --repeat to expose stochastic flakiness. Prefer deterministic code checks; and ten cases still can't separate signal from sampling noise.",
+    tag: "軟體工程"
+  },
+  {
+    id: "27",
+    slug: "error-bars-on-evals",
+    title: "Eval 分數要有誤差棒：「10/10 通過」的真實失效率上界可能是 30%——因為 0 失效 ≠ 0% 失效",
+    title_en: "Put Error Bars on Eval Scores: \"10/10 Passed\" Allows a True Failure Rate up to ~30% — Because Zero Failures ≠ a Zero Failure Rate",
+    summary: "沒有誤差棒的 eval 分數不是結果。評估是實驗：題目是樣本，裸的「80% 通過」沒有不確定區間等於沒說。三的法則：某事在 n 次試驗零次發生，真實發生率 95% 上界 ≈ 3/n → 10/10 容得下 ~30% 失效率。比較模型要配對題目（同題抵銷難易雜訊、更有檢定力），差異要看信賴區間有沒有重疊；面向客戶看 pass^k 不是 pass@k（75%³≈42%）；eval 一旦飽和只剩抓退步、量不出進步。",
+    summary_en: "An eval score without an error bar isn't a result. Evaluations are experiments: questions are a sample, and a bare \"80% pass\" with no interval says nothing. Rule of three: zero events in n trials → 95% upper bound ≈ 3/n, so 10/10 allows a true failure rate up to ~30%. Compare models with paired questions (same items cancel difficulty noise, more power) and check whether intervals overlap; for customer-facing work read pass^k not pass@k (0.75³≈42%); and once an eval saturates it only catches regressions, not gains.",
+    tag: "AI 工程"
   }
 ];
