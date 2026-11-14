@@ -207,5 +207,14 @@ const LESSONS = [
     summary: "RAG 不是黑盒，是「檢索→生成」兩層。檢索可以完全不呼叫模型就量——hit@k／MRR 是決定性的、免費的，能跑上百個實驗調 chunk／k／retriever；生成才是花錢又隨機的那層。紀律：檢索沒撈到的證據 prompt 救不回來，所以答錯時先問「是哪一層、哪種錯」（沒撈到／讀錯／衝突／無中生有／跟從注入），答案決定修法。",
     summary_en: "RAG isn't a black box — it's retrieve → generate. Retrieval scores with no model call: hit@k / MRR are deterministic and free, so you run hundreds of experiments tuning chunk / k / retriever; generation is the expensive, stochastic layer. Discipline: no prompt recovers evidence retrieval never fetched — so when an answer is wrong, first name the layer and failure type (miss / misread / conflict / invented / injection); the name tells you whether to fix retrieval or the prompt.",
     tag: "RAG"
+  },
+  {
+    id: "24",
+    slug: "evaluate-the-evaluator",
+    title: "自動評估本身要被評估：RAGAS 給你 reference-free 的三指標，但沒對齊人類的 LLM 裁判只是「自動化的自評」",
+    title_en: "Evaluate the Evaluator: RAGAS Gives You Reference-Free Metrics, but an Unvalidated LLM Judge Is Just Automated Self-Evaluation",
+    summary: "RAGAS（Shahul Es 等，2023）把「RAG 答得好不好」拆成三個不需人工標準答案的指標：Faithfulness（答案主張逐條對檢索脈絡查，支持數／總數）、Context Precision（相關段落有沒有排前面）、Answer Relevancy（從答案反生問題再比對原題）。但 Hamel Husain 提醒：指標背後是會錯、會諂媚的 LLM 裁判——要先用人類標註驗證（抓到率＋誤報率、一種失效一個裁判），才有資格信它的分數。沒驗過的裁判＝自動化的自評。",
+    summary_en: "RAGAS (Shahul Es et al., 2023) splits \"is the RAG answer good\" into three reference-free metrics: Faithfulness (verify each answer claim against retrieved context, supported/total), Context Precision (are relevant chunks ranked high), Answer Relevancy (generate questions back from the answer, compare to the original). But Hamel Husain's warning: behind the metrics sits an LLM judge that errs and flatters — validate it against human labels (catch rate + false-alarm, one judge per failure type) before trusting its scores. An unvalidated judge is self-evaluation, automated.",
+    tag: "RAG"
   }
 ];
