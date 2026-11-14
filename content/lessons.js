@@ -72,5 +72,32 @@ const LESSONS = [
     summary: "RLHF 用「人更喜歡哪個回答」訓出獎勵模型再去最大化它；但獎勵是偏好的代理、不是真相，優化太狠就作弊，所以要拴 KL 繩。",
     summary_en: "RLHF trains a reward model from human preferences, then maximizes it; but the reward is a proxy for preference, not truth — over-optimize and it cheats, hence the KL leash.",
     tag: "模型原理"
+  },
+  {
+    id: "09",
+    slug: "llm-control-surface",
+    title: "同一個機制，不同旋鈕：你真正能調的 LLM 行為",
+    title_en: "One Mechanism, Different Knobs: What You Can Actually Tune in LLM Behavior",
+    summary: "CoT、few-shot 是同一個「次字預測」機制的展現；你能調的是 context／message／system prompt，但設定了不等於照辦。",
+    summary_en: "CoT and few-shot are one next-token mechanism; your knobs are context, message structure, and the system prompt — but setting them isn't being obeyed.",
+    tag: "模型原理"
+  },
+  {
+    id: "10",
+    slug: "norms-before-building",
+    title: "開工前先立規矩：團隊 AI 準則與評估前移",
+    title_en: "Set the Rules Before You Build: Team AI Norms and Up-Front Evaluation",
+    summary: "AI 協作專案最該前移的不是寫 code，是「工具做什麼／不做什麼、分歧怎麼用證據裁、成功長什麼樣」。",
+    summary_en: "On an AI-assisted project, move the acceptance standard earliest: what tools are (and aren't) for, how evidence settles disputes, what success looks like.",
+    tag: "軟體工程"
+  },
+  {
+    id: "11",
+    slug: "ai-is-an-amplifier",
+    title: "AI 是放大器，不是均值回歸",
+    title_en: "AI Is an Amplifier, Not a Great Equalizer",
+    summary: "90% 開發者在用 AI、八成覺得更快，但只約四分之一真信任輸出；AI 不拉平團隊，它放大你本來的系統。",
+    summary_en: "90% use AI and most feel faster, but only ~a quarter trust its output; AI doesn't level teams up — it amplifies the system you already have.",
+    tag: "軟體工程"
   }
 ];
