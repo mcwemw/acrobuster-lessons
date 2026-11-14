@@ -63,5 +63,14 @@ const LESSONS = [
     summary: "few-shot、CoT 讓模型更會「看起來對」；但看起來對≠對，技巧的另一半是控制敏感度 + 驗證。",
     summary_en: "Few-shot and CoT make a model better at \"looking right\" — but looking right isn't being right; the other half is controlling sensitivity and verifying.",
     tag: "提示工程"
+  },
+  {
+    id: "08",
+    slug: "rlhf-preference-reward",
+    title: "RLHF：把人的偏好變成獎勵，以及那條 KL 繩",
+    title_en: "RLHF: Turning Human Preference into a Reward — and Why It Needs a KL Leash",
+    summary: "RLHF 用「人更喜歡哪個回答」訓出獎勵模型再去最大化它；但獎勵是偏好的代理、不是真相，優化太狠就作弊，所以要拴 KL 繩。",
+    summary_en: "RLHF trains a reward model from human preferences, then maximizes it; but the reward is a proxy for preference, not truth — over-optimize and it cheats, hence the KL leash.",
+    tag: "模型原理"
   }
 ];
