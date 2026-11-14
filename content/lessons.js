@@ -99,5 +99,23 @@ const LESSONS = [
     summary: "90% 開發者在用 AI、八成覺得更快，但只約四分之一真信任輸出；AI 不拉平團隊，它放大你本來的系統。",
     summary_en: "90% use AI and most feel faster, but only ~a quarter trust its output; AI doesn't level teams up — it amplifies the system you already have.",
     tag: "軟體工程"
+  },
+  {
+    id: "12",
+    slug: "process-is-load-bearing",
+    title: "流程不是官僚，是保命索：專業軟體工程 vs 作業",
+    title_en: "Process Isn't Bureaucracy, It's a Lifeline: Professional SE vs. a Coding Assignment",
+    summary: "作業是一個人、交一次、交完就結束；專業軟體工程是多人、持續、有壓力的現實——版本控制與流程存在，就是為了讓這個現實活得下去。",
+    summary_en: "An assignment is one person, submitted once, done; professional SE is multi-person, continuous, high-pressure — version control and process exist to make that reality survivable.",
+    tag: "軟體工程"
+  },
+  {
+    id: "13",
+    slug: "self-correction-not-self-approval",
+    title: "自我修正不是自我感覺良好：讓 AI 的 loop 真的變好",
+    title_en: "Self-Correction Isn't Self-Approval: Making an AI Loop Actually Improve",
+    summary: "天真地叫 AI「檢查一下你的答案」，常常只換來「看起來沒問題！」卻什麼都沒改；要真的變好，批判得具體、得「難過關」、得封頂加人審。",
+    summary_en: "Naively telling an AI to \"check your answer\" often just yields \"looks fine!\" with nothing changed; to actually improve, the critique must be specific, hard to pass, capped, and backed by human review.",
+    tag: "模型原理"
   }
 ];
