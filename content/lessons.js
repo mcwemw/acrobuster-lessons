@@ -296,5 +296,14 @@ const LESSONS = [
     "summary": "線性回歸、感知器、邏輯回歸、SVM 畫的都是同一條直線 g(x)=wᵀx，差別只在目標函數。你挑哪個 loss，就決定了它會怎麼錯——MSE 怕離群值、感知器碰到線性不可分就崩、cross-entropy 要機率、SVM 要離最遠。",
     "summary_en": "Linear regression, perceptron, logistic regression, and SVM all draw the same line g(x)=wᵀx — they differ only in the objective function. The loss you pick decides how the classifier fails: MSE fears outliers, the perceptron breaks on non-separable data, cross-entropy wants probabilities, SVM wants maximum distance.",
     "tag": "模型原理"
+  },
+  {
+    "id": "34",
+    "slug": "embedding-is-the-throughline",
+    "title": "這門課的暗線：一切都在學一個「嵌入」",
+    "title_en": "The Hidden Throughline: Everything Is Learning an Embedding",
+    "summary": "PCA、FLD、autoencoder、word2vec、對比學習、DINO 看似各走各的，其實都在做同一件事——學一個把高維複雜資料壓成低維向量的「嵌入」。而「好嵌入」沒有唯一定義：你選的目標函數說了算。維度詛咒則是這一切的理由：高維裡 cosine 全擠成一團，嵌入讓「比相似度」重新變得可能。",
+    "summary_en": "PCA, FLD, autoencoders, word2vec, contrastive learning, and DINO look unrelated but do the same thing — learn an embedding that compresses high-dimensional data into a low-dimensional vector. And there's no single definition of a \"good\" embedding: the objective function you pick decides. The curse of dimensionality is the reason it all matters — in high dimensions every cosine collapses together, and the embedding makes comparing similarity possible again.",
+    "tag": "模型原理"
   }
 ];
