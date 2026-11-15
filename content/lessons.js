@@ -395,5 +395,14 @@ const LESSONS = [
     "summary": "控制演算法是一道階梯——PID → pure-pursuit → Stanley → LQR → model-free RL，越往上處理越複雜；RL 是盡頭：當你沒有環境模型、系統又非線性，才跳上去。而 model-free RL 學 policy 有兩條路：value-based（學 Q 再貪婪，就是卡 37）vs policy-based（直接學 π）。policy gradient 的死穴是取樣沒效率，PPO 用「一次別改太多」的信賴域來解。",
     "summary_en": "Control algorithms form a ladder — PID → pure-pursuit → Stanley → LQR → model-free RL, each handling more complexity; RL is the end: you jump to it when you have no model of the environment and the system is nonlinear. And model-free RL has two roads to a policy: value-based (learn Q then act greedily — that's card 37) vs policy-based (directly learn π). Policy gradient's weakness is sample inefficiency, which PPO fixes with a \"don't change too much at once\" trust region.",
     "tag": "代理工程"
+  },
+  {
+    "id": "45",
+    "slug": "slam-predict-correct-loop-closure",
+    "title": "SLAM：估計＋校正母題最純的化身——推算讓誤差滾雪球，觀測與 loop closure 把它拉回來",
+    "title_en": "SLAM: the Purest Form of the Estimate-then-Correct Theme — Dead Reckoning Snowballs Error, Observation and Loop Closure Pull It Back",
+    "summary": "SLAM 要一邊建未知環境的地圖、一邊在圖裡定位自己——雞生蛋的難題。它的骨架正是整站的母題：用運動模型一步步「推算」位置，誤差會滾雪球（位置不確定性越滾越大）；再靠「觀測」看到地標把估計拉回來。而 loop closure——認出「我來過這裡」——就是用一個獨立證據，一次修掉累積的漂移。",
+    "summary_en": "SLAM must build a map of an unknown environment while simultaneously locating itself within it — a chicken-and-egg problem. Its skeleton is the site's recurring theme: \"predict\" your pose step by step with a motion model (error snowballs, location uncertainty grows), then \"correct\" it by observing landmarks. And loop closure — recognizing \"I've been here before\" — uses one piece of independent evidence to wipe out accumulated drift in a single stroke.",
+    "tag": "代理工程"
   }
 ];
