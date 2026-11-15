@@ -350,5 +350,23 @@ const LESSONS = [
     "summary": "SimCLR 用「在 2N 張圖裡找出自己的擴增雙胞胎」當作一個分類問題，NT-Xent 其實就是對比版的 cross-entropy。但最該帶走的實作教訓是：訓練 loss 一路下降，不代表表徵變好——因為 loss≠objective。你得用 linear probing 或 kNN monitor 這種獨立的下游任務去驗證。這正是「不自評、要外部驗證」的動手版。",
     "summary_en": "SimCLR treats \"find your augmented twin among 2N images\" as a classification problem, and NT-Xent is really contrastive cross-entropy. But the key implementation lesson: a steadily falling training loss does NOT mean the representation improved — because loss ≠ objective. You must verify with an independent downstream task like linear probing or a kNN monitor. This is the hands-on version of \"don't grade yourself; verify externally.\"",
     "tag": "模型原理"
+  },
+  {
+    "id": "40",
+    "slug": "data-centric-bias-variance-knobs",
+    "title": "資料才是主角：自建資料集的每個實驗，都是在轉 bias-variance 旋鈕",
+    "title_en": "Data Is the Real Lever: Every Experiment on a Hand-Built Dataset Is Turning the Bias-Variance Knob",
+    "summary": "演算法常被談得比資料多，但模型好壞由資料決定——這就是 data-centric AI。自己動手建一個資料集、跑監督式學習時，那些實驗軸（資料量、類別平衡、SMOTE、資料增強、PCA/autoencoder 降維）其實都是在實際操作 bias-variance 旋鈕；而「必用交叉驗證」就是「不准用訓練誤差幫自己打分」的硬性落地。",
+    "summary_en": "Algorithms get talked about more than data, but a model's quality is decided by its data — that's data-centric AI. When you build a dataset yourself and run supervised learning, the experiment axes (amount of data, class balance, SMOTE, augmentation, PCA/autoencoder dimensionality reduction) are all hands-on ways of turning the bias-variance knob; and \"cross-validation is mandatory\" is the concrete enforcement of \"don't grade yourself on training error.\"",
+    "tag": "AI 工程"
+  },
+  {
+    "id": "41",
+    "slug": "rl-is-hard-sandbox-reward-hacking",
+    "title": "RL 出了紙上就難訓練：標準沙盒讓你可控地撞上信用分配與探索利用",
+    "title_en": "RL Is Hard the Moment You Leave Paper: a Standard Sandbox Lets You Hit Credit Assignment and Explore-Exploit Under Control",
+    "summary": "「RL 比簡單分類器難訓練」是公認的——而它難，不是意外：信用分配、探索vs利用、組合爆炸這三個難題，在實戰裡同時發作。Gymnasium 這種標準化環境之所以重要，正是「遊戲＝真實世界的沙盒」的動手版：可控、安全、快速。而 reward shaping 最危險——你以為在幫忙，常常是在教 agent 鑽漏洞。",
+    "summary_en": "\"RL is harder to train than a simple classifier\" is well known — and it's hard for a reason, not by accident: credit assignment, exploration-vs-exploitation, and combinatorial explosion all fire at once in practice. A standardized environment like Gymnasium matters because it's the hands-on form of \"games are sandboxes of the real world\": controllable, safe, fast. And reward shaping is the most dangerous part — you think you're helping, but you're often teaching the agent to game the reward.",
+    "tag": "代理工程"
   }
 ];
