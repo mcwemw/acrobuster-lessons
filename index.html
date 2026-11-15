@@ -15,6 +15,14 @@
   .filterbar button.active{background:#182046;color:#fff;border-color:#182046}
   .filterbar button.active .en,.filterbar button.active .n{opacity:.75}
   .lesson-card .chip{cursor:pointer}
+  .searchbar{margin:4px 0 12px;position:relative}
+  .searchbar input{width:100%;box-sizing:border-box;font:inherit;padding:10px 38px 10px 14px;
+    border:1px solid #c8cedd;border-radius:10px;color:#182046}
+  .searchbar input:focus{outline:none;border-color:#182046}
+  .searchbar .clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);
+    border:0;background:none;cursor:pointer;font-size:1.1em;color:#8a90a0;display:none}
+  .searchbar .clear.show{display:block}
+  .noresult{opacity:.6;margin:18px 2px;display:none}
 </style>
 </head>
 <body>
@@ -30,8 +38,14 @@
   <p class="en">Recurring research concepts, broken into verifiable cards. The rules for adding a card live in
      <a href="AGENTS.md">AGENTS.md</a> — read it and you can keep growing the site in the same format.</p>
   <p style="margin:4px 0 20px"><a href="notes.html">📄 每日論文筆記 Daily Paper Notes →</a>　每天一篇 Zotero 論文的康乃爾四色筆記。</p>
+  <div class="searchbar">
+    <input id="search" type="search" autocomplete="off"
+           placeholder="搜尋關鍵字 Search (標題 / 摘要 / 標籤)…" aria-label="搜尋講義 Search lessons">
+    <button class="clear" id="searchclear" type="button" aria-label="清除 Clear">×</button>
+  </div>
   <div class="filterbar" id="filterbar"></div>
   <div class="grid" id="grid"></div>
+  <p class="noresult" id="noresult">沒有符合的卡片 No matching lessons — 換個關鍵字或按「全部」。</p>
 </main>
 <footer class="site">
   ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded
@@ -57,15 +71,25 @@
     "軟體工程": "software engineering"
   };
   var activeTag = "all";  // 目前選的標籤;"all"=全部
+  var query = "";          // 目前搜尋關鍵字(小寫)
 
-  function applyFilter(tag) {
-    activeTag = tag;
+  // 標籤 + 關鍵字兩個條件 AND 連動;關鍵字以空白拆成多詞,每詞都要命中(AND)
+  function applyFilters() {
+    var terms = query ? query.split(/\s+/).filter(Boolean) : [];
+    var shown = 0;
     document.querySelectorAll("#grid .lesson-card").forEach(function (card) {
-      card.style.display = (tag === "all" || card.dataset.tag === tag) ? "" : "none";
+      var tagOK = (activeTag === "all" || card.dataset.tag === activeTag);
+      var hay = card.dataset.search;
+      var textOK = terms.every(function (t) { return hay.indexOf(t) !== -1; });
+      var vis = tagOK && textOK;
+      card.style.display = vis ? "" : "none";
+      if (vis) shown++;
     });
     document.querySelectorAll("#filterbar button").forEach(function (b) {
-      b.classList.toggle("active", b.dataset.tag === tag);
+      b.classList.toggle("active", b.dataset.tag === activeTag);
     });
+    document.getElementById("noresult").style.display = shown ? "none" : "block";
+    document.getElementById("searchclear").classList.toggle("show", !!query);
   }
 
   function renderFilterBar() {
@@ -81,7 +105,7 @@
       b.dataset.tag = tag;
       b.innerHTML = zh + (en ? '<span class="en">' + en + '</span>' : '') +
                     '<span class="n">' + n + '</span>';
-      b.onclick = function () { applyFilter(tag); };
+      b.onclick = function () { activeTag = tag; applyFilters(); };
       bar.appendChild(b);
     }
     mkBtn("all", "全部", "All", LESSONS.length);
@@ -98,6 +122,9 @@
     a.href = "lessons/" + l.id + "-" + l.slug + ".html";
     a.dataset.tag = l.tag;
     var tagEn = TAG_EN[l.tag] ? ' ' + TAG_EN[l.tag] : '';
+    // 可搜尋內容:標題/摘要(中英)+標籤+編號,全部轉小寫供關鍵字比對
+    a.dataset.search = (l.title + ' ' + l.title_en + ' ' + l.summary + ' ' +
+      l.summary_en + ' ' + l.tag + ' ' + (TAG_EN[l.tag] || '') + ' lesson ' + l.id).toLowerCase();
     a.innerHTML =
       '<div class="id">LESSON ' + l.id + '</div>' +
       '<h3>' + l.title + '<span class="en">' + l.title_en + '</span></h3>' +
@@ -107,13 +134,22 @@
     // 點卡片上的 chip = 過濾到該標籤(不跳頁)
     a.querySelector(".chip").addEventListener("click", function (e) {
       e.preventDefault(); e.stopPropagation();
-      applyFilter(l.tag);
+      activeTag = l.tag; applyFilters();
       document.getElementById("filterbar").scrollIntoView({behavior:"smooth", block:"nearest"});
     });
     grid.appendChild(a);
   });
   renderFilterBar();
-  applyFilter("all");
+  // 關鍵字搜尋:輸入即時過濾,與標籤連動
+  var box = document.getElementById("search");
+  box.addEventListener("input", function () {
+    query = this.value.trim().toLowerCase();
+    applyFilters();
+  });
+  document.getElementById("searchclear").addEventListener("click", function () {
+    box.value = ""; query = ""; applyFilters(); box.focus();
+  });
+  applyFilters();
   }
   var s = document.createElement("script");
   s.src = "content/lessons.js?t=" + Date.now();
