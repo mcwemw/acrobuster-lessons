@@ -413,5 +413,14 @@ const LESSONS = [
     "summary": "卡 45 的 loop closure 一旦發生，就會製造矛盾——追蹤說「我在 0.2」，loop closure 說「我在 0」。SLAM back-end 的 graph 最佳化不挑一個信，而是把所有約束寫成誤差、用加權最小平方找「對全部量測總誤差最小」的那組位置。權重是資訊矩陣（協方差倒數）＝你多信這個量測。這其實就是 MAP／MLE。",
     "summary_en": "Once card 45's loop closure fires, it creates a contradiction — tracking says \"I'm at 0.2,\" loop closure says \"I'm at 0.\" SLAM's graph optimization doesn't trust one over the other; it writes every constraint as an error and uses weighted least squares to find the poses that minimize the total error over all measurements. The weight is the information matrix (inverse covariance) = how much you trust each measurement. This is exactly MAP/MLE.",
     "tag": "模型原理"
+  },
+  {
+    "id": "47",
+    "slug": "visual-slam-inverse-problem-direct-indirect",
+    "title": "視覺 SLAM 是反問題：相機把 3D 壓成 2D，你得從影像反推——indirect 比幾何、direct 比像素",
+    "title_en": "Visual SLAM Is an Inverse Problem: the Camera Squashes 3D into 2D, So You Reconstruct from Images — Indirect Compares Geometry, Direct Compares Pixels",
+    "summary": "相機就是一個已知的投影：K[R|t] 把 3D 世界壓成 2D 影像，過程中丟掉了深度。所以視覺 SLAM 是個反問題——從一堆 2D 觀測反推相機位姿與 3D 結構。兩幀之間怎麼對上有兩條路：indirect 先抽特徵點、最小化幾何重投影誤差；direct 直接比像素灰階、最小化光度誤差。選哪種誤差，就是又一次「選 loss＝選世界觀」。",
+    "summary_en": "A camera is a known projection: K[R|t] squashes the 3D world into a 2D image, throwing away depth. So visual SLAM is an inverse problem — reconstruct the camera pose and 3D structure from 2D observations. Matching two frames has two roads: indirect extracts feature points and minimizes geometric reprojection error; direct compares pixel intensities and minimizes photometric error. Which error you pick is, once again, \"choosing a loss = choosing a worldview.\"",
+    "tag": "代理工程"
   }
 ];
