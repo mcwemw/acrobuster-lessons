@@ -9,6 +9,14 @@ const NOTES = [
     "tag": "提示工程"
   },
   {
+    "date": "2026-11-15",
+    "title": "AI 期末複習：8 題範例 → 概念卡導航",
+    "title_en": "AI Final Review — 8 Sample Problems Mapped to Concept Cards",
+    "source": "NYCU Spr2026《Artificial Intelligence》期末範例考題（王才沛）· 範例題目，非真題",
+    "img": "",
+    "tag": "模型原理"
+  },
+  {
     "date": "2026-11-14",
     "title": "Ragas — 不靠人工標準答案，自動評 RAG 的多個維度",
     "title_en": "Ragas — reference-free automated evaluation of RAG pipelines",

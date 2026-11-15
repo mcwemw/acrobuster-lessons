@@ -93,6 +93,35 @@
     <details><summary>原卡圖 Card image</summary><p><img src="notes/2026-11-15_unreliable-explanations.png" alt="解釋不可盡信 — few-shot 的解釋可能不本於輸入，但能拿來事後驗證" style="width:100%;border:1px solid var(--line);border-radius:10px"></p></details>
       <span class="note-tag" data-tag="提示工程">提示工程</span>
     </article>
+    <article class="note" data-tag="模型原理" data-search="2026-11-15 ai 期末複習：8 題範例 → 概念卡導航 ai final review — 8 sample problems mapped to concept cards nycu spr2026《artificial intelligence》期末範例考題（王才沛）· 範例題目，非真題 模型原理 核心問題 · question 範例考題怎麼對到站上的概念卡？教授提示：別背公式，要懂每個項的意義與目的——這正好是這些卡的寫法。以下 8 題各連到能直接複習的卡，附一句話答題骨架；完整推導與連結在卡裡。 8 題 → 概念卡導航 · problem → card pretext task 各舉一例（影像／nlp） → 卡 34、39：影像＝遮塊補（inpainting）／旋轉預測／拼圖，或 simclr 的「同圖兩擴增互為正樣本」；nlp＝遮字（masked word）、預測下一詞、cbow／skip-gram 用上下文預測中心詞。 model-based vs model-free rl → 卡 37：model-based＝已知（或先學）轉移函數與獎勵，拿 mdp 來規劃；model-free＝不知 mdp，直接靠取樣經驗學 policy／價值（q-learning、td）。 policy 是什麼＋為何 state value 依賴 policy → 卡 37：policy π＝狀態→動作的對應；state value＝從該狀態起的期望累積獎勵，但你拿到哪些未來獎勵取決於走哪些動作＝policy，換 policy→走不同路徑→期望報酬就不同。 bias-variance 兩難＋與模型複雜度的關係 → 卡 32：bias＝擬合不足（太簡單→欠擬合）、variance＝對訓練集太敏感（太複雜→過擬合學到雜訊）；模型複雜度是同一個旋鈕，兩端各拉一邊。 畫 autoencoder＋指出 information bottleneck 及其目的 → 卡 34：encoder→code（瓶頸）→decoder 重建輸入；瓶頸逼網路壓縮、只留重要資訊，那段 code 就是嵌入。 svm 成本函數兩項的意義（½‖w‖² + c·σξᵢ）→ 卡 33：½‖w‖²＝最大化間隔（最小化 ‖w‖，求泛化）；c·σξ＝對鬆弛（違反間隔／分錯）的懲罰，c 權衡「大間隔 vs 少分錯」。 pca 投影的準則（最小化／最大化什麼） → 卡 34：最大化保留變異 ＝ 最小化重建誤差；投影到協方差矩陣最大特徵值的特徵向量（讓新座標去相關）。 用圖說明對比學習的基本概念 → 卡 39、34：同源的兩個 view 要拉近、不同源要推遠，在嵌入空間裡學出「相似」。 一條貫穿線 · the through-line 八題背後其實是同一句話：你優化的代理訊號 ≠ 你真正要的，中間永遠要插一道獨立驗證。loss／reward 是代理（卡 33／37），simclr 的 loss≠objective 要靠下游任務驗（卡 39），bias-variance 要靠交叉驗證而非訓練誤差（卡 32）。懂了這條線，題目換皮也答得出來。">
+      <div class="id">2026-11-15</div>
+      <h2 style="margin:4px 0 2px">AI 期末複習：8 題範例 → 概念卡導航<span class="en">AI Final Review — 8 Sample Problems Mapped to Concept Cards</span></h2>
+      <div class="src">出處 Source：NYCU Spr2026《Artificial Intelligence》期末範例考題（王才沛）· 範例題目，非真題</div>
+    <section class="card">
+      <h2>核心問題 <span class="en">· Question</span></h2>
+      <p>範例考題怎麼對到站上的概念卡？教授提示：<strong>別背公式，要懂每個項的意義與目的</strong>——這正好是這些卡的寫法。以下 8 題各連到能直接複習的卡，附一句話答題骨架；完整推導與連結在卡裡。</p>
+    </section>
+
+    <section class="card">
+      <h2>8 題 → 概念卡導航 <span class="en">· Problem → Card</span></h2>
+      <ul>
+        <li><strong>pretext task 各舉一例（影像／NLP）</strong> → <a href="lessons/34-embedding-is-the-throughline.html">卡 34</a>、<a href="lessons/39-simclr-loss-is-not-objective.html">39</a>：影像＝遮塊補（inpainting）／旋轉預測／拼圖，或 SimCLR 的「同圖兩擴增互為正樣本」；NLP＝遮字（masked word）、預測下一詞、CBOW／skip-gram 用上下文預測中心詞。</li>
+        <li><strong>model-based vs model-free RL</strong> → <a href="lessons/37-reward-is-rl-loss-credit-assignment.html">卡 37</a>：model-based＝已知（或先學）轉移函數與獎勵，拿 MDP 來規劃；model-free＝不知 MDP，直接靠取樣經驗學 policy／價值（Q-learning、TD）。</li>
+        <li><strong>policy 是什麼＋為何 state value 依賴 policy</strong> → <a href="lessons/37-reward-is-rl-loss-credit-assignment.html">卡 37</a>：policy π＝狀態→動作的對應；state value＝從該狀態起的期望累積獎勵，但你拿到哪些未來獎勵取決於走哪些動作＝policy，換 policy→走不同路徑→期望報酬就不同。</li>
+        <li><strong>bias-variance 兩難＋與模型複雜度的關係</strong> → <a href="lessons/32-bias-variance-complexity-knob.html">卡 32</a>：bias＝擬合不足（太簡單→欠擬合）、variance＝對訓練集太敏感（太複雜→過擬合學到雜訊）；模型複雜度是同一個旋鈕，兩端各拉一邊。</li>
+        <li><strong>畫 autoencoder＋指出 information bottleneck 及其目的</strong> → <a href="lessons/34-embedding-is-the-throughline.html">卡 34</a>：encoder→code（瓶頸）→decoder 重建輸入；瓶頸逼網路壓縮、只留重要資訊，那段 code 就是嵌入。</li>
+        <li><strong>SVM 成本函數兩項的意義</strong>（<code>½‖w‖² + C·Σξᵢ</code>）→ <a href="lessons/33-loss-is-the-classifier-worldview.html">卡 33</a>：½‖w‖²＝最大化間隔（最小化 ‖w‖，求泛化）；C·Σξ＝對鬆弛（違反間隔／分錯）的懲罰，C 權衡「大間隔 vs 少分錯」。</li>
+        <li><strong>PCA 投影的準則（最小化／最大化什麼）</strong> → <a href="lessons/34-embedding-is-the-throughline.html">卡 34</a>：最大化保留變異 ＝ 最小化重建誤差；投影到協方差矩陣最大特徵值的特徵向量（讓新座標去相關）。</li>
+        <li><strong>用圖說明對比學習的基本概念</strong> → <a href="lessons/39-simclr-loss-is-not-objective.html">卡 39</a>、<a href="lessons/34-embedding-is-the-throughline.html">34</a>：同源的兩個 view 要拉近、不同源要推遠，在嵌入空間裡學出「相似」。</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>一條貫穿線 <span class="en">· The through-line</span></h2>
+      <p>八題背後其實是同一句話：<strong>你優化的代理訊號 ≠ 你真正要的，中間永遠要插一道獨立驗證</strong>。loss／reward 是代理（<a href="lessons/33-loss-is-the-classifier-worldview.html">卡 33</a>／<a href="lessons/37-reward-is-rl-loss-credit-assignment.html">37</a>），SimCLR 的 loss≠objective 要靠下游任務驗（<a href="lessons/39-simclr-loss-is-not-objective.html">卡 39</a>），bias-variance 要靠交叉驗證而非訓練誤差（<a href="lessons/32-bias-variance-complexity-knob.html">卡 32</a>）。懂了這條線，題目換皮也答得出來。</p>
+    </section>
+      <span class="note-tag" data-tag="模型原理">模型原理</span>
+    </article>
     <article class="note" data-tag="RAG" data-search="2026-11-14 ragas — 不靠人工標準答案，自動評 rag 的多個維度 ragas — reference-free automated evaluation of rag pipelines es et al. 2023 · arxiv:2309.15217 · cc-by-4.0 rag 核心問題 · question 沒有人工標準答案時，怎麼評一條 rag pipeline 的檢索品質、生成忠實度、答案品質？ 🔴 背景與痛點 · red es, james, espinosa-anke, schockaert (2023)，arxiv:2309.15217 痛點：評 rag 要靠人工標 ground truth，慢；且要同時看多個維度 授權：cc by 4.0（可商用，需署名） 🟡 概念 · yellow reference-free evaluation 無參考評估 faithfulness 忠實度（生成是否本於檢索段落） retrieval relevance 檢索相關性 generation quality 生成品質 → 我的 faithfulness llm-judge → coach 評分可免人工標 🔵 原文依據 · blue (quotes) 「ragas … a framework for reference-free evaluation of retrieval augmented generation (rag) pipelines」「the ability of the llm to exploit such passages in a faithful way」「a suite of metrics … without having to rely on ground truth human annotations」「contribute to faster evaluation cycles of rag architectures」 🟠 我的想法 · takeaway 想法：這正是我 faithfulness llm-judge 的學術母本——reference-free 評「忠實度」 → 三維度（檢索相關／生成忠實／生成品質）可對應我 coach 的評分 rubric 與閘門 → 免 ground truth = 評測可規模化、迭代更快；但要防 llm-judge 本身的可靠度風險">
       <div class="id">2026-11-14</div>
       <h2 style="margin:4px 0 2px">Ragas — 不靠人工標準答案，自動評 RAG 的多個維度<span class="en">Ragas — reference-free automated evaluation of RAG pipelines</span></h2>
