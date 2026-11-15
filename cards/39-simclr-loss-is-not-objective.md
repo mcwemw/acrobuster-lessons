@@ -1,0 +1,45 @@
+---
+id: "39"
+slug: simclr-loss-is-not-objective
+tag: 模型原理
+title: SimCLR 實作：loss 下降 ≠ 學得好——對比學習逼你用下游任務驗證表徵
+title_en: "SimCLR in Practice: Falling Loss ≠ Good Representations — Contrastive Learning Forces You to Verify via a Downstream Task"
+title_short: SimCLR：loss 下降 ≠ 學得好
+summary: SimCLR 用「在 2N 張圖裡找出自己的擴增雙胞胎」當作一個分類問題，NT-Xent 其實就是對比版的 cross-entropy。但最該帶走的實作教訓是：訓練 loss 一路下降，不代表表徵變好——因為 loss≠objective。你得用 linear probing 或 kNN monitor 這種獨立的下游任務去驗證。這正是「不自評、要外部驗證」的動手版。
+summary_en: SimCLR treats "find your augmented twin among 2N images" as a classification problem, and NT-Xent is really contrastive cross-entropy. But the key implementation lesson: a steadily falling training loss does NOT mean the representation improved — because loss ≠ objective. You must verify with an independent downstream task like linear probing or a kNN monitor. This is the hands-on version of "don't grade yourself; verify externally."
+links: []
+---
+## 是什麼 · What it is
+
+這張是 [[34-embedding-is-the-throughline|「一切都在學一個嵌入」]]的動手版——把自監督對比學習真的跑起來（SimCLR，Chen et al. 2020, arXiv:2002.05709）。流程：一個 <strong>backbone</strong>（如 resnet-18）＋一個 <strong>projector head</strong>（兩層 MLP）；一批 N 張圖，每張做<strong>兩種隨機擴增</strong>（crop／flip／color jitter／grayscale＋normalize），於是有效批量變 <strong>2N</strong>。
+
+核心是 <strong>NT-Xent loss</strong>，它其實是個很乾淨的分類問題：對某張圖 x，另外有 2N−1 張；把所有輸出向量正規化、兩兩算 <strong>cosine 相似度</strong>，除以一個 <strong>temperature</strong> 再取 softmax——<strong>x 的 loss ＝它「真正雙胞胎」那一項的負 log。這等價於把「在 2N−1 張裡找出 x 的配對」當成分類的 cross-entropy</strong>（呼應 [[33-loss-is-the-classifier-worldview|選哪個 loss 就選了世界觀]]）。訓練完<strong>丟掉 projector</strong>，要的表徵是 backbone 的輸出。batch 越大、負樣本越多，學得越有效。
+
+::: en
+This is the hands-on version of [[34-embedding-is-the-throughline|"everything is learning an embedding"]] — actually running self-supervised contrastive learning (SimCLR, Chen et al. 2020, arXiv:2002.05709). The setup: a **backbone** (e.g., resnet-18) plus a **projector head** (a two-layer MLP); for a batch of N images, make **two random augmentations** each (crop / flip / color jitter / grayscale + normalize), so the effective batch is **2N**. The core is **NT-Xent loss**, which is really a clean classification problem: for an image x there are 2N−1 others; normalize all output vectors, compute pairwise **cosine similarity**, divide by a **temperature**, take softmax — **x's loss is the negative log of the term for its true twin. That's exactly the cross-entropy of "find x's mate among the 2N−1"** (echoing [[33-loss-is-the-classifier-worldview|choosing a loss is choosing a worldview]]). After training you **discard the projector**; the representation you want is the backbone output. Bigger batch = more negatives = more effective learning.
+:::
+
+## 為什麼重要 · Why it matters
+
+這張卡最該帶走的，是一個會反直覺、卻直通我研究紀律的實作教訓：<span class="tag-warn">訓練 loss 一路下降，不代表表徵變好——因為 loss ≠ objective</span>。NT-Xent 降低，只說明「配對任務」在這批資料上越做越順，但你真正要的是「<strong>一個對下游任務有用的表徵</strong>」，兩者不是同一件事。所以 SimCLR 的評估必須靠<strong>獨立的下游任務</strong>：
+
+<p>
+<strong>linear probing</strong>：凍結 encoder、只在上面訓一個線性分類層，看準確率——它當「表徵品質」的量尺。<br>
+<strong>kNN monitor</strong>：訓練中每隔幾個 epoch，用當前表徵對測試集做 k-近鄰分類。<strong>因為不能只看 loss 曲線</strong>，用這個才看得到表徵實際在變好。
+</p>
+
+這就是 [[06-ai-loop-discipline|「不自評、要外部驗證」]]的動手版：<strong>優化的那個訊號（loss）不是你真正要的目標，所以不能拿它給自己打分，得換一個獨立量尺來驗。</strong>它跟 [[38-games-exhaustive-dream-meets-explosion|遊戲 AI 那條「估計器的可信度就是天花板」]]、[[01-rag-faithfulness|RAG 的 faithfulness 閘門]]是同一條線——<strong>你拿來優化的代理指標，和你真正在乎的品質，中間永遠要插一道獨立驗證。</strong>
+
+兩個延伸實作點也接得上本站：①<strong>temperature</strong> 控制對比分布的「銳利度」——太高（如 5）或太低（如 0.1）都會改變學習曲線，是另一個要調的旋鈕（精神上近 [[36-exploration-vs-exploitation-dial|探索 vs 利用]]）。②為什麼 batch size 在 SimCLR 比一般監督式更關鍵？因為 batch 就是「負樣本池」——池子越大，「找出雙胞胎」這題越難、學到的嵌入越好。這也解釋了我為什麼在意嵌入模型的訓練規模：[[34-embedding-is-the-throughline|換嵌入＝換了「相似」的定義]]，而對比學習正是「相似」被訓練出來的過程。
+
+::: src
+出處 Source：SimCLR 原論文 Chen, Kornblith, Norouzi &amp; Hinton,「A Simple Framework for Contrastive Learning of Visual Representations」(ICML 2020, arXiv:2002.05709)；為 NYCU Spr2026 AI 課 Project #2（王才沛，CIFAR-10／resnet-18 從零訓練）的實作對象，本卡以論文與課程概念為據、非重製作業規格。backbone＋projector head（2 層 MLP）、N→2N 雙擴增（crop/flip/color jitter/grayscale+normalize）、NT-Xent＝正規化後 cosine／temperature／softmax、x 的 loss＝配對項負 log＝「找 mate」的 cross-entropy、訓練後丟 projector 取 backbone 輸出、大 batch＝多負樣本更有效、linear probing（凍結 encoder 訓線性層）、kNN monitor（因 loss≠objective 不能只看 loss 曲線）、temperature 高/低改變學習曲線 均為 SimCLR 方法與標準評估實務（論文＋課程）。<br>「NT-Xent＝對比版 cross-entropy」「loss 下降≠學得好、loss≠objective、必用獨立下游任務驗證＝不自評紀律的動手版」「temperature＝銳利度旋鈕、batch＝負樣本池決定嵌入品質」為作者綜述觀點（Author's view），對應本站 [[33-loss-is-the-classifier-worldview|33]]／[[34-embedding-is-the-throughline|34]]／[[06-ai-loop-discipline|06]]／[[01-rag-faithfulness|01]]／[[38-games-exhaustive-dream-meets-explosion|38]]／[[36-exploration-vs-exploitation-dial|36]]。
+:::
+
+## 一句話帶走 · Takeaway
+
+SimCLR 把「找出自己的擴增雙胞胎」當分類，NT-Xent 就是對比版 cross-entropy。但訓練 loss 下降不代表表徵變好——loss≠objective，要用 linear probing／kNN monitor 這種獨立下游任務來驗。這正是「不自評、要外部驗證」的動手版，也是嵌入品質的真正量尺。
+
+::: en
+SimCLR frames "find your augmented twin" as classification, and NT-Xent is contrastive cross-entropy. But a falling training loss doesn't mean the representation improved — loss ≠ objective, so verify with an independent downstream task like linear probing or a kNN monitor. This is the hands-on form of "don't grade yourself; verify externally," and the real yardstick of embedding quality.
+:::

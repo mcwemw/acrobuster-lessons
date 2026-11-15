@@ -341,5 +341,14 @@ const LESSONS = [
     "summary": "Minimax 的夢是「窮舉到底就最優」，半世紀撐起遊戲 AI。但組合爆炸把它打醒——圍棋有 10¹⁷⁰ 個狀態，比宇宙的原子還多。於是整個領域認輸、轉向：minimax→MCTS（取樣式、邊玩邊學＝RL），手工評估函數→機器學習。而「沒有全樹就只能靠估計」正是你 faithfulness 母題的遊戲版。",
     "summary_en": "Minimax's dream is \"search exhaustively and you're optimal,\" and it carried game AI for half a century. But combinatorial explosion broke it — Go has 10¹⁷⁰ states, more than the atoms in the universe. So the field surrendered and pivoted: minimax → MCTS (sampled, learning-while-playing = RL), hand-crafted evaluation → machine learning. And \"no full tree means you live on an estimate\" is the game-playing version of your faithfulness thesis.",
     "tag": "代理工程"
+  },
+  {
+    "id": "39",
+    "slug": "simclr-loss-is-not-objective",
+    "title": "SimCLR 實作：loss 下降 ≠ 學得好——對比學習逼你用下游任務驗證表徵",
+    "title_en": "SimCLR in Practice: Falling Loss ≠ Good Representations — Contrastive Learning Forces You to Verify via a Downstream Task",
+    "summary": "SimCLR 用「在 2N 張圖裡找出自己的擴增雙胞胎」當作一個分類問題，NT-Xent 其實就是對比版的 cross-entropy。但最該帶走的實作教訓是：訓練 loss 一路下降，不代表表徵變好——因為 loss≠objective。你得用 linear probing 或 kNN monitor 這種獨立的下游任務去驗證。這正是「不自評、要外部驗證」的動手版。",
+    "summary_en": "SimCLR treats \"find your augmented twin among 2N images\" as a classification problem, and NT-Xent is really contrastive cross-entropy. But the key implementation lesson: a steadily falling training loss does NOT mean the representation improved — because loss ≠ objective. You must verify with an independent downstream task like linear probing or a kNN monitor. This is the hands-on version of \"don't grade yourself; verify externally.\"",
+    "tag": "模型原理"
   }
 ];
