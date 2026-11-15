@@ -314,5 +314,14 @@ const LESSONS = [
     "summary": "BFS、DFS、均勻成本、A* 畫的都是同一張狀態圖，差別只在「下一步探哪個狀態」。A* 把走過的過去 g 和估計的未來 h 加起來；而只要那個估計「永不高估」（admissible），就保證找到最優解——否則你會錯過它。這跟「估計只有在有保證下才可信」是同一條紀律。",
     "summary_en": "BFS, DFS, uniform-cost, and A* all walk the same state graph — they differ only in which node to explore next. A* adds the known past g to the estimated future h; and as long as that estimate never overestimates (is admissible), optimality is guaranteed — otherwise you miss the best solution. Same discipline as \"an estimate is trustworthy only with a guarantee.\"",
     "tag": "代理工程"
+  },
+  {
+    "id": "36",
+    "slug": "exploration-vs-exploitation-dial",
+    "title": "探索 vs 利用：所有 meta-heuristic 都在轉的那個旋鈕",
+    "title_en": "Exploration vs Exploitation: The One Dial Every Metaheuristic Turns",
+    "summary": "爬山、模擬退火、禁忌搜尋、演化計算、群體演算法看似各有花樣，但投影片一句話點破：它們「一定都含有在探索與利用之間調校的機制」。過度利用會讓整個族群塌成同一個樣子（superstar／早熟收斂）——那正是你在 LLM 取樣、RAG 檢索、甚至研究選題上每天在轉的同一個旋鈕。",
+    "summary_en": "Hill climbing, simulated annealing, tabu search, evolutionary computation, and swarm algorithms look like different tricks, but the slides nail it: each \"always includes mechanisms for tuning between exploration and exploitation.\" Over-exploit and the whole population collapses into sameness (the superstar / premature convergence) — the same dial you turn every day in LLM sampling, RAG retrieval, even choosing a research topic.",
+    "tag": "模型原理"
   }
 ];
