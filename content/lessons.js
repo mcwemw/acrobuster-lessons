@@ -278,5 +278,14 @@ const LESSONS = [
     "summary": "網路上流行的「用一個 master prompt 生出專家級 prompt」範本，看起來像魔法，拆開看其實不神秘：它把一串**紀律**固化成可重用的區塊——先問清楚再動手、不准編造、拆步、自我複審、寫測試連同「好結果長怎樣」、最後問「這會在哪裡失敗」。換句話說，一個好的 meta-prompt 不是咒語，是**把你本來就該做的事編譯起來，讓你少漏幾項**。但它是鷹架不是保證：它生出的 prompt 仍然要測、要量。",
     "summary_en": "The popular \"one master prompt that generates expert-level prompts\" templates look like magic, but unpacked they're not mysterious: they bake a list of **disciplines** into reusable blocks — clarify before acting, never invent, decompose, self-review, write tests plus \"what a good result looks like,\" and a final \"where could this fail?\" In other words, a good meta-prompt isn't a spell — it's **the things you should already do, compiled, so you skip fewer of them**. But it's a scaffold, not a guarantee: the prompt it produces still has to be tested and measured.",
     "tag": "提示工程"
+  },
+  {
+    "id": "32",
+    "slug": "bias-variance-complexity-knob",
+    "title": "監督式學習其實只有一個旋鈕：模型複雜度",
+    "title_en": "Supervised Learning Has Really Just One Knob: Model Complexity",
+    "summary": "監督式學習是在逼近一條看不見的真實對應 f*；而幾乎所有工程決策，最後都歸結到一個旋鈕——模型複雜度，它的兩端分別是 bias（欠擬合）與 variance（過擬合）。驗證存在的理由，就是不准你用訓練誤差幫自己打分。",
+    "summary_en": "Supervised learning is approximating an unseen true mapping f*; and almost every engineering decision collapses onto a single knob — model complexity, whose two ends are bias (underfitting) and variance (overfitting). Validation exists for one reason: it forbids you from grading yourself on training error.",
+    "tag": "模型原理"
   }
 ];

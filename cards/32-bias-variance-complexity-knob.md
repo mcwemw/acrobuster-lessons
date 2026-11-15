@@ -1,0 +1,45 @@
+---
+id: "32"
+slug: bias-variance-complexity-knob
+tag: 模型原理
+title: 監督式學習其實只有一個旋鈕：模型複雜度
+title_en: "Supervised Learning Has Really Just One Knob: Model Complexity"
+title_short: 監督式學習只有一個旋鈕：模型複雜度
+summary: 監督式學習是在逼近一條看不見的真實對應 f*；而幾乎所有工程決策，最後都歸結到一個旋鈕——模型複雜度，它的兩端分別是 bias（欠擬合）與 variance（過擬合）。驗證存在的理由，就是不准你用訓練誤差幫自己打分。
+summary_en: Supervised learning is approximating an unseen true mapping f*; and almost every engineering decision collapses onto a single knob — model complexity, whose two ends are bias (underfitting) and variance (overfitting). Validation exists for one reason: it forbids you from grading yourself on training error.
+links: []
+---
+## 是什麼 · What it is
+
+監督式學習（supervised learning）做的事，一句話：<strong>學一個對應 <code>f: x → y</code></strong>（x、y 一般都是向量）。y 是類別就叫<strong>分類</strong>（classification）、是數值就叫<strong>回歸</strong>（regression）。你手上的訓練資料是一堆 <code>(x → y)</code> 配對，y 是 x 的<strong>標準答案</strong>（ground-truth）；訓練＝用這些配對<strong>估計</strong>那個對應，測試＝對沒看過的 x 給出 y。
+
+關鍵在那張回歸圖：真正的對應 <code>f*</code> 是一條<strong>你永遠看不到的曲線</strong>（underlying mapping，未知），你只有幾個被雜訊汙染的採樣點，和一個用來逼近它的模型（比如一條直線）。訓練一個模型因此分三階段：<strong>①選模型類型</strong>（model type，多項式 polynomial？決策樹 decision tree？神經網路 neural network？）→ <strong>②定設計超參數</strong>（hyperparameter，次數？樹深？神經元數？）→ <strong>③估參數</strong>（parameter estimation，係數／門檻／權重）。
+
+::: en
+Supervised learning, in one line: **learn a mapping <code>f: x → y</code>** (x, y are generally vectors). Categorical y → classification; numeric y → regression. Your training data is a pile of <code>(x → y)</code> pairs where y is the **ground-truth** of x; training = **estimate** that mapping from the pairs, testing = produce y for an unseen x. The crux is the regression picture: the true mapping <code>f*</code> is a curve **you never get to see** — you only have a few noise-corrupted sampled points and a model (say, a line) approximating it. So training a model has three stages: **① choose model type** (polynomial? decision tree? neural net?) → **② set design hyperparameters** (polynomial degree? tree depth? #neurons?) → **③ estimate parameters** (coefficients / thresholds / weights).
+:::
+
+## 為什麼重要 · Why it matters
+
+最該帶走的洞見是：上面那三階段的設計空間看似很大，但真正拉扯你的，其實是<strong>同一個旋鈕——模型複雜度</strong>（model complexity），而它被夾在<strong>偏差—變異兩難</strong>（bias–variance dilemma）的兩端。
+
+<p>
+<strong>往複雜轉</strong>：模型能更貼合訓練資料（低偏差 bias），但它會<strong>把訊號和雜訊一起學起來</strong>——<strong>過擬合</strong>（overfitting）。投影片的多項式例子很誠實：次數 0→5，訓練 MSE 從 1.58 一路降到 0.03，看起來越來越好；但同一排圖的變異（不同採樣訓練出的模型彼此多分歧）卻從 0.074 爬到 0.302。<strong>訓練誤差下降，不代表你更接近 f*，可能只是更貼合這一批雜訊。</strong><br>
+<strong>往簡單轉</strong>：模型穩定、不同訓練集給出的預測一致（低變異 variance），但訊號沒學夠——<strong>欠擬合</strong>（underfitting）。
+</p>
+
+所以手上那些招——加訓練樣本（資料增強 data augmentation／重採樣）、<strong>集成</strong>（ensemble，如 random forest、dropout）、<strong>正則化</strong>（regularization，L1／L2 懲罰複雜度）——本質都是在<strong>調這同一個旋鈕</strong>，找「剛好」的那一格。而怎麼知道調到哪一格？這就是<strong>驗證</strong>（validation）的全部意義：模型複雜度由超參數控制，你拿一份<strong>沒參與估參數</strong>的驗證資料去看它的<strong>泛化</strong>（generalization，又譯類推）能力。那張 U 形圖是整個領域的縮影——訓練誤差一路向下，<strong>驗證誤差卻先降後升，最低點才是你要的複雜度</strong>。<strong>交叉驗證</strong>（k-fold cross-validation）把資料切 K 份、輪流當驗證跑 K 次再合併（極端是留一法 leave-one-out, K=N）；投影片的示範挑出 order=2（MSE 0.14）勝出，最後再用選定模型＋<strong>全部</strong>資料做最終擬合。
+
+這裡有個跨越整個 ACROBUSTER 站的連結：<strong>驗證之所以必要，是因為「在訓練資料上打分」＝拿考古題當模擬考，必然高估自己。</strong>這跟本站 [[06-ai-loop-discipline|AI 迴圈紀律]]的「不自評、要在獨立條件下驗證」、[[30-define-success-before-you-build|先定義成功再開工]]、[[27-error-bars-on-evals|評測要有誤差棒]]是同一條原則的不同化身——<span class="tag-warn">低訓練誤差 ≠ 真的學會</span>，就像[[08-rlhf-preference-reward|討人喜歡 ≠ 誠實]]。泛化，才是那條看不見的 f* 給你的唯一評分。
+
+::: src
+出處 Source：Tsaipei Wang（王才沛），NYCU《Artificial Intelligence》課程 Set 01「Supervised Learning」投影片（2026 春）。<code>f: x→y</code> 與分類／回歸之分、ground-truth／訓練／測試、f* 為未知的 underlying mapping、模型三階段（type→hyperparameters→parameter estimation）、生成式 vs 判別式、bias–variance 兩難與過／欠擬合、多項式 deg 0–5 的 MSE（1.58→0.03）與對應變異（0.074→0.302）、正則化／集成／資料增強、validation 的 U 形誤差圖、k-fold／leave-one-out、模型選擇（order=2 勝、MSE 0.14）與「用全部資料做最終擬合」，均出自該投影片，作者改寫重述。<br>「監督式學習只有一個旋鈕＝模型複雜度」「驗證＝不准你用訓練誤差幫自己打分，與不自評紀律同源」為作者綜述觀點（Author's view），對應本站 [[06-ai-loop-discipline|06]]／[[27-error-bars-on-evals|27]]／[[30-define-success-before-you-build|30]]。
+:::
+
+## 一句話帶走 · Takeaway
+
+監督式學習是在逼近一條看不見的 f*；調來調去其實只有一個旋鈕——模型複雜度，一端 bias、一端 variance。驗證存在的唯一理由，就是不准你用訓練誤差幫自己打分。
+
+::: en
+Supervised learning approximates an unseen f*; all the tuning collapses to one knob — model complexity, bias on one end, variance on the other. Validation exists for exactly one reason: it forbids you from grading yourself on training error.
+:::
