@@ -45,6 +45,53 @@
   </div>
   <div class="filterbar" id="filterbar"></div>
   <div id="notes">
+    <article class="note" data-tag="代理工程" data-search="2026-11-16 dspy — 把 lm pipeline 寫成可編譯程式，自動優化到一個指標 dspy — compiling declarative lm calls into self-improving pipelines khattab et al. 2023 · arxiv:2310.03714 · stanford nlp · arxiv 預設授權（非 cc；重用前宜洽作者） 代理工程 核心問題 · question 能不能別再手刻 prompt 字串？把 lm pipeline 寫成「程式」，再自動編譯優化到一個給定指標？ 🔴 背景與痛點 · red khattab, singhvi, maheshwari, zhang 等（2023），arxiv:2310.03714（stanford nlp） 痛點：現有 lm pipeline 多靠 trial-and-error 的硬刻 prompt 字串，難系統化、難優化 兩個案例：數學應用題 + 多跳檢索 / 複雜問答 / 控制 agent 迴圈 授權：arxiv 預設授權（非 cc）；重用前宜洽作者 🟡 概念 · yellow text transformation graph 文字轉換圖 declarative module 宣告式模組 parameterized 參數化（自舉示範 bootstrap demonstrations） compiler 編譯器（優化到給定指標） multi-hop retrieval 多跳檢索 → 對應我的 loop / harness 工程 🔵 原文依據 · blue (quotes) 「existing lm pipelines are typically implemented using hard-coded &quot;prompt templates&quot;」「dspy, a programming model that abstracts lm pipelines as text transformation graphs」「modules … can learn … how to apply compositions of prompting, finetuning, augmentation, and reasoning techniques」「a compiler that will optimize any dspy pipeline to maximize a given metric」「outperform standard few-shot prompting (generally by over 25% and 65%, respectively)」 🟠 我的想法 · takeaway 想法：把 prompt 當「可編譯程式」而非字串 = 我 prompt→context→harness→loop 四思維的工程化範本 →「優化到一個 metric」正合 maker/checker：把 faithfulness 閘門當編譯目標，讓 pipeline 自舉去逼近它 → 連結 coach/rag：multi-hop 檢索 + 控制 agent 迴圈可模組化，評分器=編譯目標，不再手刻 prompt">
+      <div class="id">2026-11-16</div>
+      <h2 style="margin:4px 0 2px">DSPy — 把 LM pipeline 寫成可編譯程式，自動優化到一個指標<span class="en">DSPy — compiling declarative LM calls into self-improving pipelines</span></h2>
+      <div class="src">出處 Source：Khattab et al. 2023 · arXiv:2310.03714 · Stanford NLP · arXiv 預設授權（非 CC；重用前宜洽作者）</div>
+    <section class="card">
+      <h2>核心問題 <span class="en">· Question</span></h2>
+      <p>能不能別再手刻 prompt 字串？把 LM pipeline 寫成「程式」，再自動編譯優化到一個給定指標？</p>
+    </section>
+
+    <section class="card">
+      <h2>🔴 背景與痛點 <span class="en">· Red</span></h2>
+      <ul>
+        <li>Khattab, Singhvi, Maheshwari, Zhang 等（2023），arXiv:2310.03714（Stanford NLP）</li>
+        <li>痛點：現有 LM pipeline 多靠 trial-and-error 的硬刻 prompt 字串，難系統化、難優化</li>
+        <li>兩個案例：數學應用題 + 多跳檢索 / 複雜問答 / 控制 agent 迴圈</li>
+        <li>授權：arXiv 預設授權（非 CC）；重用前宜洽作者</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🟡 概念 <span class="en">· Yellow</span></h2>
+      <ul>
+        <li>text transformation graph 文字轉換圖</li>
+        <li>declarative module 宣告式模組</li>
+        <li>parameterized 參數化（自舉示範 bootstrap demonstrations）</li>
+        <li>compiler 編譯器（優化到給定指標）</li>
+        <li>multi-hop retrieval 多跳檢索</li>
+        <li>→ 對應我的 loop / harness 工程</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🔵 原文依據 <span class="en">· Blue (quotes)</span></h2>
+      <blockquote>「existing LM pipelines are typically implemented using hard-coded "prompt templates"」<br>「DSPy, a programming model that abstracts LM pipelines as text transformation graphs」<br>「modules … can learn … how to apply compositions of prompting, finetuning, augmentation, and reasoning techniques」<br>「a compiler that will optimize any DSPy pipeline to maximize a given metric」<br>「outperform standard few-shot prompting (generally by over 25% and 65%, respectively)」</blockquote>
+    </section>
+
+    <section class="card">
+      <h2>🟠 我的想法 <span class="en">· Takeaway</span></h2>
+      <ul>
+        <li>想法：把 prompt 當「可編譯程式」而非字串 = 我 Prompt→Context→Harness→Loop 四思維的工程化範本</li>
+        <li>→「優化到一個 metric」正合 Maker/Checker：把 faithfulness 閘門當編譯目標，讓 pipeline 自舉去逼近它</li>
+        <li>→ 連結 coach/RAG：multi-hop 檢索 + 控制 agent 迴圈可模組化，評分器=編譯目標，不再手刻 prompt</li>
+      </ul>
+    </section>
+    <details><summary>原卡圖 Card image</summary><p><img src="notes/2026-11-16_dspy.png" alt="DSPy — 把 LM pipeline 寫成可編譯程式，自動優化到一個指標" style="width:100%;border:1px solid var(--line);border-radius:10px"></p></details>
+      <span class="note-tag" data-tag="代理工程">代理工程</span>
+    </article>
     <article class="note" data-tag="提示工程" data-search="2026-11-15 解釋不可盡信 — few-shot 的解釋可能不本於輸入，但能拿來事後驗證 the unreliability of explanations in few-shot prompting for textual reasoning ye &amp; durrett 2022 · arxiv:2205.03401 · arxiv 預設授權 提示工程 核心問題 · question llm 自己給的解釋，可信嗎？加了解釋的 few-shot 真的讓推理更準嗎？ 🔴 背景與痛點 · red ye &amp; durrett (2022)，arxiv:2205.03401 測 4 個 llm × 3 個文字推理資料集（qa + nli） 任務：few-shot prompt 加入不同風格的「解釋」 授權：arxiv 預設授權（非 cc）；重用前宜洽作者 🟡 概念 · yellow explanation faithfulness 解釋忠實度 entail 蘊含（解釋是否真的推得出預測） factually grounded 是否本於輸入文本 post-hoc verification 事後驗證 calibrator 可靠度校準器 → 我的 warn 類別母本 → faithfulness 閘門 🔵 原文依據 · blue (quotes) 「including explanations … only yields small to moderate accuracy improvements」（多數模型）「explanations … may not entail the models' predictions nor be factually grounded in the input」「even on simple tasks with extractive explanations」「flawed explanations can still be useful as a way to verify llms' predictions post-hoc」「good [explanations] … more likely cooccur with accurate predictions」→ 訓練 calibrator 事後提升 🟠 我的想法 · takeaway 想法：解釋可以「聽起來對」卻不蘊含預測、也沒本於輸入 = 正是我 warn 類別（真話但脫離脈絡）的學術母本 → 不要 trust 解釋、要 verify：好解釋↔對答案的相關性，就是 faithfulness 閘門／校準器的設計依據 → 連結 coach：把「解釋是否本於檢索段落」當閘門，不合格的推理不計分、改走事後驗證">
       <div class="id">2026-11-15</div>
       <h2 style="margin:4px 0 2px">解釋不可盡信 — few-shot 的解釋可能不本於輸入，但能拿來事後驗證<span class="en">The Unreliability of Explanations in Few-shot Prompting for Textual Reasoning</span></h2>

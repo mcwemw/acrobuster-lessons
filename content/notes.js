@@ -1,6 +1,14 @@
 // 由 build_notes.py 從 notes_md/*.md 生成,勿手改。
 const NOTES = [
   {
+    "date": "2026-11-16",
+    "title": "DSPy — 把 LM pipeline 寫成可編譯程式，自動優化到一個指標",
+    "title_en": "DSPy — compiling declarative LM calls into self-improving pipelines",
+    "source": "Khattab et al. 2023 · arXiv:2310.03714 · Stanford NLP · arXiv 預設授權（非 CC；重用前宜洽作者）",
+    "img": "2026-11-16_dspy.png",
+    "tag": "代理工程"
+  },
+  {
     "date": "2026-11-15",
     "title": "解釋不可盡信 — few-shot 的解釋可能不本於輸入，但能拿來事後驗證",
     "title_en": "The Unreliability of Explanations in Few-shot Prompting for Textual Reasoning",
