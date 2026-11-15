@@ -13,7 +13,6 @@
   .filterbar button .n{opacity:.5;font-size:.82em;margin-left:5px}
   .filterbar button:hover{border-color:#182046}
   .filterbar button.active{background:#182046;color:#fff;border-color:#182046}
-  .filterbar button.active .en,.filterbar button.active .n{opacity:.75}
   .searchbar{margin:14px 0 12px;position:relative}
   .searchbar input{width:100%;box-sizing:border-box;font:inherit;padding:10px 38px 10px 14px;
     border:1px solid #c8cedd;border-radius:10px;color:#182046}
@@ -22,8 +21,10 @@
     border:0;background:none;cursor:pointer;font-size:1.1em;color:#8a90a0;display:none}
   .searchbar .clear.show{display:block}
   .noresult{opacity:.6;margin:18px 2px;display:none}
-  #notes .note-tag{display:inline-block;margin-top:8px;font-size:.82em;cursor:pointer;
+  .note{margin-bottom:34px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .note .note-tag{display:inline-block;margin-top:8px;font-size:.82em;cursor:pointer;
     border:1px solid #c8cedd;border-radius:999px;padding:2px 10px;color:#182046}
+  .note details{margin-top:12px}.note summary{cursor:pointer;opacity:.75}
 </style>
 </head>
 <body>
@@ -35,105 +36,235 @@
 </header>
 <main>
   <p><a href="index.html">← 回研究講義站 Back to lessons</a></p>
-  <p>每天自動更新、不重複。每條主張可回源論文 abstract。
-     <span class="en">Auto-updated daily, never repeating. Every claim traces back to the paper's abstract.</span></p>
+  <p>每天自動更新、不重複。每條主張可回源論文 abstract；筆記內文可搜尋。
+     <span class="en">Auto-updated daily; every claim traces to the paper's abstract; note text is searchable.</span></p>
   <div class="searchbar">
     <input id="search" type="search" autocomplete="off"
-           placeholder="搜尋關鍵字 Search (標題 / 來源 / 日期 / 標籤)…" aria-label="搜尋筆記 Search notes">
+           placeholder="搜尋關鍵字 Search (標題 / 內文 / 來源 / 標籤)…" aria-label="搜尋筆記 Search notes">
     <button class="clear" id="searchclear" type="button" aria-label="清除 Clear">×</button>
   </div>
   <div class="filterbar" id="filterbar"></div>
-  <div id="notes"></div>
+  <div id="notes">
+    <article class="note" data-tag="提示工程" data-search="2026-11-15 解釋不可盡信 — few-shot 的解釋可能不本於輸入，但能拿來事後驗證 the unreliability of explanations in few-shot prompting for textual reasoning ye &amp; durrett 2022 · arxiv:2205.03401 · arxiv 預設授權 提示工程 核心問題 · question llm 自己給的解釋，可信嗎？加了解釋的 few-shot 真的讓推理更準嗎？ 🔴 背景與痛點 · red ye &amp; durrett (2022)，arxiv:2205.03401 測 4 個 llm × 3 個文字推理資料集（qa + nli） 任務：few-shot prompt 加入不同風格的「解釋」 授權：arxiv 預設授權（非 cc）；重用前宜洽作者 🟡 概念 · yellow explanation faithfulness 解釋忠實度 entail 蘊含（解釋是否真的推得出預測） factually grounded 是否本於輸入文本 post-hoc verification 事後驗證 calibrator 可靠度校準器 → 我的 warn 類別母本 → faithfulness 閘門 🔵 原文依據 · blue (quotes) 「including explanations … only yields small to moderate accuracy improvements」（多數模型）「explanations … may not entail the models' predictions nor be factually grounded in the input」「even on simple tasks with extractive explanations」「flawed explanations can still be useful as a way to verify llms' predictions post-hoc」「good [explanations] … more likely cooccur with accurate predictions」→ 訓練 calibrator 事後提升 🟠 我的想法 · takeaway 想法：解釋可以「聽起來對」卻不蘊含預測、也沒本於輸入 = 正是我 warn 類別（真話但脫離脈絡）的學術母本 → 不要 trust 解釋、要 verify：好解釋↔對答案的相關性，就是 faithfulness 閘門／校準器的設計依據 → 連結 coach：把「解釋是否本於檢索段落」當閘門，不合格的推理不計分、改走事後驗證">
+      <div class="id">2026-11-15</div>
+      <h2 style="margin:4px 0 2px">解釋不可盡信 — few-shot 的解釋可能不本於輸入，但能拿來事後驗證<span class="en">The Unreliability of Explanations in Few-shot Prompting for Textual Reasoning</span></h2>
+      <div class="src">出處 Source：Ye & Durrett 2022 · arXiv:2205.03401 · arXiv 預設授權</div>
+    <section class="card">
+      <h2>核心問題 <span class="en">· Question</span></h2>
+      <p>LLM 自己給的解釋，可信嗎？加了解釋的 few-shot 真的讓推理更準嗎？</p>
+    </section>
+
+    <section class="card">
+      <h2>🔴 背景與痛點 <span class="en">· Red</span></h2>
+      <ul>
+        <li>Ye & Durrett (2022)，arXiv:2205.03401</li>
+        <li>測 4 個 LLM × 3 個文字推理資料集（QA + NLI）</li>
+        <li>任務：few-shot prompt 加入不同風格的「解釋」</li>
+        <li>授權：arXiv 預設授權（非 CC）；重用前宜洽作者</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🟡 概念 <span class="en">· Yellow</span></h2>
+      <ul>
+        <li>explanation faithfulness 解釋忠實度</li>
+        <li>entail 蘊含（解釋是否真的推得出預測）</li>
+        <li>factually grounded 是否本於輸入文本</li>
+        <li>post-hoc verification 事後驗證</li>
+        <li>calibrator 可靠度校準器</li>
+        <li>→ 我的 WARN 類別母本</li>
+        <li>→ faithfulness 閘門</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🔵 原文依據 <span class="en">· Blue (quotes)</span></h2>
+      <blockquote>「including explanations … only yields small to moderate accuracy improvements」（多數模型）<br>「explanations … may not entail the models' predictions nor be factually grounded in the input」<br>「even on simple tasks with extractive explanations」<br>「flawed explanations can still be useful as a way to verify LLMs' predictions post-hoc」<br>「good [explanations] … more likely cooccur with accurate predictions」→ 訓練 calibrator 事後提升</blockquote>
+    </section>
+
+    <section class="card">
+      <h2>🟠 我的想法 <span class="en">· Takeaway</span></h2>
+      <ul>
+        <li>想法：解釋可以「聽起來對」卻不蘊含預測、也沒本於輸入 = 正是我 WARN 類別（真話但脫離脈絡）的學術母本</li>
+        <li>→ 不要 trust 解釋、要 verify：好解釋↔對答案的相關性，就是 faithfulness 閘門／校準器的設計依據</li>
+        <li>→ 連結 coach：把「解釋是否本於檢索段落」當閘門，不合格的推理不計分、改走事後驗證</li>
+      </ul>
+    </section>
+    <details><summary>原卡圖 Card image</summary><p><img src="notes/2026-11-15_unreliable-explanations.png" alt="解釋不可盡信 — few-shot 的解釋可能不本於輸入，但能拿來事後驗證" style="width:100%;border:1px solid var(--line);border-radius:10px"></p></details>
+      <span class="note-tag" data-tag="提示工程">提示工程</span>
+    </article>
+    <article class="note" data-tag="RAG" data-search="2026-11-14 ragas — 不靠人工標準答案，自動評 rag 的多個維度 ragas — reference-free automated evaluation of rag pipelines es et al. 2023 · arxiv:2309.15217 · cc-by-4.0 rag 核心問題 · question 沒有人工標準答案時，怎麼評一條 rag pipeline 的檢索品質、生成忠實度、答案品質？ 🔴 背景與痛點 · red es, james, espinosa-anke, schockaert (2023)，arxiv:2309.15217 痛點：評 rag 要靠人工標 ground truth，慢；且要同時看多個維度 授權：cc by 4.0（可商用，需署名） 🟡 概念 · yellow reference-free evaluation 無參考評估 faithfulness 忠實度（生成是否本於檢索段落） retrieval relevance 檢索相關性 generation quality 生成品質 → 我的 faithfulness llm-judge → coach 評分可免人工標 🔵 原文依據 · blue (quotes) 「ragas … a framework for reference-free evaluation of retrieval augmented generation (rag) pipelines」「the ability of the llm to exploit such passages in a faithful way」「a suite of metrics … without having to rely on ground truth human annotations」「contribute to faster evaluation cycles of rag architectures」 🟠 我的想法 · takeaway 想法：這正是我 faithfulness llm-judge 的學術母本——reference-free 評「忠實度」 → 三維度（檢索相關／生成忠實／生成品質）可對應我 coach 的評分 rubric 與閘門 → 免 ground truth = 評測可規模化、迭代更快；但要防 llm-judge 本身的可靠度風險">
+      <div class="id">2026-11-14</div>
+      <h2 style="margin:4px 0 2px">Ragas — 不靠人工標準答案，自動評 RAG 的多個維度<span class="en">Ragas — reference-free automated evaluation of RAG pipelines</span></h2>
+      <div class="src">出處 Source：Es et al. 2023 · arXiv:2309.15217 · CC-BY-4.0</div>
+    <section class="card">
+      <h2>核心問題 <span class="en">· Question</span></h2>
+      <p>沒有人工標準答案時，怎麼評一條 RAG pipeline 的檢索品質、生成忠實度、答案品質？</p>
+    </section>
+
+    <section class="card">
+      <h2>🔴 背景與痛點 <span class="en">· Red</span></h2>
+      <ul>
+        <li>Es, James, Espinosa-Anke, Schockaert (2023)，arXiv:2309.15217</li>
+        <li>痛點：評 RAG 要靠人工標 ground truth，慢；且要同時看多個維度</li>
+        <li>授權：CC BY 4.0（可商用，需署名）</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🟡 概念 <span class="en">· Yellow</span></h2>
+      <ul>
+        <li>reference-free evaluation 無參考評估</li>
+        <li>faithfulness 忠實度（生成是否本於檢索段落）</li>
+        <li>retrieval relevance 檢索相關性</li>
+        <li>generation quality 生成品質</li>
+        <li>→ 我的 faithfulness LLM-judge</li>
+        <li>→ coach 評分可免人工標</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🔵 原文依據 <span class="en">· Blue (quotes)</span></h2>
+      <blockquote>「Ragas … a framework for reference-free evaluation of Retrieval Augmented Generation (RAG) pipelines」<br>「the ability of the LLM to exploit such passages in a faithful way」<br>「a suite of metrics … without having to rely on ground truth human annotations」<br>「contribute to faster evaluation cycles of RAG architectures」</blockquote>
+    </section>
+
+    <section class="card">
+      <h2>🟠 我的想法 <span class="en">· Takeaway</span></h2>
+      <ul>
+        <li>想法：這正是我 faithfulness LLM-judge 的學術母本——reference-free 評「忠實度」</li>
+        <li>→ 三維度（檢索相關／生成忠實／生成品質）可對應我 coach 的評分 rubric 與閘門</li>
+        <li>→ 免 ground truth = 評測可規模化、迭代更快；但要防 LLM-judge 本身的可靠度風險</li>
+      </ul>
+    </section>
+    <details><summary>原卡圖 Card image</summary><p><img src="notes/2026-11-14_ragas.png" alt="Ragas — 不靠人工標準答案，自動評 RAG 的多個維度" style="width:100%;border:1px solid var(--line);border-radius:10px"></p></details>
+      <span class="note-tag" data-tag="RAG">RAG</span>
+    </article>
+    <article class="note" data-tag="軟體工程" data-search="2026-11-13 the instruction hierarchy — 教 llm 分指令優先級、擋越權 the instruction hierarchy — teaching llms to prioritize privileged instructions wallace et al. 2024 · openai · arxiv:2404.13208 軟體工程 核心問題 · question llm 把 system prompt 和不受信任的使用者輸入當同優先級 → 怎麼讓它分優先級、擋越權？ 🔴 背景與痛點 · red wallace et al. (2024, openai)，arxiv:2404.13208 核心漏洞：指令沒有優先級——system／使用者／第三方 被同等看待 授權：arxiv（非 cc）；此筆記為作者原創導讀，未重製原文 🟡 概念 · yellow instruction hierarchy 指令階層 privileged instructions 特權指令 prompt injection / jailbreak selectively ignore lower-privileged → a3-emi 宣告式邊界 / 拒絕閘 → trustworthy / 可稽核 🔵 原文依據 · blue (quotes) 「llms often consider system prompts to be the same priority as text from untrusted users and third parties」「an instruction hierarchy that explicitly defines how models should behave when instructions of different priorities conflict」「teaches llms to selectively ignore lower-privileged instructions」「applied to gpt-3.5 … drastically increases robustness — even for attack types not seen during training … minimal degradations」 🟠 我的想法 · takeaway 想法：這跟我 a3-emi 的「宣告式邊界／拒絕閘」同精神——系統級規則要壓得過使用者的越權請求 → 對照我 coach 的 refusal gate 設計：優先級衝突時該聽誰，是可明定的 → prompt injection 防禦 = trustworthy 一環；可當 lesson／論文相關工作素材">
+      <div class="id">2026-11-13</div>
+      <h2 style="margin:4px 0 2px">The Instruction Hierarchy — 教 LLM 分指令優先級、擋越權<span class="en">The Instruction Hierarchy — teaching LLMs to prioritize privileged instructions</span></h2>
+      <div class="src">出處 Source：Wallace et al. 2024 · OpenAI · arXiv:2404.13208</div>
+    <section class="card">
+      <h2>核心問題 <span class="en">· Question</span></h2>
+      <p>LLM 把 system prompt 和不受信任的使用者輸入當同優先級 → 怎麼讓它分優先級、擋越權？</p>
+    </section>
+
+    <section class="card">
+      <h2>🔴 背景與痛點 <span class="en">· Red</span></h2>
+      <ul>
+        <li>Wallace et al. (2024, OpenAI)，arXiv:2404.13208</li>
+        <li>核心漏洞：指令沒有優先級——system／使用者／第三方 被同等看待</li>
+        <li>授權：arXiv（非 CC）；此筆記為作者原創導讀，未重製原文</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🟡 概念 <span class="en">· Yellow</span></h2>
+      <ul>
+        <li>instruction hierarchy 指令階層</li>
+        <li>privileged instructions 特權指令</li>
+        <li>prompt injection / jailbreak</li>
+        <li>selectively ignore lower-privileged</li>
+        <li>→ A3-EMI 宣告式邊界 / 拒絕閘</li>
+        <li>→ trustworthy / 可稽核</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🔵 原文依據 <span class="en">· Blue (quotes)</span></h2>
+      <blockquote>「LLMs often consider system prompts to be the same priority as text from untrusted users and third parties」<br>「an instruction hierarchy that explicitly defines how models should behave when instructions of different priorities conflict」<br>「teaches LLMs to selectively ignore lower-privileged instructions」<br>「applied to GPT-3.5 … drastically increases robustness — even for attack types not seen during training … minimal degradations」</blockquote>
+    </section>
+
+    <section class="card">
+      <h2>🟠 我的想法 <span class="en">· Takeaway</span></h2>
+      <ul>
+        <li>想法：這跟我 A3-EMI 的「宣告式邊界／拒絕閘」同精神——系統級規則要壓得過使用者的越權請求</li>
+        <li>→ 對照我 coach 的 refusal gate 設計：優先級衝突時該聽誰，是可明定的</li>
+        <li>→ prompt injection 防禦 = trustworthy 一環；可當 lesson／論文相關工作素材</li>
+      </ul>
+    </section>
+    <details><summary>原卡圖 Card image</summary><p><img src="notes/2026-11-13_instruction-hierarchy.png" alt="The Instruction Hierarchy — 教 LLM 分指令優先級、擋越權" style="width:100%;border:1px solid var(--line);border-radius:10px"></p></details>
+      <span class="note-tag" data-tag="軟體工程">軟體工程</span>
+    </article>
+    <article class="note" data-tag="提示工程" data-search="2026-11-12 the prompt report — prompt 技術的系統性 survey the prompt report — a systematic survey of prompt engineering schulhoff et al. 2024 · arxiv:2406.06608 · cc-by-4.0 提示工程 核心問題 · question 什麼算「有效的 prompt」？術語那麼亂，有沒有一套統一的技術地圖？ 🔴 背景與痛點 · red schulhoff et al. (2024)，arxiv:2406.06608 — 至今最全面的 prompt engineering survey 痛點：prompt engineering 術語衝突、本體破碎，缺共識 授權：cc-by-4.0（可商用重製，導讀／教材可用） 🟡 概念 · yellow taxonomy：58 種 prompting 技術 vocabulary：33 個術語 40 種其他模態技術 meta-analysis（prefix-prompting） → 收窄「意圖↔輸出落差」的工具箱（本站卡 03） → 四大工程思維的 prompt 層（本站卡 02） 🔵 原文依據 · blue (quotes) 「a taxonomy of 58 llm prompting techniques」「a detailed vocabulary of 33 vocabulary terms」「40 techniques for other modalities」「best practices and guidelines … for sota llms (e.g. chatgpt)」「a meta-analysis of the entire literature on natural language prefix-prompting」定位：most comprehensive survey on prompt engineering to date 🟠 我的想法 · takeaway 想法：把 prompt 從「試錯字串」整理成「有結構的技術分類」——正好是收窄意圖↔輸出落差的工具箱 → 挑幾個 technique（cot／self-consistency／ape）對照我 algocoach 的提示設計 → 可當 acrobuster 站 lesson 06 素材（prompt 技術地圖，用自己的話重述）">
+      <div class="id">2026-11-12</div>
+      <h2 style="margin:4px 0 2px">The Prompt Report — prompt 技術的系統性 survey<span class="en">The Prompt Report — a systematic survey of prompt engineering</span></h2>
+      <div class="src">出處 Source：Schulhoff et al. 2024 · arXiv:2406.06608 · CC-BY-4.0</div>
+    <section class="card">
+      <h2>核心問題 <span class="en">· Question</span></h2>
+      <p>什麼算「有效的 prompt」？術語那麼亂，有沒有一套統一的技術地圖？</p>
+    </section>
+
+    <section class="card">
+      <h2>🔴 背景與痛點 <span class="en">· Red</span></h2>
+      <ul>
+        <li>Schulhoff et al. (2024)，arXiv:2406.06608 — 至今最全面的 prompt engineering survey</li>
+        <li>痛點：prompt engineering 術語衝突、本體破碎，缺共識</li>
+        <li>授權：CC-BY-4.0（可商用重製，導讀／教材可用）</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🟡 概念 <span class="en">· Yellow</span></h2>
+      <ul>
+        <li>taxonomy：58 種 prompting 技術</li>
+        <li>vocabulary：33 個術語</li>
+        <li>40 種其他模態技術</li>
+        <li>meta-analysis（prefix-prompting）</li>
+        <li>→ 收窄「意圖↔輸出落差」的工具箱（本站卡 03）</li>
+        <li>→ 四大工程思維的 Prompt 層（本站卡 02）</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🔵 原文依據 <span class="en">· Blue (quotes)</span></h2>
+      <blockquote>「a taxonomy of 58 LLM prompting techniques」<br>「a detailed vocabulary of 33 vocabulary terms」<br>「40 techniques for other modalities」<br>「best practices and guidelines … for SOTA LLMs (e.g. ChatGPT)」<br>「a meta-analysis of the entire literature on natural language prefix-prompting」<br>定位：most comprehensive survey on prompt engineering to date</blockquote>
+    </section>
+
+    <section class="card">
+      <h2>🟠 我的想法 <span class="en">· Takeaway</span></h2>
+      <ul>
+        <li>想法：把 prompt 從「試錯字串」整理成「有結構的技術分類」——正好是收窄意圖↔輸出落差的工具箱</li>
+        <li>→ 挑幾個 technique（CoT／self-consistency／APE）對照我 AlgoCoach 的提示設計</li>
+        <li>→ 可當 ACROBUSTER 站 lesson 06 素材（prompt 技術地圖，用自己的話重述）</li>
+      </ul>
+    </section>
+    <details><summary>原卡圖 Card image</summary><p><img src="notes/2026-11-12_prompt-report.png" alt="The Prompt Report — prompt 技術的系統性 survey" style="width:100%;border:1px solid var(--line);border-radius:10px"></p></details>
+      <span class="note-tag" data-tag="提示工程">提示工程</span>
+    </article>
+  </div>
   <p class="noresult" id="noresult">沒有符合的筆記 No matching notes — 換個關鍵字或按「全部」。</p>
 </main>
 <footer class="site">ACROBUSTER · 内容為作者原創導讀 Original digests · 言而有據 Grounded</footer>
-
 <script>
-  // 每次載入都加時間戳,強制抓最新 notes.js(避免瀏覽器快取舊版)
-  // 標籤中英對照(與講義站同一套);沒帶 tag 的筆記歸「未分類」
-  var TAG_EN = {
-    "RAG": "RAG", "AI 工程": "AI engineering", "提示工程": "prompt engineering",
-    "代理工程": "agent engineering", "模型原理": "how models work",
-    "軟體工程": "software engineering", "未分類": "untagged"
-  };
-  var UNTAGGED = "未分類";
-  var activeTag = "all";   // 目前選的標籤;"all"=全部
-  var query = "";           // 目前搜尋關鍵字(小寫)
-
-  // 標籤 + 關鍵字 AND 連動;關鍵字以空白拆多詞,每詞都要命中
-  function applyFilters() {
-    var terms = query ? query.split(/\s+/).filter(Boolean) : [];
-    var shown = 0;
-    document.querySelectorAll("#notes .card").forEach(function (card) {
-      var tagOK = (activeTag === "all" || card.dataset.tag === activeTag);
-      var textOK = terms.every(function (t) { return card.dataset.search.indexOf(t) !== -1; });
-      var vis = tagOK && textOK;
-      card.style.display = vis ? "" : "none";
-      if (vis) shown++;
+  var TAG_EN = {"RAG":"RAG","AI 工程":"AI engineering","提示工程":"prompt engineering",
+    "代理工程":"agent engineering","模型原理":"how models work","軟體工程":"software engineering","未分類":"untagged"};
+  var activeTag="all", query="";
+  function applyFilters(){
+    var terms=query?query.split(/\s+/).filter(Boolean):[]; var shown=0;
+    document.querySelectorAll("#notes .note").forEach(function(n){
+      var tagOK=(activeTag==="all"||n.dataset.tag===activeTag);
+      var textOK=terms.every(function(t){return n.dataset.search.indexOf(t)!==-1;});
+      var vis=tagOK&&textOK; n.style.display=vis?"":"none"; if(vis)shown++;
     });
-    document.querySelectorAll("#filterbar button").forEach(function (b) {
-      b.classList.toggle("active", b.dataset.tag === activeTag);
-    });
-    document.getElementById("noresult").style.display = shown ? "none" : "block";
-    document.getElementById("searchclear").classList.toggle("show", !!query);
+    document.querySelectorAll("#filterbar button").forEach(function(b){b.classList.toggle("active",b.dataset.tag===activeTag);});
+    document.getElementById("noresult").style.display=shown?"none":"block";
+    document.getElementById("searchclear").classList.toggle("show",!!query);
   }
-
-  function renderFilterBar() {
-    var bar = document.getElementById("filterbar");
-    var order = [], count = {};
-    NOTES.forEach(function (n) {
-      var tag = n.tag || UNTAGGED;
-      if (!(tag in count)) { order.push(tag); count[tag] = 0; }
-      count[tag]++;
-    });
-    function mkBtn(tag, zh, en, nn) {
-      var b = document.createElement("button");
-      b.dataset.tag = tag;
-      b.innerHTML = zh + (en ? '<span class="en">' + en + '</span>' : '') +
-                    '<span class="n">' + nn + '</span>';
-      b.onclick = function () { activeTag = tag; applyFilters(); };
-      bar.appendChild(b);
-    }
-    mkBtn("all", "全部", "All", NOTES.length);
-    order.forEach(function (tag) { mkBtn(tag, tag, TAG_EN[tag] || "", count[tag]); });
-  }
-
-  function renderNotes() {
-    var box = document.getElementById("notes");
-    NOTES.forEach(function (n) {
-      var tag = n.tag || UNTAGGED;
-      var tagEn = TAG_EN[tag] ? ' ' + TAG_EN[tag] : '';
-      var card = document.createElement("section");
-      card.className = "card";
-      card.dataset.tag = tag;
-      card.dataset.search = (n.date + ' ' + n.title + ' ' + n.title_en + ' ' +
-        n.source + ' ' + tag + ' ' + (TAG_EN[tag] || '')).toLowerCase();
-      card.innerHTML =
-        '<div class="id">' + n.date + '</div>' +
-        '<h2 style="margin:4px 0 2px">' + n.title + '</h2>' +
-        '<p class="en" style="margin:0 0 4px">' + n.title_en + '</p>' +
-        '<div class="src">出處 Source：' + n.source + '</div>' +
-        '<p style="margin-top:12px"><img src="notes/' + n.img + '" alt="' + n.title + '" style="width:100%;border:1px solid var(--line);border-radius:10px"></p>' +
-        '<span class="note-tag" data-tag="' + tag + '">' + tag + tagEn + '</span>';
-      // 點筆記上的標籤 = 過濾到該標籤
-      card.querySelector(".note-tag").addEventListener("click", function () {
-        activeTag = tag; applyFilters();
-        document.getElementById("filterbar").scrollIntoView({behavior:"smooth", block:"nearest"});
-      });
-      box.appendChild(card);
-    });
-    renderFilterBar();
-    var sbox = document.getElementById("search");
-    sbox.addEventListener("input", function () { query = this.value.trim().toLowerCase(); applyFilters(); });
-    document.getElementById("searchclear").addEventListener("click", function () {
-      sbox.value = ""; query = ""; applyFilters(); sbox.focus();
-    });
+  (function(){
+    var order=[],count={};
+    document.querySelectorAll("#notes .note").forEach(function(n){var t=n.dataset.tag;if(!(t in count)){order.push(t);count[t]=0;}count[t]++;});
+    var bar=document.getElementById("filterbar");
+    function mk(tag,zh,en,nn){var b=document.createElement("button");b.dataset.tag=tag;
+      b.innerHTML=zh+(en?'<span class="en">'+en+'</span>':'')+'<span class="n">'+nn+'</span>';
+      b.onclick=function(){activeTag=tag;applyFilters();};bar.appendChild(b);}
+    mk("all","全部","All",document.querySelectorAll("#notes .note").length);
+    order.forEach(function(t){mk(t,t,TAG_EN[t]||"",count[t]);});
+    document.querySelectorAll("#notes .note-tag").forEach(function(c){c.addEventListener("click",function(){activeTag=c.dataset.tag;applyFilters();document.getElementById("filterbar").scrollIntoView({behavior:"smooth",block:"nearest"});});});
+    var box=document.getElementById("search");
+    box.addEventListener("input",function(){query=this.value.trim().toLowerCase();applyFilters();});
+    document.getElementById("searchclear").addEventListener("click",function(){box.value="";query="";applyFilters();box.focus();});
     applyFilters();
-  }
-  var s = document.createElement("script");
-  s.src = "content/notes.js?t=" + Date.now();
-  s.onload = renderNotes;
-  document.head.appendChild(s);
+  })();
 </script>
 </body>
 </html>

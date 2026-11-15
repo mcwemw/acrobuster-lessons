@@ -42,7 +42,8 @@
 ├── assets/style.css      ← 全站樣式（改樣式只改這裡）
 ├── content/
 │   ├── lessons.js        ← ⚙️ 生成物,勿手改(由 build.py 產)
-│   └── notes.js          ← 每日論文筆記清單(cron 維護,另一條線)
+│   └── notes.js          ← ⚙️ 生成物,勿手改(由 build_notes.py 產)
+├── notes_md/             ← 🟢 每日論文筆記「單一源」:一篇一個 .md(四色文字)
 └── lessons/
     └── NN-slug.html      ← ⚙️ 生成物,勿手改(由 build.py 產)
 ```
@@ -93,14 +94,14 @@ python3 build/build.py cards .
 
 ## 7. 每日論文筆記（notes.html，自動）
 
-站上有一個獨立的「每日論文筆記」區（`notes.html`），跟 §4 的原創概念卡**分開**，不混淆。由每天 05:00 的 cron 自動產生：
+站上有一個獨立的「每日論文筆記」區（`notes.html`），跟 §4 的原創概念卡**分開**，不混淆。由每天 05:00 的 cron 自動產生。🟢 **筆記也改成 Markdown 單一源**：四色文字現在是 `notes_md/*.md`（可搜尋、可重用、Obsidian 可編），`notes.html` 與 `content/notes.js` 是**生成物，勿手改**。
 
-- 圖檔放 `notes/YYYY-MM-DD_slug.png`（康乃爾四色筆記）。
-- 清單登記在 `content/notes.js` 的 `NOTES` 陣列，**最新的 unshift 到最前面**（欄位：date / title / title_en / source / img）。
-- `notes.html` 自動從 `NOTES` 渲染，**不必手改**。
+- 內容源 `notes_md/YYYY-MM-DD_slug.md`：frontmatter（date / tag / title / title_en / source / img / zotero）＋ 四色文字（核心問題 / 🔴背景 / 🟡概念 / 🔵原文引述 / 🟠我的想法）。
+- 原康乃爾 PNG 仍放 `notes/YYYY-MM-DD_slug.png`，在 notes.html 收進 `<details>` 附圖。
+- 生成：`python3 build/build_notes.py notes_md .` → `notes.html`（含四色文字＋搜尋）＋ `content/notes.js`（索引）。
 - 紅線同 §5：只導讀公開論文、標 CC 授權、每條主張可回源 abstract。
 
-AI 新增一篇筆記＝① 產圖存 `notes/` ② 在 `notes.js` 最前面加一筆 ③ commit+push。
+AI 新增一篇筆記＝① 產康乃爾圖存 `notes/` ② 寫 `notes_md/YYYY-MM-DD_slug.md`（四色文字）③ 跑 `build/build_notes.py` ④ commit+push。
 
 ---
 

@@ -160,10 +160,28 @@ def render_blocks(text):
             if i < len(lines):
                 buf.append(lines[i]); i += 1        # 收尾行
             out.append("\n".join(buf)); continue
+        # markdown 無序清單(連續 - / * 開頭)→ <ul><li>
+        if re.match(r"^[-*]\s+", line.strip()):
+            items = []
+            while i < len(lines) and re.match(r"^[-*]\s+", lines[i].strip()):
+                items.append(re.sub(r"^[-*]\s+", "", lines[i].strip())); i += 1
+            out.append("      <ul>\n" +
+                       "\n".join(f"        <li>{inline(x)}</li>" for x in items) +
+                       "\n      </ul>")
+            continue
+        # 引用(連續 > 開頭)→ <blockquote>,多行以 <br> 接
+        if line.strip().startswith(">"):
+            q = []
+            while i < len(lines) and lines[i].strip().startswith(">"):
+                q.append(re.sub(r"^>\s?", "", lines[i].strip())); i += 1
+            out.append(f'      <blockquote>{"<br>".join(inline(x) for x in q)}</blockquote>')
+            continue
         # 一般段落(連續非空行到空行為止)
         buf = []
-        while i < len(lines) and lines[i].strip() and not lines[i].strip().startswith(":::") and not lines[i].strip().startswith("|"):
+        while i < len(lines) and lines[i].strip() and not lines[i].strip().startswith((":::", "|", "-", "*", ">", "<")):
             buf.append(lines[i]); i += 1
+        if not buf:   # 單一特殊字元開頭但未被上面接到,保險:原樣一行
+            buf = [lines[i]]; i += 1
         out.append(f'      <p>{inline(chr(10).join(buf))}</p>')
     return "\n".join(out) + "\n"
 
