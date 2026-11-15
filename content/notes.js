@@ -1,32 +1,38 @@
 // 每日論文筆記清單 — cron 每天在最前面 unshift 一筆(最新在上)。
-// 欄位: date / title(中) / title_en / source / img(notes/ 內的檔名)
+// 欄位: date / title(中) / title_en / source / img(notes/ 內的檔名) / tag(選填)
+// tag 用與講義站同一套詞彙(RAG / 提示工程 / AI 工程 / 軟體工程 / 模型原理 / 代理工程);
+// 沒帶 tag 的筆記會自動歸「未分類」,不影響顯示。新筆記請盡量帶 tag 以便過濾。
 const NOTES = [
   {
     date: "2026-11-15",
     title: "解釋不可盡信 — few-shot 的解釋可能不本於輸入,但能拿來事後驗證",
     title_en: "The Unreliability of Explanations in Few-shot Prompting for Textual Reasoning",
     source: "Ye & Durrett 2022 · arXiv:2205.03401 · arXiv 預設授權",
-    img: "2026-11-15_unreliable-explanations.png"
+    img: "2026-11-15_unreliable-explanations.png",
+    tag: "提示工程"
   },
   {
     date: "2026-11-14",
     title: "Ragas — 不靠人工標準答案,自動評 RAG 的多個維度",
     title_en: "Ragas — reference-free automated evaluation of RAG pipelines",
     source: "Es et al. 2023 · arXiv:2309.15217 · CC-BY-4.0",
-    img: "2026-11-14_ragas.png"
+    img: "2026-11-14_ragas.png",
+    tag: "RAG"
   },
   {
     date: "2026-11-13",
     title: "The Instruction Hierarchy — 教 LLM 分指令優先級、擋越權",
     title_en: "The Instruction Hierarchy — teaching LLMs to prioritize privileged instructions",
     source: "Wallace et al. 2024 · OpenAI · arXiv:2404.13208",
-    img: "2026-11-13_instruction-hierarchy.png"
+    img: "2026-11-13_instruction-hierarchy.png",
+    tag: "軟體工程"
   },
   {
     date: "2026-11-12",
     title: "The Prompt Report — prompt 技術的系統性 survey",
     title_en: "The Prompt Report — a systematic survey of prompt engineering",
     source: "Schulhoff et al. 2024 · arXiv:2406.06608 · CC-BY-4.0",
-    img: "2026-11-12_prompt-report.png"
+    img: "2026-11-12_prompt-report.png",
+    tag: "提示工程"
   }
 ];

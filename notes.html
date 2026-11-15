@@ -5,6 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>每日論文筆記 · Daily Paper Notes — ACROBUSTER</title>
 <link rel="stylesheet" href="assets/style.css">
+<style>
+  .filterbar{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 12px}
+  .filterbar button{font:inherit;cursor:pointer;border:1px solid #c8cedd;background:#fff;
+    color:#182046;border-radius:999px;padding:5px 13px;line-height:1.3;transition:.15s}
+  .filterbar button .en{opacity:.6;font-size:.82em;margin-left:3px}
+  .filterbar button .n{opacity:.5;font-size:.82em;margin-left:5px}
+  .filterbar button:hover{border-color:#182046}
+  .filterbar button.active{background:#182046;color:#fff;border-color:#182046}
+  .filterbar button.active .en,.filterbar button.active .n{opacity:.75}
+  .searchbar{margin:14px 0 12px;position:relative}
+  .searchbar input{width:100%;box-sizing:border-box;font:inherit;padding:10px 38px 10px 14px;
+    border:1px solid #c8cedd;border-radius:10px;color:#182046}
+  .searchbar input:focus{outline:none;border-color:#182046}
+  .searchbar .clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);
+    border:0;background:none;cursor:pointer;font-size:1.1em;color:#8a90a0;display:none}
+  .searchbar .clear.show{display:block}
+  .noresult{opacity:.6;margin:18px 2px;display:none}
+  #notes .note-tag{display:inline-block;margin-top:8px;font-size:.82em;cursor:pointer;
+    border:1px solid #c8cedd;border-radius:999px;padding:2px 10px;color:#182046}
+</style>
 </head>
 <body>
 <header class="site">
@@ -17,25 +37,98 @@
   <p><a href="index.html">← 回研究講義站 Back to lessons</a></p>
   <p>每天自動更新、不重複。每條主張可回源論文 abstract。
      <span class="en">Auto-updated daily, never repeating. Every claim traces back to the paper's abstract.</span></p>
+  <div class="searchbar">
+    <input id="search" type="search" autocomplete="off"
+           placeholder="搜尋關鍵字 Search (標題 / 來源 / 日期 / 標籤)…" aria-label="搜尋筆記 Search notes">
+    <button class="clear" id="searchclear" type="button" aria-label="清除 Clear">×</button>
+  </div>
+  <div class="filterbar" id="filterbar"></div>
   <div id="notes"></div>
+  <p class="noresult" id="noresult">沒有符合的筆記 No matching notes — 換個關鍵字或按「全部」。</p>
 </main>
 <footer class="site">ACROBUSTER · 内容為作者原創導讀 Original digests · 言而有據 Grounded</footer>
 
 <script>
   // 每次載入都加時間戳,強制抓最新 notes.js(避免瀏覽器快取舊版)
+  // 標籤中英對照(與講義站同一套);沒帶 tag 的筆記歸「未分類」
+  var TAG_EN = {
+    "RAG": "RAG", "AI 工程": "AI engineering", "提示工程": "prompt engineering",
+    "代理工程": "agent engineering", "模型原理": "how models work",
+    "軟體工程": "software engineering", "未分類": "untagged"
+  };
+  var UNTAGGED = "未分類";
+  var activeTag = "all";   // 目前選的標籤;"all"=全部
+  var query = "";           // 目前搜尋關鍵字(小寫)
+
+  // 標籤 + 關鍵字 AND 連動;關鍵字以空白拆多詞,每詞都要命中
+  function applyFilters() {
+    var terms = query ? query.split(/\s+/).filter(Boolean) : [];
+    var shown = 0;
+    document.querySelectorAll("#notes .card").forEach(function (card) {
+      var tagOK = (activeTag === "all" || card.dataset.tag === activeTag);
+      var textOK = terms.every(function (t) { return card.dataset.search.indexOf(t) !== -1; });
+      var vis = tagOK && textOK;
+      card.style.display = vis ? "" : "none";
+      if (vis) shown++;
+    });
+    document.querySelectorAll("#filterbar button").forEach(function (b) {
+      b.classList.toggle("active", b.dataset.tag === activeTag);
+    });
+    document.getElementById("noresult").style.display = shown ? "none" : "block";
+    document.getElementById("searchclear").classList.toggle("show", !!query);
+  }
+
+  function renderFilterBar() {
+    var bar = document.getElementById("filterbar");
+    var order = [], count = {};
+    NOTES.forEach(function (n) {
+      var tag = n.tag || UNTAGGED;
+      if (!(tag in count)) { order.push(tag); count[tag] = 0; }
+      count[tag]++;
+    });
+    function mkBtn(tag, zh, en, nn) {
+      var b = document.createElement("button");
+      b.dataset.tag = tag;
+      b.innerHTML = zh + (en ? '<span class="en">' + en + '</span>' : '') +
+                    '<span class="n">' + nn + '</span>';
+      b.onclick = function () { activeTag = tag; applyFilters(); };
+      bar.appendChild(b);
+    }
+    mkBtn("all", "全部", "All", NOTES.length);
+    order.forEach(function (tag) { mkBtn(tag, tag, TAG_EN[tag] || "", count[tag]); });
+  }
+
   function renderNotes() {
     var box = document.getElementById("notes");
     NOTES.forEach(function (n) {
+      var tag = n.tag || UNTAGGED;
+      var tagEn = TAG_EN[tag] ? ' ' + TAG_EN[tag] : '';
       var card = document.createElement("section");
       card.className = "card";
+      card.dataset.tag = tag;
+      card.dataset.search = (n.date + ' ' + n.title + ' ' + n.title_en + ' ' +
+        n.source + ' ' + tag + ' ' + (TAG_EN[tag] || '')).toLowerCase();
       card.innerHTML =
         '<div class="id">' + n.date + '</div>' +
         '<h2 style="margin:4px 0 2px">' + n.title + '</h2>' +
         '<p class="en" style="margin:0 0 4px">' + n.title_en + '</p>' +
         '<div class="src">出處 Source：' + n.source + '</div>' +
-        '<p style="margin-top:12px"><img src="notes/' + n.img + '" alt="' + n.title + '" style="width:100%;border:1px solid var(--line);border-radius:10px"></p>';
+        '<p style="margin-top:12px"><img src="notes/' + n.img + '" alt="' + n.title + '" style="width:100%;border:1px solid var(--line);border-radius:10px"></p>' +
+        '<span class="note-tag" data-tag="' + tag + '">' + tag + tagEn + '</span>';
+      // 點筆記上的標籤 = 過濾到該標籤
+      card.querySelector(".note-tag").addEventListener("click", function () {
+        activeTag = tag; applyFilters();
+        document.getElementById("filterbar").scrollIntoView({behavior:"smooth", block:"nearest"});
+      });
       box.appendChild(card);
     });
+    renderFilterBar();
+    var sbox = document.getElementById("search");
+    sbox.addEventListener("input", function () { query = this.value.trim().toLowerCase(); applyFilters(); });
+    document.getElementById("searchclear").addEventListener("click", function () {
+      sbox.value = ""; query = ""; applyFilters(); sbox.focus();
+    });
+    applyFilters();
   }
   var s = document.createElement("script");
   s.src = "content/notes.js?t=" + Date.now();
