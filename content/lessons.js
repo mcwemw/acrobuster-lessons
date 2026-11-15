@@ -368,5 +368,14 @@ const LESSONS = [
     "summary": "「RL 比簡單分類器難訓練」是公認的——而它難，不是意外：信用分配、探索vs利用、組合爆炸這三個難題，在實戰裡同時發作。Gymnasium 這種標準化環境之所以重要，正是「遊戲＝真實世界的沙盒」的動手版：可控、安全、快速。而 reward shaping 最危險——你以為在幫忙，常常是在教 agent 鑽漏洞。",
     "summary_en": "\"RL is harder to train than a simple classifier\" is well known — and it's hard for a reason, not by accident: credit assignment, exploration-vs-exploitation, and combinatorial explosion all fire at once in practice. A standardized environment like Gymnasium matters because it's the hands-on form of \"games are sandboxes of the real world\": controllable, safe, fast. And reward shaping is the most dangerous part — you think you're helping, but you're often teaching the agent to game the reward.",
     "tag": "代理工程"
+  },
+  {
+    "id": "42",
+    "slug": "motion-planning-search-meets-physics",
+    "title": "機器人的 motion planning：把抽象搜尋落進物理世界，就得加上避碰、平滑與回授",
+    "title_en": "Robot Motion Planning: Drop Abstract Search into the Physical World and You Must Add Collision-Avoidance, Smoothing, and Feedback",
+    "summary": "機器人的動作規劃，骨子裡就是圖上的最短路徑搜尋（Dijkstra／A*）——但一旦落進真實世界，光是「短」不夠：路徑還要避碰、平滑、符合車子的運動限制。於是它拆成 path planning（只管空間）＋ trajectory planning（加上時間與速度）＋ feedback control（因為現實會偏離計畫，得閉環修正）。",
+    "summary_en": "A robot's motion planning is, at its core, shortest-path search on a graph (Dijkstra / A*) — but the moment it enters the real world, \"short\" isn't enough: the path must also avoid collisions, be smooth, and respect the vehicle's motion limits. So it splits into path planning (spatial only) + trajectory planning (adding time and speed) + feedback control (because reality drifts from the plan, you must close the loop and correct).",
+    "tag": "代理工程"
   }
 ];
