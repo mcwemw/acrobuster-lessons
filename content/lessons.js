@@ -386,5 +386,14 @@ const LESSONS = [
     "summary": "自駕車怎麼把規劃好的路徑在現實裡開出來？靠 feedback control：量測「參考值 − 感測到的真實輸出」當誤差，持續修正。PID 把這件事拆成誤差的三個時間向度——P 看現在、I 記過去、D 看未來。P 單獨會留下穩態誤差，I 補記憶卻會過衝，D 用變化率阻尼。這就是「不信開環計畫、量現實來校正」的母題。",
     "summary_en": "How does a self-driving car actually drive the path it planned, in the real world? Feedback control: measure \"reference − the sensed real output\" as error, and correct continuously. PID splits this into three time axes of the error — P sees the present, I remembers the past, D anticipates the future. P alone leaves steady-state error, I adds memory but overshoots, D uses the rate of change to damp. This is the \"distrust the open-loop plan, measure reality to correct\" theme.",
     "tag": "代理工程"
+  },
+  {
+    "id": "44",
+    "slug": "rl-end-of-control-ladder-value-vs-policy",
+    "title": "RL 是控制階梯的盡頭：沒模型又非線性時才上 model-free，而學 policy 有兩條路",
+    "title_en": "RL Is the End of the Control Ladder: Go Model-Free When You Have No Model and It's Nonlinear — and There Are Two Roads to a Policy",
+    "summary": "控制演算法是一道階梯——PID → pure-pursuit → Stanley → LQR → model-free RL，越往上處理越複雜；RL 是盡頭：當你沒有環境模型、系統又非線性，才跳上去。而 model-free RL 學 policy 有兩條路：value-based（學 Q 再貪婪，就是卡 37）vs policy-based（直接學 π）。policy gradient 的死穴是取樣沒效率，PPO 用「一次別改太多」的信賴域來解。",
+    "summary_en": "Control algorithms form a ladder — PID → pure-pursuit → Stanley → LQR → model-free RL, each handling more complexity; RL is the end: you jump to it when you have no model of the environment and the system is nonlinear. And model-free RL has two roads to a policy: value-based (learn Q then act greedily — that's card 37) vs policy-based (directly learn π). Policy gradient's weakness is sample inefficiency, which PPO fixes with a \"don't change too much at once\" trust region.",
+    "tag": "代理工程"
   }
 ];
