@@ -1,0 +1,42 @@
+---
+id: "38"
+slug: games-exhaustive-dream-meets-explosion
+tag: 代理工程
+title: 遊戲 AI 的故事：窮舉求最優的夢，撞上組合爆炸後認輸轉向
+title_en: "The Story of Game AI: the Dream of Exhaustive Optimality Meets Combinatorial Explosion, and Surrenders"
+title_short: 窮舉求最優的夢，撞上組合爆炸
+summary: Minimax 的夢是「窮舉到底就最優」，半世紀撐起遊戲 AI。但組合爆炸把它打醒——圍棋有 10¹⁷⁰ 個狀態，比宇宙的原子還多。於是整個領域認輸、轉向：minimax→MCTS（取樣式、邊玩邊學＝RL），手工評估函數→機器學習。而「沒有全樹就只能靠估計」正是你 faithfulness 母題的遊戲版。
+summary_en: Minimax's dream is "search exhaustively and you're optimal," and it carried game AI for half a century. But combinatorial explosion broke it — Go has 10¹⁷⁰ states, more than the atoms in the universe. So the field surrendered and pivoted: minimax → MCTS (sampled, learning-while-playing = RL), hand-crafted evaluation → machine learning. And "no full tree means you live on an estimate" is the game-playing version of your faithfulness thesis.
+links: []
+---
+## 是什麼 · What it is
+
+電腦科學家研究遊戲，是因為遊戲是<strong>真實世界的沙盒</strong>（sandbox）：環境可控、可安全測試、能快速模擬（Turing 1948、Shannon 1950 就在想這事）。核心任務是<strong>從當前狀態選一步棋</strong>——把現在當樹根，往下展開所有後續路徑來評估。
+
+經典解法是 <strong>minimax（極小化極大）</strong>：<strong>MAX 節點</strong>（我方）選價值<strong>最大</strong>的子節點，<strong>MIN 節點</strong>（對手）選「對我最差」的——因為完美對手會這樣下。一句話總結：<strong>「找出每個選項最壞的結果，再挑那個『最壞結果最好』的選項」</strong>。它<strong>只要搜尋涵蓋所有終局就最優</strong>，撐起了半世紀的遊戲 AI（Turing 到 2000 年代）。
+
+::: en
+Computer scientists study games because games are **sandboxes** of the real world: controllable, safe to test, fast to simulate (Turing 1948 and Shannon 1950 were already thinking about it). The core task is **selecting a move from the current state** — treat now as the tree root and expand all subsequent paths to evaluate them. The classic solution is **minimax**: **MAX nodes** (me) pick the child with the **maximum** value; **MIN nodes** (the opponent) pick the one that's "worst for me" — because a perfect opponent would. In one line: **"find the worst possible outcome of each option, then pick the option whose worst case is best."** It is **optimal as long as the search covers all terminal states**, and it carried game AI for half a century (Turing to the 2000s).
+:::
+
+## 為什麼重要 · Why it matters
+
+然後夢醒了：<strong>組合爆炸</strong>。分支因子一大，狀態數就失控——井字棋 10³、西洋棋 10⁴⁶、象棋 10⁴⁸、<strong>圍棋 10¹⁷⁰ 個狀態</strong>（可觀測宇宙的原子才約 10⁸⁰ 個）。窮舉整棵樹，物理上不可能。
+
+於是補救措施一層層疊上來：深度到一定層就停，改用<strong>評估函數</strong>（evaluation function）給葉節點打分——<strong>它就是遊戲樹搜尋裡的 heuristic，不是規則的一部分，而來自專家知識或學習</strong>（新手西洋棋：兵1/象3/馬3/車5/后9 的線性組合）；再加 <strong>αβ 剪枝</strong>（把有效分支因子開根號）。這條路的巔峰是 <strong>IBM Deep Blue（1997）3.5–2.5 擊敗 Kasparov</strong>——30 顆 CPU＋ASIC、每秒評估 2 億個盤面、搜深 12–14 層、<strong>約 8000 項手工評估函數</strong>。
+
+但古典遊戲樹搜尋有個<strong>達不到的目標</strong>，也是這張卡最該帶走的洞見：<span class="tag-warn">沒有完整的樹，就只有在「評估函數完美對應勝率」時才最優——而那不可能</span>。<strong>當你無法窮舉驗證所有路徑，你的「估計器」有多準，就是你能達到的天花板。</strong>這正是我 faithfulness 母題的遊戲版：[[01-rag-faithfulness|接地分數是估計]]、judge 是估計，不能窮舉時，<strong>校準那個估計器</strong>比假裝能窮舉更誠實。圍棋之所以是鐵牆，正因兩件事同時爆：分支因子更大、而且<strong>評估函數極難設計</strong>。
+
+突破來自認輸後的兩手轉向：①把 minimax 換成<strong>經驗導引的取樣搜尋 MCTS</strong>；②把手工特徵換成<strong>機器學習</strong>（呼應 [[34-embedding-is-the-throughline|用學到的表徵取代手工特徵]]）。<strong>MCTS</strong> 不走遍全樹，而是<strong>取樣</strong>、漸漸集中在有希望的路徑——所以它<strong>是一種 RL、「邊玩邊學」</strong>（[[37-reward-is-rl-loss-credit-assignment|用結果回填節點價值]]）；四步＝選擇／擴展／模擬(rollout)／<strong>反向傳播</strong>，每個節點記「訪問次數」（≈好壞）與「價值」（勝率），是 any-time 演算法、回傳訪問最多的動作；2006 年它讓電腦圍棋在<strong>完全沒有評估函數</strong>下達到業餘段位。而投影片的收尾把整門課縫起來：<strong>所有非窮舉的搜尋，都要平衡利用與探索</strong>——早期多探索、後期多利用，正是 [[36-exploration-vs-exploitation-dial|那個主旋鈕]]。
+
+::: src
+出處 Source：Tsaipei Wang（王才沛），NYCU《Artificial Intelligence》課程 Set 07「AI in Games / Computer Games」投影片（2026 春；MCTS 四步圖註明取自 slideshare ftgaic）。研究遊戲的動機（sandbox：可控/安全/快模擬、Turing 1948／Shannon 1950）、search tree（play-to-win、root＝現態、move selection、tic-tac-toe）、minimax（MAX 取大／MIN 取對我最小＝完美對手、「最壞結果中取最好」、涵蓋所有終局才最優、半世紀基礎）、組合爆炸（井字棋 10³／西洋棋 10⁴⁶／象棋 10⁴⁸／圍棋 10¹⁷⁰ states，宇宙 ~10⁷⁸–10⁸² 原子）、評估函數（＝遊戲樹 heuristic、非規則、來自專家知識/學習、西洋棋子力 1/3/3/5/9 線性組合、cutoff 用它取代 utility）、αβ 剪枝（有效分支因子開根號）/forward pruning/transposition table/開局殘局庫、Deep Blue 1997（3.5–2.5、30 CPU+ASIC、2×10⁸ 盤面/秒、搜深 12–14、~8000 項評估、殘局庫 ≤5 子）、古典極限（想窮舉到某深度求最優、無全樹則需評估函數完美對應勝率＝不可能、圍棋兩牆＝分支因子大＋評估難設計）、突破（minimax→MCTS 經驗導引取樣、手工特徵→機器學習）、MCTS（取樣非遍歷、＝RL「邊玩邊學」、節點＝訪問數(≈好壞)＋價值(勝率)、四步 selection/expansion/simulation/backprop、any-time、回傳最多訪問、2006 無評估函數達業餘段）、exploitation vs exploration（非窮舉搜尋皆需平衡、早探索晚利用）均出自該投影片，作者改寫重述。<br>「窮舉求最優的夢撞組合爆炸後認輸轉向取樣＋學習」「無全樹則估計器的可信度＝天花板＝faithfulness 母題的遊戲版」「MCTS＝RL＋探索利用＋估計未來三者交會」為作者綜述觀點（Author's view），對應本站 [[01-rag-faithfulness|01]]／[[34-embedding-is-the-throughline|34]]／[[36-exploration-vs-exploitation-dial|36]]／[[37-reward-is-rl-loss-credit-assignment|37]]。
+:::
+
+## 一句話帶走 · Takeaway
+
+Minimax 的夢是「窮舉到底就最優」，但組合爆炸（圍棋狀態比宇宙原子還多）把它打醒。沒有全樹，你就只能靠一個估計——估計器有多準就是天花板，這是 faithfulness 母題的遊戲版。領域的解法是認輸轉向：minimax→MCTS（取樣＝RL），手工特徵→機器學習，並永遠在探索與利用之間拿捏。
+
+::: en
+Minimax's dream is "exhaust the tree and you're optimal," but combinatorial explosion (Go has more states than the universe has atoms) broke it. Without the full tree you live on an estimate — and the estimator's accuracy is your ceiling, the game-playing version of the faithfulness thesis. The field's answer was to surrender and pivot: minimax → MCTS (sampling = RL), hand features → machine learning, always balancing exploration and exploitation.
+:::

@@ -332,5 +332,14 @@ const LESSONS = [
     "summary": "投影片講得很白：獎勵驅動 RL agent 的行為，就像 loss 驅動監督式學習。難的不是拿到獎勵，而是信用分配——一連串動作後才有回饋，怎麼知道是哪一步的功勞？Bellman、TD、Q-learning 的共同招式，就是用「估計的未來價值」回填「現在的價值」。",
     "summary_en": "The slides say it plainly: reward drives an RL agent's behavior the way loss drives supervised learning. The hard part isn't getting the reward — it's credit assignment: feedback comes after a series of actions, so which step gets the credit? Bellman, TD, and Q-learning share one move: backfill the present value using the estimated future value.",
     "tag": "代理工程"
+  },
+  {
+    "id": "38",
+    "slug": "games-exhaustive-dream-meets-explosion",
+    "title": "遊戲 AI 的故事：窮舉求最優的夢，撞上組合爆炸後認輸轉向",
+    "title_en": "The Story of Game AI: the Dream of Exhaustive Optimality Meets Combinatorial Explosion, and Surrenders",
+    "summary": "Minimax 的夢是「窮舉到底就最優」，半世紀撐起遊戲 AI。但組合爆炸把它打醒——圍棋有 10¹⁷⁰ 個狀態，比宇宙的原子還多。於是整個領域認輸、轉向：minimax→MCTS（取樣式、邊玩邊學＝RL），手工評估函數→機器學習。而「沒有全樹就只能靠估計」正是你 faithfulness 母題的遊戲版。",
+    "summary_en": "Minimax's dream is \"search exhaustively and you're optimal,\" and it carried game AI for half a century. But combinatorial explosion broke it — Go has 10¹⁷⁰ states, more than the atoms in the universe. So the field surrendered and pivoted: minimax → MCTS (sampled, learning-while-playing = RL), hand-crafted evaluation → machine learning. And \"no full tree means you live on an estimate\" is the game-playing version of your faithfulness thesis.",
+    "tag": "代理工程"
   }
 ];
