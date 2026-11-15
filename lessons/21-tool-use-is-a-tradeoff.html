@@ -20,33 +20,17 @@
     <section class="card">
       <h2>是什麼 <span class="en">· What it is</span></h2>
       <p>Week 7 lab 給你一個三工具 agent（計算機、課程知識庫、課程行事曆），三個工具的描述<strong>故意寫爛</strong>，要你走一遍：先讓它動 → 找出它怎麼壞 → 重寫描述 → 用證據證明有改善。四種「工具專屬」失效模式，每一種都能被一句爛描述製造出來：</p>
-      <table>
-        <thead>
+          <table>
+          <thead>
           <tr><th>失效模式</th><th>它失敗的定義</th><th>V0 爛描述如何製造它</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>① 選錯工具</strong><br>Wrong tool</td>
-            <td>用了答不了題的工具，或兩個重疊工具選錯，或根本不需要卻用了</td>
-            <td>行事曆寫「Finds course dates <strong>and information</strong>」——「and information」和知識庫重疊，模型分不清該用哪個</td>
-          </tr>
-          <tr>
-            <td><strong>② 參數錯</strong><br>Wrong parameters</td>
-            <td>對的工具，但參數畸形或不是你的本意，於是工具報錯或答錯題</td>
-            <td>計算機寫「Does calculations. Use for anything involving numbers」——沒說能吃什麼格式（自然語言？符號？），模型亂傳 <code>twenty-four divided by eight</code></td>
-          </tr>
-          <tr>
-            <td><strong>③ 不必要呼叫</strong><br>Unnecessary call</td>
-            <td>模型明明能輕鬆直接答，卻還是呼叫了工具</td>
-            <td>（描述沒劃清「什麼時候不用」的界線 → 模型寧可呼叫也不冒險）</td>
-          </tr>
-          <tr>
-            <td><strong>④ 漏呼叫</strong><br>Missed call</td>
-            <td>模型憑記憶答，但工具能給正確、課程專屬的答案（或憑記憶給了個貌似合理卻錯的數字）</td>
-            <td>知識庫寫「Use only if you do <strong>not already know</strong> the answer」——這句直接叫模型相信自己的記憶，親手製造漏呼叫</td>
-          </tr>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+          <tr><td><strong>① 選錯工具</strong><br>Wrong tool</td><td>用了答不了題的工具，或兩個重疊工具選錯，或根本不需要卻用了</td><td>行事曆寫「Finds course dates <strong>and information</strong>」——「and information」和知識庫重疊，模型分不清該用哪個</td></tr>
+          <tr><td><strong>② 參數錯</strong><br>Wrong parameters</td><td>對的工具，但參數畸形或不是你的本意，於是工具報錯或答錯題</td><td>計算機寫「Does calculations. Use for anything involving numbers」——沒說能吃什麼格式（自然語言？符號？），模型亂傳 <code>twenty-four divided by eight</code></td></tr>
+          <tr><td><strong>③ 不必要呼叫</strong><br>Unnecessary call</td><td>模型明明能輕鬆直接答，卻還是呼叫了工具</td><td>（描述沒劃清「什麼時候不用」的界線 → 模型寧可呼叫也不冒險）</td></tr>
+          <tr><td><strong>④ 漏呼叫</strong><br>Missed call</td><td>模型憑記憶答，但工具能給正確、課程專屬的答案（或憑記憶給了個貌似合理卻錯的數字）</td><td>知識庫寫「Use only if you do <strong>not already know</strong> the answer」——這句直接叫模型相信自己的記憶，親手製造漏呼叫</td></tr>
+          </tbody>
+          </table>
       <p>第 ④ 列那句 V0 描述是最漂亮的反面教材：<strong>「只在你還不知道答案時才用」</strong>——它把「要不要查」的判斷交給一個天生會自信幻覺的模型（見 <a href="18-prompt-failure-diagnosis.html">卡 18</a>／<a href="16-sycophancy-is-trained-in.html">卡 16</a>），等於明文鼓勵它跳過工具。描述不是中性的說明，描述會<strong>驅動</strong>行為。</p>
       <p class="en">Week 7 gives you a three-tool agent (calculator, course knowledge base, course calendar) whose descriptions are deliberately weak, and walks you through: make it work → find how it fails → rewrite the descriptions → prove the improvement with evidence. Four tool-specific failure modes — wrong tool, wrong parameters, unnecessary call, missed call — each manufacturable by one bad sentence. The sharpest example: the knowledge base's V0 description says "Use only if you do not already know the answer," which hands the decision of whether to look something up to a model that is confidently hallucinatory by construction (see <a href="18-prompt-failure-diagnosis.html">card 18</a> / <a href="16-sycophancy-is-trained-in.html">card 16</a>) — explicitly inviting the missed-call failure. A description isn't neutral documentation; it <strong>drives</strong> behavior.</p>
     </section>

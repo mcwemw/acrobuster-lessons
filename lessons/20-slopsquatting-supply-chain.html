@@ -26,18 +26,18 @@
       </ul>
       <p><strong>這個詞怎麼來的：</strong>2025 年 4 月由資安研究者 <strong>Seth Larson</strong>（Python Software Foundation 的 Developer-in-Residence）提出，並經 <strong>Andrew Nesbitt</strong> 在 Mastodon 上推廣。它把「AI slop（AI 生成的爛內容）」與「typosquatting」合成——本質上是 cybersquatting 的一個新變種。</p>
       <p><strong>規模（Spracklen et al., arXiv:2406.10279, USENIX Security 2025）：</strong></p>
-      <table>
-        <thead>
+          <table>
+          <thead>
           <tr><th>指標</th><th>數字</th></tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           <tr><td>LLM 推薦的套件中「根本不存在」的比例</td><td>平均 <strong>19.7%</strong></td></tr>
           <tr><td>開源模型的幻覺率（平均）</td><td><strong>21.7%</strong></td></tr>
           <tr><td>商業／專有模型的幻覺率（平均）</td><td><strong>5.2%</strong></td></tr>
           <tr><td>最嚴重者（CodeLlama 7B / 34B）</td><td>逾 <strong>1/3</strong> 的輸出含幻覺套件</td></tr>
           <tr><td>觀察到的唯一捏造套件名總數</td><td>逾 <strong>205,000</strong> 個</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+          </table>
       <p>最致命的一項不是比例，是<strong>一致性</strong>：相當比例的幻覺套件名會跨模型輸出<em>反覆出現</em>。隨機的幻覺無法被利用；<strong>可預測</strong>的幻覺才能——攻擊者只要先跑模型、蒐集常被幻覺的名字，就能預先搶注。</p>
       <p class="en">Typosquatting preys on human error — registering a common misspelling of a real package (<code>lodahs</code> for <code>lodash</code>), parasitic on a name that <em>does</em> exist. Slopsquatting preys on machine error — the package name <strong>never existed</strong>; the AI fabricated it. Because it is not a misspelling of any legitimate library, traditional name-similarity and spell-check filters often miss it: edit-distance matching needs a "correct" name to compare against, and a fabricated name has none. The term was coined in April 2025 by security researcher <strong>Seth Larson</strong> (Python Software Foundation Developer-in-Residence) and popularized by <strong>Andrew Nesbitt</strong> on Mastodon, blending "AI slop" with "typosquatting" — a new variant of cybersquatting. Spracklen et al. (arXiv:2406.10279, USENIX Security 2025) found 19.7% of LLM-recommended packages don't exist, averaging 21.7% for open-source vs 5.2% for proprietary models, with CodeLlama 7B/34B hallucinating in over a third of outputs and 205,000+ unique fabricated names observed. The deadliest property isn't the rate — it's <strong>consistency</strong>: a significant share of fake names recur across runs. Random hallucinations can't be exploited; <strong>predictable</strong> ones can.</p>
     </section>

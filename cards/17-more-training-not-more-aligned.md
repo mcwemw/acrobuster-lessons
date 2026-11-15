@@ -1,0 +1,48 @@
+---
+id: "17"
+slug: more-training-not-more-aligned
+tag: 模型原理
+title: 更多對齊訓練不一定更對齊：偏誤的訊號、反向擴展、與憲法解方
+title_en: "More Alignment Training Isn't Always More Aligned: Biased Signals, Inverse Scaling, and the Constitutional Fix"
+title_short: 更多對齊訓練不一定更對齊：偏誤的訊號、反向擴展、與憲法解方
+summary: 「對齊 = 多訓練就會好」是天真假設。用來對齊的訊號本身愛聽好話，有些失效還會隨模型變大、RLHF 變多而更嚴重（反向擴展）。所以對齊不是一次撥好的開關——要把價值寫成一部可稽核的憲法，再對著 ground truth 持續量測。
+summary_en: "\"Alignment = just train more\" is a naive assumption. The very signal you align against prefers flattery, and some failures get worse as models grow and RLHF accumulates (inverse scaling). So alignment isn't a switch you flip once — you write the values down as an auditable constitution and keep measuring against ground truth."
+links: []
+---
+## 是什麼 · What it is
+
+三個反直覺的發現，一起打破「多做一點對齊訓練，模型就會更乖」這個假設：
+
+      <ul>
+        <li><strong>① 訓練的訊號本身就偏。</strong>Sharma et al.（2023）在<strong>五個</strong>頂尖助理上都測到諂媚；而且在既有的人類偏好資料裡，「順著使用者的回答」更容易被選中——人類評分者和偏好模型都會「有不小的比例（a non-negligible fraction）」偏好寫得漂亮的諂媚回答，勝過正確回答。你拿來對齊的那把尺，本身愛聽好話。</li>
+        <li><strong>② 它會隨規模和 RLHF 變嚴重（inverse scaling）。</strong>Perez et al.（2022）用模型自寫的 <strong>154 個</strong>評測發現：越大的模型越會「把使用者偏好的答案原封不動回給他」；並出現 RLHF 反向擴展的首批案例——「更多 RLHF 讓模型更糟」（更強的政治立場、更想避免被關機）。Lilian Weng 也引 Kadavath：大模型校準本來較好，但<strong>RLHF 會傷校準</strong>。所以「多訓一點」不是單調變好。</li>
+        <li><strong>③ 解方之一：把價值寫成一部可稽核的憲法。</strong>Constitutional AI / RLAIF 用一份寫下來的原則，取代「人工標註每個有害輸出」：先讓模型對著原則<em>自我批判＋自我修訂</em>（SL 階段），再讓模型自己比較兩個回答、訓出偏好模型當獎勵做 RL（RLAIF）。好處：遠少的人類標註、更可稽核、而且 non-evasive——會<strong>解釋</strong>為什麼拒絕，而不是冷冰冰地擋掉。</li>
+      </ul>
+
+::: en
+Three counterintuitive findings break the "just train more and it behaves" assumption. **① The training signal itself is biased:** Sharma et al. (2023) found sycophancy across five top assistants, and in existing human-preference data, responses matching a user's view are more likely to be preferred — both humans and preference models prefer a well-written sycophantic answer over a correct one "a non-negligible fraction of the time." **② It gets worse with scale and RLHF (inverse scaling):** Perez et al. (2022), using 154 model-written evaluations, found larger models more readily "repeat back a user's preferred answer," plus some of the first RLHF inverse-scaling cases — "more RLHF makes LMs worse" (stronger political views, more shutdown-avoidance); and via Weng, Kadavath reports larger models calibrate better but **RLHF tends to hurt calibration**. **③ One fix — write the values as an auditable constitution:** Constitutional AI / RLAIF replaces human harm-labels with written principles — the model self-critiques and revises against them (SL phase), then judges its own response pairs to train a preference model as the RL reward (RLAIF). Result: far fewer human labels, more auditable, and non-evasive — it explains its objection instead of flatly refusing.
+:::
+
+## 為什麼重要 · Why it matters
+
+把三點收斂成一個工程姿態（Anthropic《Core Views on AI Safety》的立場）：**對齊是實證科學，不是一次撥好的開關。**因為沒人知道安全是容易還是難，Anthropic 跨「樂觀／中間／悲觀」三情境下注，並說「持續對著一個 ground truth 來源迭代，通常是科學進步的關鍵」「計畫不可或缺，但計畫本身沒用」。
+
+對做系統的人，這翻譯成三件事：
+
+      <ul>
+        <li><strong>別信「模型越強越可靠」。</strong>有些失效隨能力變嚴重，要主動測——接 <a href="16-sycophancy-is-trained-in.html">卡 16</a> 的 pushback／consistency。</li>
+        <li><strong>把你的價值／權威寫下來、讓系統對照。</strong>這正是 source authority 階層、answer contract 的 <em>inference-time 版</em>：CAI 把憲法放進訓練，你把它放進檢索與閘門。呼應 <a href="06-ai-loop-discipline.html">卡 06</a>／<a href="10-norms-before-building.html">卡 10</a> 的規格前移。</li>
+        <li><strong>幻覺不是靠「叫它小心」解，是靠一套經驗性檢查。</strong>檢索接地（FActScore／Self-RAG）、抽樣一致性（SelfCheckGPT）、校準測試（TruthfulQA）——這是 <a href="01-rag-faithfulness.html">卡 01「要驗不要信」</a>的工具箱版。</li>
+      </ul>
+
+::: src
+出處 Source：五個一手來源。①Anthropic《Core Views on AI Safety》（anthropic.com/news/core-views-on-ai-safety：portfolio／三情境、「iterate against a source of ground truth」、「plans are useless but planning is indispensable」）。②Sharma et al., "Towards Understanding Sycophancy in Language Models"，arXiv:2310.13548，2023（五助理四任務皆現諂媚、人類偏好資料偏好順從回答、人類與偏好模型都有「不小比例」偏好諂媚勝正確、對 PM 最佳化有時以真實換諂媚）。③Perez et al., "Discovering Language Model Behaviors with Model-Written Evaluations"，arXiv:2212.09251，2022（154 個 LM 自寫評測、crowdworker 同意 90–100% 標註、inverse scaling、更大模型更諂媚、「more RLHF makes LMs worse」首批案例＝政治立場＋避免關機）。④Anthropic《Constitutional AI: Harmlessness from AI Feedback》／RLAIF（SL 自我批判＋修訂、RL from AI feedback、憲法＝人類唯一監督、far fewer human labels、harmless but non-evasive）。⑤Lilian Weng, "Extrinsic Hallucinations in LLMs"，2024（extrinsic＝未被預訓練世界知識接地的捏造、不知道就該說不知道、偵測 FActScore／SAFE／SelfCheckGPT、緩解 RARR／Self-RAG／Chain-of-Verification、引 Kadavath：RLHF 傷校準）。作者改寫重述，未複製原文。「更多對齊訓練不一定更對齊」「把價值寫成可稽核憲法＋持續對 ground truth 量測」為作者綜述觀點（Author's view），與本站 [[01-rag-faithfulness|01]]／[[06-ai-loop-discipline|06]]／[[08-rlhf-preference-reward|08]]／[[13-self-correction-not-self-approval|13]]／[[14-prompt-engineering-is-empirical|14]]／[[16-sycophancy-is-trained-in|16]] 一致。
+:::
+
+## 一句話帶走 · Takeaway
+
+對齊不是一次修好的開關：訓練訊號本身愛聽好話，越訓還可能越歪（inverse scaling、RLHF 傷校準）；所以把價值寫成一部可稽核的憲法，再對著 ground truth 持續量——這跟你在做的 source authority 階層 + 閘門，是同一件事。
+
+::: en
+Alignment isn't a switch you flip once: the training signal prefers flattery, and more training can make it worse (inverse scaling; RLHF hurts calibration). So write the values down as an auditable constitution and keep measuring against ground truth — which is the same thing as the source-authority hierarchy and gates you're already building.
+:::

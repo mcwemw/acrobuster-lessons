@@ -20,16 +20,16 @@
     <section class="card">
       <h2>是什麼 <span class="en">· What it is</span></h2>
       <p>Week 10 講義的核心問句：<strong>「你怎麼知道你的 prompt 有用？」</strong> 用的例子是一個「從 diff 寫 commit message」的 prompt——你在五個 diff 上試過、看起來不錯，但你有多確定它在<strong>接下來 1,000 個 commit</strong> 上也行？講義的第一刀：<strong>「試五次」本身就是測試，只是爛測試。</strong></p>
-      <table>
-        <thead>
+          <table>
+          <thead>
           <tr><th>「試五次」的弱點</th><th>為什麼是問題</th></tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           <tr><td>①那五個是<strong>你自己挑的</strong></td><td>選題偏誤——你挑的是你想得到的情況</td></tr>
           <tr><td>②沒寫下<strong>「好」是什麼</strong></td><td>憑感覺判，無法重現、無法交接</td></tr>
           <tr><td>③<strong>什麼都沒存</strong></td><td>改完 prompt 不能重跑，沒有回歸</td></tr>
-        </tbody>
-      </table>
+          </tbody>
+          </table>
       <p>一個測試套件，是你<strong>刻意</strong>去採樣三種變異：<strong>輸入</strong>（空 diff／2000 行 diff／含對 AI 喊話的 diff）、<strong>輸出</strong>（同一個 diff 這次跑和下次跑給不同訊息）、<strong>prompt 或模型</strong>（你改一句話、或供應商更新了模型）。「試五次」每一種都漏：你只試了典型輸入、每個只跑一次、只檢查了你自己寫的那版。</p>
       <p class="en">Week 10's core question: "How do you know your prompt works?" The running example is a prompt that writes a commit message from a diff — you tried five diffs and it looked good, but how confident are you about the next 1,000 commits? The lecture's first cut: trying it five times <strong>already is testing — just bad testing</strong>, a suite of size 5 with three weaknesses (self-chosen examples; no written definition of "good"; nothing saved to rerun). A real suite deliberately samples three kinds of variation — the input (empty diff / 2,000-line diff / a diff with a comment addressed to the AI), the output (the same diff gives a different message on another run), and the prompt-or-model (you reword a sentence; the provider updates the model) — and "five tries" misses each: you tried typical inputs, ran each once, and checked only the version you wrote.</p>
     </section>
@@ -37,16 +37,16 @@
     <section class="card">
       <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
       <p>講義把失效按<strong>「有多容易被發現」</strong>分成三種——這是這堂課最重要的一張表：</p>
-      <table>
-        <thead>
+          <table>
+          <thead>
           <tr><th>失效種類</th><th>長什麼樣</th><th>誰會發現</th></tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           <tr><td><strong>格式 Format</strong></td><td>輸出破壞了讀它的程式（被 code fence 包住、第一行 140 字）</td><td>程式，<strong>大聲</strong>報錯</td></tr>
           <tr><td><strong>邊界 Edge case</strong></td><td>奇怪輸入得到壞結果（空 diff、超大 diff）</td><td>程式或使用者，<strong>有時</strong></td></tr>
           <tr><td><strong>沉默 Silent</strong></td><td>格式正確、讀起來合理、但<strong>就是錯的</strong>（給刪功能的 commit 寫「fix: update config」）</td><td><strong>沒有人，直到很久以後</strong></td></tr>
-        </tbody>
-      </table>
+          </tbody>
+          </table>
       <p>關鍵一句（講義原文精神）：<strong>格式和邊界失效會「自己宣告」——只要你有檢查；沉默失效只有在你先寫下「對」長什麼樣時才會出現。</strong> 這就是 <strong>oracle 問題</strong>：沒有「正確答案的定義」，你看不見錯誤——所以 <a href="26-test-prompts-like-code.html">卡 26</a>「寫下期望行為再測」不是形式主義，是唯一能抓到沉默失效的辦法。這也呼應 <a href="24-evaluate-the-evaluator.html">卡 24</a>：判斷「對不對」本身需要一把先驗過的尺。</p>
       <p>另外兩個講義重點，收進紀律：</p>
       <ul>

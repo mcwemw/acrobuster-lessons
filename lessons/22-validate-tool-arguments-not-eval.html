@@ -47,28 +47,16 @@ def safe_eval(expr: str) -&gt; float:
     <section class="card">
       <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
       <p>這張卡是 <a href="19-tools-are-contracts.html">卡 19</a> 和 <a href="20-slopsquatting-supply-chain.html">卡 20</a> 的第三個角——三張合起來說清楚「模型輸出不可輕信」這件事的完整面向：</p>
-      <table>
-        <thead>
+          <table>
+          <thead>
           <tr><th>卡片</th><th>主張</th><th>威脅來源</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><a href="19-tools-are-contracts.html">卡 19</a></td>
-            <td>定義工具＝寫介面規格；描述品質決定呼叫品質</td>
-            <td>設計不良（內部）</td>
-          </tr>
-          <tr>
-            <td><a href="20-slopsquatting-supply-chain.html">卡 20</a></td>
-            <td>模型推薦的套件不保證存在；幻覺可預測 → 供應鏈攻擊</td>
-            <td>惡意套件（外部）</td>
-          </tr>
-          <tr>
-            <td><strong>卡 22（這張）</strong></td>
-            <td>模型回傳的參數不可直接執行；工具參數是攻擊面</td>
-            <td>提示注入（嵌入輸入）</td>
-          </tr>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+          <tr><td><a href="19-tools-are-contracts.html">卡 19</a></td><td>定義工具＝寫介面規格；描述品質決定呼叫品質</td><td>設計不良（內部）</td></tr>
+          <tr><td><a href="20-slopsquatting-supply-chain.html">卡 20</a></td><td>模型推薦的套件不保證存在；幻覺可預測 → 供應鏈攻擊</td><td>惡意套件（外部）</td></tr>
+          <tr><td><strong>卡 22（這張）</strong></td><td>模型回傳的參數不可直接執行；工具參數是攻擊面</td><td>提示注入（嵌入輸入）</td></tr>
+          </tbody>
+          </table>
       <p>MCP 讓問題規模放大：講義指出 MCP 伺服器回傳的結果也是不受信任的（<strong>"Results are untrusted"</strong>）——跨伺服器協作的 agent 有更大的注入面，任何來自外部伺服器的字串都可能是攻擊者控制的內容，不能直接信任或執行。</p>
       <p>這也呼應 <a href="04-agentic-three-responsibilities.html">卡 04「收回控制」</a>和 <a href="21-tool-use-is-a-tradeoff.html">卡 21</a> Q2 的結論：當工具有能力「改變世界」（送訊息、開 issue、刪資料），wrong-argument 失效的後果不只是答錯題，而是攻擊者借助模型執行任意操作。工具有副作用的那一刻，參數驗證就從 UX 問題升級成安全問題。（作者觀點 Author's view）</p>
       <div class="src">出處 Source：CSIC30216 AI-in-the-Loop in Software Project Cycle，Week 7 Lecture《Tool use, function calling, and MCP》，Dennis Wang 王邦任、Yu-Chun (Grace) Yen 顏羽君，NYCU Fall 2026（2026-10-19）。核心素材：投影片頁 17–19（eval 安全示範：<code>eval('__import__("os").getcwd()')</code> 與 OS 互動、清空 <code>__builtins__</code> 不是沙盒的類別繼承逃逸、pasted-document 提示注入攻擊範例、AST parser 白名單正確做法、原文「validate every tool argument as if a stranger typed it」）；頁 5–8（「The model never runs anything」三元件三責任人）；頁 44–46（MCP 安全「Results are untrusted」）。作者改寫重述，未複製原文。「卡 19/20/22 三角」「工具有副作用→參數驗證升級為安全問題」為作者綜述觀點（Author's view），與本站 <a href="04-agentic-three-responsibilities.html">04</a>／<a href="19-tools-are-contracts.html">19</a>／<a href="20-slopsquatting-supply-chain.html">20</a>／<a href="21-tool-use-is-a-tradeoff.html">21</a> 一致。</div>

@@ -20,28 +20,16 @@
     <section class="card">
       <h2>是什麼 <span class="en">· What it is</span></h2>
       <p>RAGAS（Shahul Es、Jithin James、Luis Espinosa-Anke、Steven Schockaert，2023）是一個 <strong>reference-free</strong>（不需 ground-truth 人工標準答案）的 RAG 自動評估框架。它把籠統的「答得好不好」拆成三個各自可算的指標：</p>
-      <table>
-        <thead>
+          <table>
+          <thead>
           <tr><th>指標</th><th>怎麼算</th><th>需要的輸入 / 範圍</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Faithfulness</strong><br>答案忠不忠於檢索脈絡</td>
-            <td>把答案拆成一條條<strong>主張（claims）</strong>→ 逐條檢查能否從檢索到的脈絡推得 → 分數 = 被支持的主張數 / 總主張數</td>
-            <td>question＋answer＋retrieved contexts（<strong>不需</strong> ground-truth）／ 0–1。官方例：愛因斯坦答案「生於德國」被支持、「生於 3/20」與脈絡（3/14）矛盾 → 1/2＝<strong>0.5</strong></td>
-          </tr>
-          <tr>
-            <td><strong>Context Precision</strong><br>檢索器有沒有把相關段落排前面</td>
-            <td>對前 K 個檢索段落取 <code>precision@k</code> 的加權平均（＝Average Precision 結構）：相關段落排越前、分數越高</td>
-            <td>question＋retrieved contexts＋reference（有一個 reference-free 變體改用 answer）／ 0–1</td>
-          </tr>
-          <tr>
-            <td><strong>Answer Relevancy</strong><br>答案有沒有真的回到問題</td>
-            <td>用 LLM 從答案<strong>反向生成 N 個問題</strong>（預設 N=3）→ 算每個生成問題和原問題的 embedding 餘弦相似度 → 取平均。<strong>不檢查事實對錯</strong>，只罰「答非所問／不完整／冗贅」</td>
-            <td>question＋answer＋LLM＋embedding 模型／ ~0–1</td>
-          </tr>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+          <tr><td><strong>Faithfulness</strong><br>答案忠不忠於檢索脈絡</td><td>把答案拆成一條條<strong>主張（claims）</strong>→ 逐條檢查能否從檢索到的脈絡推得 → 分數 = 被支持的主張數 / 總主張數</td><td>question＋answer＋retrieved contexts（<strong>不需</strong> ground-truth）／ 0–1。官方例：愛因斯坦答案「生於德國」被支持、「生於 3/20」與脈絡（3/14）矛盾 → 1/2＝<strong>0.5</strong></td></tr>
+          <tr><td><strong>Context Precision</strong><br>檢索器有沒有把相關段落排前面</td><td>對前 K 個檢索段落取 <code>precision@k</code> 的加權平均（＝Average Precision 結構）：相關段落排越前、分數越高</td><td>question＋retrieved contexts＋reference（有一個 reference-free 變體改用 answer）／ 0–1</td></tr>
+          <tr><td><strong>Answer Relevancy</strong><br>答案有沒有真的回到問題</td><td>用 LLM 從答案<strong>反向生成 N 個問題</strong>（預設 N=3）→ 算每個生成問題和原問題的 embedding 餘弦相似度 → 取平均。<strong>不檢查事實對錯</strong>，只罰「答非所問／不完整／冗贅」</td><td>question＋answer＋LLM＋embedding 模型／ ~0–1</td></tr>
+          </tbody>
+          </table>
       <p>三個指標剛好對到 <a href="23-rag-two-failure-layers.html">卡 23</a> 的兩層：Context Precision 量<strong>檢索層</strong>，Faithfulness＋Answer Relevancy 量<strong>生成層</strong>。而「reference-free」是關鍵賣點——不用先人工寫標準答案，就能把 <a href="01-rag-faithfulness.html">卡 01 的忠實度概念</a>變成可以大規模跑的數字。</p>
       <p class="en">RAGAS (Shahul Es, Jithin James, Luis Espinosa-Anke, Steven Schockaert, 2023) is a <strong>reference-free</strong> framework for evaluating RAG — no human gold answer required. It splits "is the answer good" into three computable metrics. <em>Faithfulness</em>: break the answer into claims, check each is inferable from the retrieved context, score = supported / total. <em>Context Precision</em>: a weighted mean of precision@k (Average-Precision structure) — are relevant chunks ranked high. <em>Answer Relevancy</em>: an LLM generates N questions from the answer, then cosine-compares them to the original question; it rewards addressing the question, not factual accuracy. The three map onto <a href="23-rag-two-failure-layers.html">card 23</a>'s two layers (Context Precision = retrieval; Faithfulness + Answer Relevancy = generation), and "reference-free" is the selling point: you turn <a href="01-rag-faithfulness.html">card 01's faithfulness idea</a> into numbers you can run at scale.</p>
     </section>

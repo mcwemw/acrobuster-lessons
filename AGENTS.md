@@ -30,44 +30,47 @@
 
 ```
 /
-├── index.html            ← 首頁：自動列出所有講義卡（勿手改卡片清單）
+├── cards/                ← 🟢 講義卡「單一資料源」：一卡一個 .md（唯一手改處）
+│   ├── 01-rag-faithfulness.md
+│   └── …
+├── build/
+│   ├── build.py          ← 生成器：cards/*.md → lessons/*.html + content/lessons.js
+│   ├── analyze.py        ← 分析：標籤分布/連結圖/來源覆蓋
+│   └── README.md         ← md 格式與建置說明
+├── index.html            ← 首頁：自動列出所有卡（勿手改）
 ├── AGENTS.md             ← 本規則書
-├── README.md             ← GitHub 專案說明
-├── assets/
-│   └── style.css         ← 全站共用樣式（改樣式只改這裡）
+├── assets/style.css      ← 全站樣式（改樣式只改這裡）
 ├── content/
-│   └── lessons.js        ← 講義清單資料（新增卡要在這裡登記）
+│   ├── lessons.js        ← ⚙️ 生成物,勿手改(由 build.py 產)
+│   └── notes.js          ← 每日論文筆記清單(cron 維護,另一條線)
 └── lessons/
-    ├── _TEMPLATE.html    ← 新卡的範本（複製它開始）
-    ├── 01-rag-faithfulness.html
-    └── 02-context-engineering.html
+    └── NN-slug.html      ← ⚙️ 生成物,勿手改(由 build.py 產)
 ```
 
 ---
 
 ## 4. 🔧 如何新增一張講義卡（AI 照這兩步做）
 
-### 步驟 A：建立頁面檔
-1. 複製 `lessons/_TEMPLATE.html` → 命名為 `lessons/NN-slug.html`。
-   - `NN` = 兩位數流水號（接續最大號 +1，例：已有 01、02 → 新的是 `03`）。
-   - `slug` = 全小寫、單字用連字號 `-`、只用 a–z0–9（例：`agent-boundaries`）。
-2. 填入範本中 `{{...}}` 佔位符：標題、一句話摘要、正文段落、`出處` 區塊。**每項都要中英雙語**（中文在上、英文 `class="en"` 在下）。
-3. 正文結構**固定三段**：`是什麼 · What it is` → `為什麼重要 · Why it matters` → `一句話帶走 · Takeaway`。每段用 `<section class="card">` 包起來，段內先中文、再 `<p class="en">` 英文。
-4. 需要標「正面 / 反面」時，用既有 class：`.tag-pass`（綠）、`.tag-warn`（黃）、`.tag-fail`（紅）。**不要自己寫新顏色**。
+> 🟢 **卡片來源改成 Markdown**：只編 `cards/*.md`，HTML 與索引用 `build.py` 生成。
+> `lessons/*.html`、`content/lessons.js` 是**生成物，不要手改**。詳見 `build/README.md`。
 
-### 步驟 B：登記到清單
-在 `content/lessons.js` 的 `LESSONS` 陣列**最後**加一筆物件：
-```js
-{ id: "03", slug: "agent-boundaries", title: "標題", summary: "一句話摘要", tag: "研究" }
+### 步驟 A：寫 `cards/NN-slug.md`
+1. 新增 `cards/NN-slug.md`。`NN` = 兩位數流水號（最大號 +1）；`slug` = 全小寫、`-` 連字、a–z0–9。
+2. 檔頭 YAML frontmatter（metadata）：`id / slug / tag / title / title_en / title_short / summary / summary_en / links`。`tag` 從六類擇一：RAG / 提示工程 / AI 工程 / 軟體工程 / 模型原理 / 代理工程。
+3. 正文**固定三段**：`## 是什麼 · What it is` → `## 為什麼重要 · Why it matters` → `## 一句話帶走 · Takeaway`。每段中文段落在上，英文對照用 `::: en … :::`；出處用 `::: src … :::`。
+4. 可用 `**粗體**`、`*斜體*`、markdown 表格、`[[NN-slug|文字]]` 卡間連結；正面/反面色標直接寫行內 HTML `<span class="tag-pass|tag-warn|tag-fail">`（**不要自創新顏色**）。
+
+### 步驟 B：生成
 ```
-首頁會自動讀這個陣列生成卡片——**不要手改 `index.html`**。
+python3 build/build.py cards .
+```
+→ 自動產出 `lessons/NN-slug.html` 與 `content/lessons.js`（首頁/過濾/搜尋自動吃）。**不要手改 index.html / lessons.js / lessons/*.html**。
 
 ### 完成檢查（AI 新增後自我驗證）
-- [ ] 新檔名符合 `NN-slug.html` 規則，且 `NN` 不重複。
-- [ ] `lessons.js` 已登記、`id` 與檔名的 `NN` 一致。
-- [ ] 只用了五個品牌色、沒有自創樣式。
-- [ ] 每個「主張」段落有 `出處` 或標為「作者觀點」。
-- [ ] 本機用瀏覽器開 `index.html` 能看到新卡、點得進去。
+- [ ] `cards/NN-slug.md` 有完整 frontmatter（六類 tag 擇一）＋三段＋每段中英對照（`::: en`）。
+- [ ] 每個「主張」段落有 `::: src` 出處或標「作者觀點 Author's view」。
+- [ ] 跑過 `build.py`，`git status` 只看到你的卡 + 它生成的 HTML/lessons.js。
+- [ ] 本機瀏覽器開 `index.html` 看得到新卡、點得進去、過濾/搜尋找得到。
 
 ---
 

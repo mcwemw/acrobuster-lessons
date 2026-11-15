@@ -30,43 +30,18 @@
         <li>把訓練語料的歷史偏見帶進輸出（<strong>偏見</strong>）</li>
       </ul>
       <p>Slide 22 說：每種失效都能說清楚它的指紋、成因、測試法、第一步修法。以下是那張診斷表：</p>
-      <table>
-        <thead>
+          <table>
+          <thead>
           <tr><th>失效類別</th><th>長什麼樣</th><th>測試</th><th>第一步修法</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>敏感性</strong></td>
-            <td>換個問法答案就變；格式或措辭的微小差異造成大幅輸出波動</td>
-            <td>Paraphrase test：同一個問題三種問法，答案發散 = 命中敏感性</td>
-            <td>Instruction template（固定問法）+ multi-sample voting（多抽取多數決）</td>
-          </tr>
-          <tr>
-            <td><strong>幻覺</strong></td>
-            <td>自信地給出不存在的資訊——套件名、論文、事實、API</td>
-            <td>要求附來源，再逐條驗；或提問模型「你確定這存在？」</td>
-            <td>檢索接地（RAG）+ 忠實度閘門（見卡 01）</td>
-          </tr>
-          <tr>
-            <td><strong>諂媚</strong></td>
-            <td>順著使用者立場，使用者改變立場它跟著變；對錯誤的反對意見讓步</td>
-            <td>Pushback test + consistency test（見卡 16）</td>
-            <td>分離生成與評審角色；不讓同一個模型自評自改</td>
-          </tr>
-          <tr>
-            <td><strong>過度拒絕</strong></td>
-            <td>把合理請求當危險訊號擋掉；加了上下文後行為才正常</td>
-            <td>換中性框架、加脈絡重問；若加脈絡後通過 = 拒絕是誤判</td>
-            <td>更具體的角色定義 + 明確的 context 說明任務性質</td>
-          </tr>
-          <tr>
-            <td><strong>偏見</strong></td>
-            <td>不同人口群體或社群描述得到系統性不同的答案</td>
-            <td>Demographic swap test：換名字、地區、性別，觀察答案是否系統性改變</td>
-            <td>在 Format / Constraints 組件加多樣性條件；測試集納入多族群</td>
-          </tr>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+          <tr><td><strong>敏感性</strong></td><td>換個問法答案就變；格式或措辭的微小差異造成大幅輸出波動</td><td>Paraphrase test：同一個問題三種問法，答案發散 = 命中敏感性</td><td>Instruction template（固定問法）+ multi-sample voting（多抽取多數決）</td></tr>
+          <tr><td><strong>幻覺</strong></td><td>自信地給出不存在的資訊——套件名、論文、事實、API</td><td>要求附來源，再逐條驗；或提問模型「你確定這存在？」</td><td>檢索接地（RAG）+ 忠實度閘門（見卡 01）</td></tr>
+          <tr><td><strong>諂媚</strong></td><td>順著使用者立場，使用者改變立場它跟著變；對錯誤的反對意見讓步</td><td>Pushback test + consistency test（見卡 16）</td><td>分離生成與評審角色；不讓同一個模型自評自改</td></tr>
+          <tr><td><strong>過度拒絕</strong></td><td>把合理請求當危險訊號擋掉；加了上下文後行為才正常</td><td>換中性框架、加脈絡重問；若加脈絡後通過 = 拒絕是誤判</td><td>更具體的角色定義 + 明確的 context 說明任務性質</td></tr>
+          <tr><td><strong>偏見</strong></td><td>不同人口群體或社群描述得到系統性不同的答案</td><td>Demographic swap test：換名字、地區、性別，觀察答案是否系統性改變</td><td>在 Format / Constraints 組件加多樣性條件；測試集納入多族群</td></tr>
+          </tbody>
+          </table>
       <p>其中<strong>幻覺</strong>有一個讓工程師最切身的具體案例：<strong>package hallucination</strong>。Spracklen et al.（arXiv:2406.10279，USENIX Security 2025）對 576,000 個 prompt、16 個模型測試：商業模型有 <strong>5.2%</strong>、開源模型有 <strong>21.7%</strong> 的回覆包含不存在的套件名稱，研究者偵測到逾 <strong>20 萬個</strong>捏造套件名，並把相應的攻擊手法命名為 <strong>slopsquatting</strong>——惡意行為者已把與這些假名完全相同的套件上傳到 npm / PyPI，等工程師跑 <code>npm install</code> 中招。幻覺在你的答案裡只是不準確；在 code generation 裡它成為供應鏈攻擊向量。</p>
       <p>這條攻擊鏈分三步，每一步單看都合理，合起來就是災難：</p>
       <ol>

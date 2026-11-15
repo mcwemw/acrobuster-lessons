@@ -20,33 +20,17 @@
     <section class="card">
       <h2>是什麼 <span class="en">· What it is</span></h2>
       <p>四個一手來源，從「工具呼叫怎麼運作」一路講到「工具其實是一紙介面契約」：</p>
-      <table>
-        <thead>
+          <table>
+          <thead>
           <tr><th>來源</th><th>核心貢獻</th><th>對工程的意義</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>ReAct</strong><br>Yao et al. 2022<br>(ICLR 2024)</td>
-            <td>把推理與行動交錯：thought → action → observation → thought…。推理步驟讓模型規劃、追蹤、處理例外；行動步驟去外部來源抓資訊回饋給下一步。在 ALFWorld / WebShop 比模仿學習與 RL 高 <strong>34% / 10%</strong> 絕對成功率，只需一兩個 in-context 範例。</td>
-            <td>把 action 接地在 reasoning 上，顯著減少 CoT 的幻覺與錯誤傳播——別讓模型盲目呼叫，每步先想為什麼</td>
-          </tr>
-          <tr>
-            <td><strong>Toolformer</strong><br>Schick et al. 2023 (Meta)</td>
-            <td>模型用<strong>自監督</strong>方式自學「該呼叫哪個 API、何時呼叫、傳什麼參數、如何把結果併進輸出」，每個 API 只需少量示範；自監督訊號＝只保留真的幫到模型下一步預測的呼叫。工具：計算機、QA、兩個搜尋引擎、翻譯、日曆。zero-shot 大幅提升，常與大上許多的模型打平。</td>
-            <td>tool use 是<strong>學出來</strong>的能力，不是外掛魔法——模型是否會用工具、用得好不好，取決於訓練與介面，而非一句咒語</td>
-          </tr>
-          <tr>
-            <td><strong>Define Tools</strong><br>Claude 官方文件</td>
-            <td>一個工具定義 = <code>name</code> + <code>description</code> + <code>input_schema</code>(JSON Schema)。官方直說：「提供<strong>極度詳細的描述</strong>是目前為止影響工具效能最重要的因素」——描述要講清楚做什麼、何時該用（和何時不該用）、每個參數的意義、重要限制。</td>
-            <td>工具的 name/description/schema 就是它的<strong>規格</strong>；規格寫爛，模型（跟人一樣）就呼叫錯</td>
-          </tr>
-          <tr>
-            <td><strong>MCP</strong><br>Model Context Protocol</td>
-            <td>把「怎麼把工具／脈絡提供給模型」標準化成 client–host–server 協定。Host（如 Claude Code／VS Code）為每個 server 開一個 client；server 用三種 primitives 曝露：<strong>Tools</strong>(可執行動作)、<strong>Resources</strong>(脈絡資料)、<strong>Prompts</strong>(互動範本)。走 JSON-RPC 2.0，client 用 <code>tools/list</code> 探索、<code>tools/call</code> 執行。</td>
-            <td>介面定義一次，任何 host 都能接——工具從「綁死某個 app」變成<strong>可攜的契約</strong></td>
-          </tr>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+          <tr><td><strong>ReAct</strong><br>Yao et al. 2022<br>(ICLR 2024)</td><td>把推理與行動交錯：thought → action → observation → thought…。推理步驟讓模型規劃、追蹤、處理例外；行動步驟去外部來源抓資訊回饋給下一步。在 ALFWorld / WebShop 比模仿學習與 RL 高 <strong>34% / 10%</strong> 絕對成功率，只需一兩個 in-context 範例。</td><td>把 action 接地在 reasoning 上，顯著減少 CoT 的幻覺與錯誤傳播——別讓模型盲目呼叫，每步先想為什麼</td></tr>
+          <tr><td><strong>Toolformer</strong><br>Schick et al. 2023 (Meta)</td><td>模型用<strong>自監督</strong>方式自學「該呼叫哪個 API、何時呼叫、傳什麼參數、如何把結果併進輸出」，每個 API 只需少量示範；自監督訊號＝只保留真的幫到模型下一步預測的呼叫。工具：計算機、QA、兩個搜尋引擎、翻譯、日曆。zero-shot 大幅提升，常與大上許多的模型打平。</td><td>tool use 是<strong>學出來</strong>的能力，不是外掛魔法——模型是否會用工具、用得好不好，取決於訓練與介面，而非一句咒語</td></tr>
+          <tr><td><strong>Define Tools</strong><br>Claude 官方文件</td><td>一個工具定義 = <code>name</code> + <code>description</code> + <code>input_schema</code>(JSON Schema)。官方直說：「提供<strong>極度詳細的描述</strong>是目前為止影響工具效能最重要的因素」——描述要講清楚做什麼、何時該用（和何時不該用）、每個參數的意義、重要限制。</td><td>工具的 name/description/schema 就是它的<strong>規格</strong>；規格寫爛，模型（跟人一樣）就呼叫錯</td></tr>
+          <tr><td><strong>MCP</strong><br>Model Context Protocol</td><td>把「怎麼把工具／脈絡提供給模型」標準化成 client–host–server 協定。Host（如 Claude Code／VS Code）為每個 server 開一個 client；server 用三種 primitives 曝露：<strong>Tools</strong>(可執行動作)、<strong>Resources</strong>(脈絡資料)、<strong>Prompts</strong>(互動範本)。走 JSON-RPC 2.0，client 用 <code>tools/list</code> 探索、<code>tools/call</code> 執行。</td><td>介面定義一次，任何 host 都能接——工具從「綁死某個 app」變成<strong>可攜的契約</strong></td></tr>
+          </tbody>
+          </table>
       <p>官方文件的其他最佳實務也都是「介面設計」而非「提示技巧」：有意義的命名空間（<code>github_list_prs</code> 而非 <code>calculate</code>）、把相關操作合併成少數幾個帶 <code>action</code> 參數的工具（而非 <code>create_pr</code>/<code>review_pr</code>/<code>merge_pr</code> 各一個以降低選擇歧義）、複雜輸入給 <code>input_examples</code>、工具回傳只給高訊號資訊（穩定的 slug/UUID，而非臃腫內部欄位）。</p>
       <p class="en">Four primary sources trace tool use from "how it works" to "a tool is an interface contract." <strong>ReAct</strong> (Yao et al. 2022, ICLR 2024) interleaves reasoning and acting (thought → action → observation), grounding actions in reasoning to cut CoT hallucination and error propagation — +34% / +10% absolute success on ALFWorld / WebShop with one or two in-context examples. <strong>Toolformer</strong> (Schick et al. 2023, Meta) has the model self-teach, in a self-supervised way, which APIs to call, when, with what arguments, and how to fold results in — keeping only calls that actually improve its own next-token prediction; tool use is a learned capability, not a bolt-on. <strong>Claude's Define Tools</strong> docs: a tool is <code>name</code> + <code>description</code> + <code>input_schema</code>, and "extremely detailed descriptions" are "by far the most important factor in tool performance." <strong>MCP</strong> standardizes how tools and context reach a model via a client–host–server protocol, with three server primitives — Tools, Resources, Prompts — over JSON-RPC, discovered with <code>tools/list</code> and invoked with <code>tools/call</code>. Best practices (namespacing, consolidating related operations under an <code>action</code> param, input examples, high-signal responses) are all interface design, not prompting.</p>
     </section>
