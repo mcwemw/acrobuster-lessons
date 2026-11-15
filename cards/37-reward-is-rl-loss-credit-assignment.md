@@ -1,0 +1,40 @@
+---
+id: "37"
+slug: reward-is-rl-loss-credit-assignment
+tag: 代理工程
+title: 獎勵是 RL 的 loss，難的是信用分配——Bellman／TD／Q 都在用估計的未來回填現在
+title_en: "Reward Is RL's Loss; the Hard Part Is Credit Assignment — Bellman/TD/Q All Backfill the Present with the Estimated Future"
+title_short: 獎勵是 RL 的 loss，難在信用分配
+summary: 投影片講得很白：獎勵驅動 RL agent 的行為，就像 loss 驅動監督式學習。難的不是拿到獎勵，而是信用分配——一連串動作後才有回饋，怎麼知道是哪一步的功勞？Bellman、TD、Q-learning 的共同招式，就是用「估計的未來價值」回填「現在的價值」。
+summary_en: The slides say it plainly: reward drives an RL agent's behavior the way loss drives supervised learning. The hard part isn't getting the reward — it's credit assignment: feedback comes after a series of actions, so which step gets the credit? Bellman, TD, and Q-learning share one move: backfill the present value using the estimated future value.
+links: []
+---
+## 是什麼 · What it is
+
+RL 的舞台是一個<strong>代理</strong>（agent）：透過感測器<strong>感知</strong>環境、透過致動器<strong>行動</strong>（PEAS＝表現/環境/致動器/感測器）。跟監督式學習最不同的是：任務是<strong>一連串動作</strong>，而且<strong>沒有老師告訴你每個狀態的「正確動作」</strong>——只有<strong>獎勵/懲罰</strong>（reward/penalty），且不是每步都給。投影片點破關鍵：<strong>獎勵（PEAS 的 P）驅動 RL agent 的行為，就像 loss 函數驅動監督式學習</strong>（呼應 [[33-loss-is-the-classifier-worldview|選哪個 loss 就選了世界觀]]）。於是真正的難題叫<strong>信用分配</strong>（credit assignment）：回饋姍姍來遲，要怎麼歸因到前面那一長串動作裡的哪幾步？
+
+RL 任務用 <strong>MDP（馬可夫決策過程）</strong>表示——當下只看現在狀態、不依賴過去；內容是狀態、可行動作、獎勵、以及<strong>機率性</strong>轉移 <code>P(s'|s,a)</code>。因為環境隨機，<strong>找不到一條「最優路徑」，只能優化一個策略</strong> <code>π(s)</code>（狀態→動作）。衡量好壞的是<strong>狀態價值</strong> <code>Vπ(s)</code>：從 s 出發、照 π 走，所有可能路徑按機率加權的<strong>期望累積獎勵</strong>；而且遠期獎勵要<strong>折現</strong>（discount，<code>γ&lt;1</code>）——<code>γ</code> 太小會讓 agent 短視、只顧眼前。
+
+::: en
+RL's stage is an **agent**: it **perceives** the environment via sensors and **acts** via actuators (PEAS = Performance/Environment/Actuators/Sensors). What differs most from supervised learning: the task is a **series of actions**, and **no teacher tells you the "correct action" at each state** — only **reward/penalty**, and not after every step. The slides nail it: **reward (the P of PEAS) drives an RL agent's behavior just like loss functions drive supervised learning** (echoing [[33-loss-is-the-classifier-worldview|choosing a loss is choosing a worldview]]). So the real difficulty is **credit assignment**: feedback arrives late — how do you attribute it to which steps in a long series of actions? RL tasks are represented as an **MDP** (Markov Decision Process) — the present depends only on the current state; its content is states, allowed actions, rewards, and a **probabilistic** transition <code>P(s'|s,a)</code>. Because the environment is stochastic, you **can't find an optimal "path," only optimize a policy** <code>π(s)</code> (state → action). Quality is the **state-value** <code>Vπ(s)</code>: the **expected cumulative reward** from s under π, over all paths weighted by probability; far-future rewards are **discounted** (<code>γ&lt;1</code>) — too small a <code>γ</code> makes the agent short-sighted.
+:::
+
+## 為什麼重要 · Why it matters
+
+該帶走的洞見：<strong>Bellman 方程、TD、Q-learning 其實是同一招的三個版本——用「估計的未來」回填「現在的價值」。</strong>
+
+Bellman 方程把「現在的價值」寫成「這步的即時獎勵 ＋ 折現後的下一狀態價值」；<strong>value iteration</strong> 就是把它當右到左的賦值反覆跑，從全零開始逼出 <code>V*</code>，再 <code>argmax</code> 讀出最優策略。但這假設 <strong>MDP 已知（model-based）</strong>；真實世界常不知道轉移與獎勵，就得 <strong>model-free</strong>——靠<strong>取樣路徑</strong>收集資訊。<strong>TD learning</strong> 的點子最漂亮：不必等整段跑完，直接<strong>用「未來狀態的估計」（通常更準）回填現在</strong>，更新式 <code>V(s) ← V(s) + α[r + γV(s') − V(s)]</code>。這就是 actor-critic——actor 照現有知識行動，<strong>critic 提供一個「號稱更好的估計」來校正</strong>。<strong>Q-learning</strong> 把價值掛到 (狀態,動作) 上：<code>Q(s,a)</code> 是在 s 做 a 的期望總獎勵，更新時用 <code>max Q(s',a')</code> 回填，收斂後跟著最大 Q 走就是最優策略，常存成 <strong>Q-table</strong>。
+
+這條「用更可信的估計回填」的線，跟我守的紀律完全同構：<span class="tag-warn">不要只信當下的自我評分，用更靠譜的來源去校正它</span>——這正是 [[35-search-honest-estimate-of-future|A* 用估計的未來 h 導航]]的近親，也是 [[06-ai-loop-discipline|不自評、要外部驗證]]的量化版。更大的連結是：<strong>RLHF 就是把這套 RL 搬到語言模型上</strong>——[[08-rlhf-preference-reward|獎勵模型是偏好的代理、不是真相]]，而 RL 這裡的「信用分配難題」正解釋了<strong>為什麼獎勵訊號一旦設歪就容易被鑽</strong>：回饋稀疏又延遲，agent 會找到任何能衝高 reward 的捷徑，哪怕不是你真正要的。折現因子 <code>γ</code> 的「近視 vs 遠視」，則和 [[36-exploration-vs-exploitation-dial|探索 vs 利用]]同屬一組「要不要為了長遠放棄眼前」的張力。
+
+::: src
+出處 Source：Tsaipei Wang（王才沛），NYCU《Artificial Intelligence》課程 Set 06「Reinforcement Learning」投影片（2026 春；agent 迴圈圖取自 Russell &amp; Norvig《AIMA》，MDP 例取自 optimization.cbe.cornell.edu）。agent／PEAS／goal-based agent 迴圈（state-memory／how world evolves＋what my actions do＝model／goals／policy）、「無老師給正確動作、只有不是每步都給的 reward/penalty」、「reward（PEAS 的 P）驅動行為如 loss 之於監督式學習」、credit assignment、MDP（Markov、states/actions/rewards state-based vs action-based、機率轉移 P(s'|s,a)）、「隨機故無最優路徑、優化 policy π(s)」、state-value Vπ(s)＝期望累積獎勵、折現 γ&lt;1 與小 γ 短視、Bellman 方程（fixed/optimal、greedy）、value iteration（Bellman update、全零起步、π*=argmax）、model-based vs model-free（sampling paths）、TD learning（不需完整 episode、用未來估計回填、V(s)←V(s)+α[r+γV(s')−V(s)]、actor-critic）、Q-learning（action-value Q(s,a)、更新用 max Q(s',a')、Q-table、量化連續、A-E 範例 γ=α=1 得 Q(A,A→C)=6）均出自該投影片，作者改寫重述。<br>「獎勵＝RL 的 loss」為投影片原話；「Bellman/TD/Q 是同一招＝用估計的未來回填現在」「此線＝不自評用更可信來源校正、＝A* 的近親」「RLHF 是把 RL 搬到 LLM、信用分配難題解釋 reward 為何可鑽」為作者綜述觀點（Author's view），對應本站 [[33-loss-is-the-classifier-worldview|33]]／[[35-search-honest-estimate-of-future|35]]／[[08-rlhf-preference-reward|08]]／[[06-ai-loop-discipline|06]]／[[36-exploration-vs-exploitation-dial|36]]。
+:::
+
+## 一句話帶走 · Takeaway
+
+獎勵是 RL 的 loss，但回饋姍姍來遲，難的是信用分配。Bellman、TD、Q-learning 都在用「估計的未來」回填「現在的價值」——跟「不自評、用更可信來源校正」是同一招。RLHF 就是把這套搬到語言模型，也因此一旦獎勵設歪就容易被鑽。
+
+::: en
+Reward is RL's loss, but feedback arrives late — the hard part is credit assignment. Bellman, TD, and Q-learning all backfill the present value with the estimated future, the same move as "don't grade yourself; correct it with a more reliable source." RLHF is this applied to language models — which is why a badly-set reward gets gamed.
+:::

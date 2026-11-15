@@ -323,5 +323,14 @@ const LESSONS = [
     "summary": "爬山、模擬退火、禁忌搜尋、演化計算、群體演算法看似各有花樣，但投影片一句話點破：它們「一定都含有在探索與利用之間調校的機制」。過度利用會讓整個族群塌成同一個樣子（superstar／早熟收斂）——那正是你在 LLM 取樣、RAG 檢索、甚至研究選題上每天在轉的同一個旋鈕。",
     "summary_en": "Hill climbing, simulated annealing, tabu search, evolutionary computation, and swarm algorithms look like different tricks, but the slides nail it: each \"always includes mechanisms for tuning between exploration and exploitation.\" Over-exploit and the whole population collapses into sameness (the superstar / premature convergence) — the same dial you turn every day in LLM sampling, RAG retrieval, even choosing a research topic.",
     "tag": "模型原理"
+  },
+  {
+    "id": "37",
+    "slug": "reward-is-rl-loss-credit-assignment",
+    "title": "獎勵是 RL 的 loss，難的是信用分配——Bellman／TD／Q 都在用估計的未來回填現在",
+    "title_en": "Reward Is RL's Loss; the Hard Part Is Credit Assignment — Bellman/TD/Q All Backfill the Present with the Estimated Future",
+    "summary": "投影片講得很白：獎勵驅動 RL agent 的行為，就像 loss 驅動監督式學習。難的不是拿到獎勵，而是信用分配——一連串動作後才有回饋，怎麼知道是哪一步的功勞？Bellman、TD、Q-learning 的共同招式，就是用「估計的未來價值」回填「現在的價值」。",
+    "summary_en": "The slides say it plainly: reward drives an RL agent's behavior the way loss drives supervised learning. The hard part isn't getting the reward — it's credit assignment: feedback comes after a series of actions, so which step gets the credit? Bellman, TD, and Q-learning share one move: backfill the present value using the estimated future value.",
+    "tag": "代理工程"
   }
 ];
