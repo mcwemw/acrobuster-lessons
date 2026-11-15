@@ -404,5 +404,14 @@ const LESSONS = [
     "summary": "SLAM 要一邊建未知環境的地圖、一邊在圖裡定位自己——雞生蛋的難題。它的骨架正是整站的母題：用運動模型一步步「推算」位置，誤差會滾雪球（位置不確定性越滾越大）；再靠「觀測」看到地標把估計拉回來。而 loop closure——認出「我來過這裡」——就是用一個獨立證據，一次修掉累積的漂移。",
     "summary_en": "SLAM must build a map of an unknown environment while simultaneously locating itself within it — a chicken-and-egg problem. Its skeleton is the site's recurring theme: \"predict\" your pose step by step with a motion model (error snowballs, location uncertainty grows), then \"correct\" it by observing landmarks. And loop closure — recognizing \"I've been here before\" — uses one piece of independent evidence to wipe out accumulated drift in a single stroke.",
     "tag": "代理工程"
+  },
+  {
+    "id": "46",
+    "slug": "slam-graph-optimization-least-squares-consensus",
+    "title": "SLAM 的 graph 最佳化：量測互相矛盾時，不二選一，而是最小平方求共識",
+    "title_en": "SLAM's Graph Optimization: When Measurements Conflict, Don't Pick One — Least-Squares Finds the Consensus",
+    "summary": "卡 45 的 loop closure 一旦發生，就會製造矛盾——追蹤說「我在 0.2」，loop closure 說「我在 0」。SLAM back-end 的 graph 最佳化不挑一個信，而是把所有約束寫成誤差、用加權最小平方找「對全部量測總誤差最小」的那組位置。權重是資訊矩陣（協方差倒數）＝你多信這個量測。這其實就是 MAP／MLE。",
+    "summary_en": "Once card 45's loop closure fires, it creates a contradiction — tracking says \"I'm at 0.2,\" loop closure says \"I'm at 0.\" SLAM's graph optimization doesn't trust one over the other; it writes every constraint as an error and uses weighted least squares to find the poses that minimize the total error over all measurements. The weight is the information matrix (inverse covariance) = how much you trust each measurement. This is exactly MAP/MLE.",
+    "tag": "模型原理"
   }
 ];
