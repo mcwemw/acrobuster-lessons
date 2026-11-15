@@ -422,5 +422,14 @@ const LESSONS = [
     "summary": "相機就是一個已知的投影：K[R|t] 把 3D 世界壓成 2D 影像，過程中丟掉了深度。所以視覺 SLAM 是個反問題——從一堆 2D 觀測反推相機位姿與 3D 結構。兩幀之間怎麼對上有兩條路：indirect 先抽特徵點、最小化幾何重投影誤差；direct 直接比像素灰階、最小化光度誤差。選哪種誤差，就是又一次「選 loss＝選世界觀」。",
     "summary_en": "A camera is a known projection: K[R|t] squashes the 3D world into a 2D image, throwing away depth. So visual SLAM is an inverse problem — reconstruct the camera pose and 3D structure from 2D observations. Matching two frames has two roads: indirect extracts feature points and minimizes geometric reprojection error; direct compares pixel intensities and minimizes photometric error. Which error you pick is, once again, \"choosing a loss = choosing a worldview.\"",
     "tag": "代理工程"
+  },
+  {
+    "id": "48",
+    "slug": "deep-learning-for-slam-consistency-self-supervision",
+    "title": "深度學習進 SLAM：把手工估計器換成學出來的，沒有標註時就用「一致性」自我監督",
+    "title_en": "Deep Learning for SLAM: Replace Hand-Designed Estimators with Learned Ones — and When There's No Label, Use Consistency as Self-Supervision",
+    "summary": "深度學習進 SLAM，做的就是把古典 pipeline 裡一個個手工設計的估計器換成學出來的——DeepVO 最激進，直接用 CNN+RNN 把整條 pipeline 端到端換掉。但最該帶走的是：沒有 ground truth 時，怎麼訓？用「一致性」當自我監督——往前算的光流該等於往後算的、左眼看的該對得上右眼、渲染出的影像該像真實影像。一致性，就是沒有金標時唯一的校正訊號。",
+    "summary_en": "Deep learning for SLAM replaces the hand-designed estimators in the classical pipeline with learned ones — DeepVO being the most radical, swapping the whole pipeline end-to-end with a CNN+RNN. But the key takeaway: with no ground truth, how do you train? Use consistency as self-supervision — the forward flow should equal the backward flow, the left eye should match the right, the rendered image should look like the real one. Consistency is the only correction signal when there is no gold standard.",
+    "tag": "代理工程"
   }
 ];
