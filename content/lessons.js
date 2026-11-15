@@ -431,5 +431,14 @@ const LESSONS = [
     "summary": "深度學習進 SLAM，做的就是把古典 pipeline 裡一個個手工設計的估計器換成學出來的——DeepVO 最激進，直接用 CNN+RNN 把整條 pipeline 端到端換掉。但最該帶走的是：沒有 ground truth 時，怎麼訓？用「一致性」當自我監督——往前算的光流該等於往後算的、左眼看的該對得上右眼、渲染出的影像該像真實影像。一致性，就是沒有金標時唯一的校正訊號。",
     "summary_en": "Deep learning for SLAM replaces the hand-designed estimators in the classical pipeline with learned ones — DeepVO being the most radical, swapping the whole pipeline end-to-end with a CNN+RNN. But the key takeaway: with no ground truth, how do you train? Use consistency as self-supervision — the forward flow should equal the backward flow, the left eye should match the right, the rendered image should look like the real one. Consistency is the only correction signal when there is no gold standard.",
     "tag": "代理工程"
+  },
+  {
+    "id": "49",
+    "slug": "rrt-sampling-vs-graph-search-planning",
+    "title": "A* vs RRT*：窮舉網格的最優 vs 隨機取樣的可擴展——空間大到不能窮舉時，就撒點",
+    "title_en": "A* vs RRT*: Grid Exhaustion's Optimality vs Random Sampling's Scalability — When the Space Is Too Big to Exhaust, Sample It",
+    "summary": "HW1 要你用 A* 和 RRT* 兩種方法都解一次路徑規劃，而它們正是兩種世界觀。A* 把空間切成網格、系統地搜，最優但維度一高、解析度一細就爆掉。RRT 改成在連續空間隨機撒點、長出一棵樹，機率完備、能擴展到高維，RRT* 再靠 rewire 漸近逼近最優。空間大到不能窮舉時就撒點——這跟遊戲 AI 從 minimax 轉 MCTS 是同一招。",
+    "summary_en": "HW1 asks you to solve path planning with both A* and RRT*, and they are two worldviews. A* chops space into a grid and searches systematically — optimal, but it blows up as dimension rises or resolution gets finer. RRT instead samples random points in continuous space and grows a tree — probabilistically complete, scalable to high dimensions, and RRT* rewires to approach optimality asymptotically. When the space is too big to exhaust, sample it — the same move as game AI going from minimax to MCTS.",
+    "tag": "代理工程"
   }
 ];
