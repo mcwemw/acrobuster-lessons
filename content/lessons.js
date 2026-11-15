@@ -287,5 +287,14 @@ const LESSONS = [
     "summary": "監督式學習是在逼近一條看不見的真實對應 f*；而幾乎所有工程決策，最後都歸結到一個旋鈕——模型複雜度，它的兩端分別是 bias（欠擬合）與 variance（過擬合）。驗證存在的理由，就是不准你用訓練誤差幫自己打分。",
     "summary_en": "Supervised learning is approximating an unseen true mapping f*; and almost every engineering decision collapses onto a single knob — model complexity, whose two ends are bias (underfitting) and variance (overfitting). Validation exists for one reason: it forbids you from grading yourself on training error.",
     "tag": "模型原理"
+  },
+  {
+    "id": "33",
+    "slug": "loss-is-the-classifier-worldview",
+    "title": "選哪個損失，就選了分類器的世界觀",
+    "title_en": "Choosing a Loss Is Choosing the Classifier's Worldview",
+    "summary": "線性回歸、感知器、邏輯回歸、SVM 畫的都是同一條直線 g(x)=wᵀx，差別只在目標函數。你挑哪個 loss，就決定了它會怎麼錯——MSE 怕離群值、感知器碰到線性不可分就崩、cross-entropy 要機率、SVM 要離最遠。",
+    "summary_en": "Linear regression, perceptron, logistic regression, and SVM all draw the same line g(x)=wᵀx — they differ only in the objective function. The loss you pick decides how the classifier fails: MSE fears outliers, the perceptron breaks on non-separable data, cross-entropy wants probabilities, SVM wants maximum distance.",
+    "tag": "模型原理"
   }
 ];
