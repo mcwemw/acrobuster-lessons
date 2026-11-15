@@ -377,5 +377,14 @@ const LESSONS = [
     "summary": "機器人的動作規劃，骨子裡就是圖上的最短路徑搜尋（Dijkstra／A*）——但一旦落進真實世界，光是「短」不夠：路徑還要避碰、平滑、符合車子的運動限制。於是它拆成 path planning（只管空間）＋ trajectory planning（加上時間與速度）＋ feedback control（因為現實會偏離計畫，得閉環修正）。",
     "summary_en": "A robot's motion planning is, at its core, shortest-path search on a graph (Dijkstra / A*) — but the moment it enters the real world, \"short\" isn't enough: the path must also avoid collisions, be smooth, and respect the vehicle's motion limits. So it splits into path planning (spatial only) + trajectory planning (adding time and speed) + feedback control (because reality drifts from the plan, you must close the loop and correct).",
     "tag": "代理工程"
+  },
+  {
+    "id": "43",
+    "slug": "pid-present-past-future-of-error",
+    "title": "PID：用誤差的現在、過去、未來來修正——feedback control 的靈魂是不信計畫、量現實",
+    "title_en": "PID: Correcting with the Present, Past, and Future of the Error — Feedback Control's Soul Is Distrust the Plan, Measure Reality",
+    "summary": "自駕車怎麼把規劃好的路徑在現實裡開出來？靠 feedback control：量測「參考值 − 感測到的真實輸出」當誤差，持續修正。PID 把這件事拆成誤差的三個時間向度——P 看現在、I 記過去、D 看未來。P 單獨會留下穩態誤差，I 補記憶卻會過衝，D 用變化率阻尼。這就是「不信開環計畫、量現實來校正」的母題。",
+    "summary_en": "How does a self-driving car actually drive the path it planned, in the real world? Feedback control: measure \"reference − the sensed real output\" as error, and correct continuously. PID splits this into three time axes of the error — P sees the present, I remembers the past, D anticipates the future. P alone leaves steady-state error, I adds memory but overshoots, D uses the rate of change to damp. This is the \"distrust the open-loop plan, measure reality to correct\" theme.",
+    "tag": "代理工程"
   }
 ];
