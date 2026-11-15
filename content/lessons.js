@@ -305,5 +305,14 @@ const LESSONS = [
     "summary": "PCA、FLD、autoencoder、word2vec、對比學習、DINO 看似各走各的，其實都在做同一件事——學一個把高維複雜資料壓成低維向量的「嵌入」。而「好嵌入」沒有唯一定義：你選的目標函數說了算。維度詛咒則是這一切的理由：高維裡 cosine 全擠成一團，嵌入讓「比相似度」重新變得可能。",
     "summary_en": "PCA, FLD, autoencoders, word2vec, contrastive learning, and DINO look unrelated but do the same thing — learn an embedding that compresses high-dimensional data into a low-dimensional vector. And there's no single definition of a \"good\" embedding: the objective function you pick decides. The curse of dimensionality is the reason it all matters — in high dimensions every cosine collapses together, and the embedding makes comparing similarity possible again.",
     "tag": "模型原理"
+  },
+  {
+    "id": "35",
+    "slug": "search-honest-estimate-of-future",
+    "title": "搜尋的差別全在「下一步探哪」——A* 靠一個不騙自己的估計",
+    "title_en": "Search Comes Down to 'Which Node Next' — A* Rides an Estimate That Mustn't Lie",
+    "summary": "BFS、DFS、均勻成本、A* 畫的都是同一張狀態圖，差別只在「下一步探哪個狀態」。A* 把走過的過去 g 和估計的未來 h 加起來；而只要那個估計「永不高估」（admissible），就保證找到最優解——否則你會錯過它。這跟「估計只有在有保證下才可信」是同一條紀律。",
+    "summary_en": "BFS, DFS, uniform-cost, and A* all walk the same state graph — they differ only in which node to explore next. A* adds the known past g to the estimated future h; and as long as that estimate never overestimates (is admissible), optimality is guaranteed — otherwise you miss the best solution. Same discipline as \"an estimate is trustworthy only with a guarantee.\"",
+    "tag": "代理工程"
   }
 ];
