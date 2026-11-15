@@ -1,0 +1,42 @@
+---
+id: "52"
+slug: perception-for-navigation-detection-vs-segmentation
+tag: 代理工程
+title: 導航要先看懂世界：偵測給你「哪裡有什麼」、分割給你「每個像素是什麼」
+title_en: "Navigation Starts with Understanding the World: Detection Tells You Where Things Are, Segmentation Tells You What Every Pixel Is"
+title_short: 導航感知：偵測 vs 分割
+summary: 機器人要導航，得先把原始像素變成規劃器讀得懂的世界。HW4 要你訓一個 YOLO 做兩件事：偵測（框出目的地、障礙——稀疏的「哪裡有什麼」）和分割（判斷每個像素是路/牆/橋/河——稠密的「每個像素是什麼」）。偵測到障礙就繞開，分割出可走區域就知道往哪走。而你得自己在虛擬環境蒐資料、設計類別——感知的上限，又是被你蒐的資料鎖死。
+summary_en: To navigate, a robot must first turn raw pixels into a world the planner can read. HW4 asks you to train a YOLO to do two things: detection (box the destination and obstacles — a sparse "where are things") and segmentation (label every pixel as road/wall/bridge/river — a dense "what is every pixel"). Detect an obstacle and route around it; segment the traversable region and you know where to go. And you must collect data in a virtual environment and design the categories yourself — so perception's ceiling is, once again, set by the data you gather.
+---
+## 是什麼 · What it is
+
+規劃（[[42-motion-planning-search-meets-physics|卡 42]]）和控制（[[50-lateral-control-geometry-feedback-optimal|卡 50]]）都假設「已經知道世界長怎樣」。但機器人睜開眼只有一堆像素——<strong>要先把像素變成規劃器讀得懂的語意世界，那就是感知。</strong>HW4 要你訓一個 YOLO 模型做兩種粒度的「看懂」：
+
+<p>
+<strong>偵測（object detection）＝稀疏的「哪裡有什麼」</strong>：框出畫面裡的物件（目的地、障礙…），輸出一個個 bounding box。<br>
+<strong>分割（segmentation）＝稠密的「每個像素是什麼」</strong>：逐像素標成路／牆／橋／河…，整張畫面都有語意標籤。
+</p>
+
+兩者餵給規劃的粒度不同：<strong>偵測到目的地就有目標、偵測到障礙就繞開；分割出「可走 vs 不可走」就知道能往哪走</strong>。這一步把 [[47-visual-slam-inverse-problem-direct-indirect|卡 47 的原始影像]]升級成一張<strong>語意地圖</strong>，規劃器才有東西可規劃。
+
+::: en
+Planning ([[42-motion-planning-search-meets-physics|card 42]]) and control ([[50-lateral-control-geometry-feedback-optimal|card 50]]) both assume you "already know what the world looks like." But a robot opens its eyes to just a pile of pixels — **you must first turn pixels into a semantic world the planner can read, and that's perception.** HW4 has you train a YOLO model for two granularities of "understanding": **object detection = a sparse "where are things"** — box the objects in view (destination, obstacles…), outputting bounding boxes; **segmentation = a dense "what is every pixel"** — label each pixel as road/wall/bridge/river…, giving the whole frame semantic labels. They feed the planner at different granularities: **detect the destination and you have a goal, detect an obstacle and you route around it; segment "traversable vs not" and you know where you can go.** This step upgrades [[47-visual-slam-inverse-problem-direct-indirect|card 47's raw image]] into a **semantic map**, so the planner finally has something to plan over.
+:::
+
+## 為什麼重要 · Why it matters
+
+該帶走的第一個洞見：<strong>感知是導航的前提，而偵測與分割是兩種粒度的世界理解</strong>。它們不是二選一——偵測快、適合「鎖定關鍵物件」，分割細、適合「判斷整片地形能不能走」；好的導航系統常常兩個都要。這也呼應整站的脈絡：原始像素（有損觀測）→ 學出來的結構化表徵（[[34-embedding-is-the-throughline|嵌入／語意]]）→ 下游任務（規劃）能用，正是 [[48-deep-learning-for-slam-consistency-self-supervision|卡 48「把手工特徵換成學出來的」]]在感知端的落地。
+
+第二個、也是 HW4 最實在的：<span class="tag-warn">你得自己在虛擬環境蒐資料、決定要分幾類——感知模型的上限，被你蒐的資料鎖死</span>。這把 [[40-data-centric-bias-variance-knobs|卡 40 的 data-centric]]直接搬到機器人感知上：類別設計、資料涵蓋的場景、標註品質，決定了這個 YOLO 在真實導航裡會不會把「河」看成「路」而開下去。報告要你「描述怎麼用分割資訊導航」，其實就是在問：<strong>你的感知輸出，接得上規劃器嗎？</strong>——感知若給錯地圖，後面規劃再最優、控制再精準，也是精準地開錯路。這還是整站「<strong>下游的品質被上游的表徵鎖死</strong>」、以及「觀測要對、不然全盤皆錯」的母題。
+
+::: src
+出處 Source：NTHU《Robotic Navigation and Exploration》(578101, 胡敏君) HW4「YOLO」（在虛擬環境蒐資料訓 YOLO：物件偵測 30%／分割 30%／report 40%＝類別數 10%＋資料集設計 10%＋描述如何用分割資訊導航 20%）為本卡的實作對象；本卡以電腦視覺感知標準概念為據、非重製作業規格。object detection（bounding box、偵測目的地/障礙）、segmentation（逐像素語意：路/牆/橋/河）、虛擬環境蒐資料、類別數與資料集設計、「用分割資訊導航」均出自該 HW。<br>「感知是導航前提、偵測（稀疏哪裡有什麼）vs 分割（稠密每像素是什麼）＝兩種粒度的世界理解」「感知把像素升級成規劃器可用的語意地圖」「蒐資料/設類別＝data-centric、感知上限被資料鎖死」「感知給錯地圖則後面規劃控制精準地開錯路＝下游被上游表徵鎖死」為作者綜述觀點（Author's view），對應本站 [[42-motion-planning-search-meets-physics|42]]／[[47-visual-slam-inverse-problem-direct-indirect|47]]／[[48-deep-learning-for-slam-consistency-self-supervision|48]]／[[34-embedding-is-the-throughline|34]]／[[40-data-centric-bias-variance-knobs|40]]。
+:::
+
+## 一句話帶走 · Takeaway
+
+導航要先看懂世界：偵測給你稀疏的「哪裡有什麼」（box）、分割給你稠密的「每個像素是什麼」（可走/不可走），把像素升級成規劃器能用的語意地圖。而你得自己蒐資料、設類別——感知的上限被資料鎖死，感知給錯地圖，後面規劃控制再準也是精準地開錯路。
+
+::: en
+Navigation starts with understanding the world: detection gives a sparse "where are things" (boxes), segmentation a dense "what is every pixel" (traversable or not), upgrading pixels into a semantic map the planner can use. And you collect the data and design the categories yourself — perception's ceiling is set by the data, and if perception hands over a wrong map, all the downstream planning and control just drives precisely down the wrong road.
+:::

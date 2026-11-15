@@ -440,5 +440,32 @@ const LESSONS = [
     "summary": "HW1 要你用 A* 和 RRT* 兩種方法都解一次路徑規劃，而它們正是兩種世界觀。A* 把空間切成網格、系統地搜，最優但維度一高、解析度一細就爆掉。RRT 改成在連續空間隨機撒點、長出一棵樹，機率完備、能擴展到高維，RRT* 再靠 rewire 漸近逼近最優。空間大到不能窮舉時就撒點——這跟遊戲 AI 從 minimax 轉 MCTS 是同一招。",
     "summary_en": "HW1 asks you to solve path planning with both A* and RRT*, and they are two worldviews. A* chops space into a grid and searches systematically — optimal, but it blows up as dimension rises or resolution gets finer. RRT instead samples random points in continuous space and grows a tree — probabilistically complete, scalable to high dimensions, and RRT* rewires to approach optimality asymptotically. When the space is too big to exhaust, sample it — the same move as game AI going from minimax to MCTS.",
     "tag": "代理工程"
+  },
+  {
+    "id": "50",
+    "slug": "lateral-control-geometry-feedback-optimal",
+    "title": "方向盤怎麼打：pure-pursuit 看幾何、Stanley 盯誤差、LQR 算最優——三種哲學的階梯",
+    "title_en": "How to Steer: Pure-Pursuit Looks at Geometry, Stanley Watches the Error, LQR Computes the Optimum — a Ladder of Three Philosophies",
+    "summary": "HW2 要你讓車沿著規劃好的路徑開，核心是橫向（方向盤）控制，而它有三種哲學，剛好是一道階梯：pure-pursuit 純看幾何——追前方一個 lookahead 點；Stanley 盯當下誤差——把橫向偏差和朝向偏差回授修正；LQR 算最優——有車體模型，最小化一個二次代價，在「跟得準」與「別亂打方向盤」之間取最優權衡。越往上，要的模型知識越多。",
+    "summary_en": "HW2 asks you to drive a car along a planned path, and the heart of it is lateral (steering) control, which comes in three philosophies forming a ladder: pure-pursuit is pure geometry — chase a lookahead point ahead on the path; Stanley watches the current error — feed back the cross-track and heading deviation; LQR computes the optimum — with a vehicle model, it minimizes a quadratic cost, trading off \"track accuracy\" against \"don't thrash the wheel.\" The higher you climb, the more model knowledge you need.",
+    "tag": "代理工程"
+  },
+  {
+    "id": "51",
+    "slug": "rl-reward-observation-design-is-the-job",
+    "title": "RL 真正的工程在 reward 與 observation 的設計——演算法是最不難的部分",
+    "title_en": "The Real Engineering in RL Is Designing the Reward and the Observation — the Algorithm Is the Easy Part",
+    "summary": "HW3 一半是用 PPO 讓車沿路徑走（reward 現成、清楚），另一半是替 Proly 遊戲 agent「設計 reward 和 observation」——後者才是 RL 真正難的地方。演算法 PPO 是現貨；成敗取決於你怎麼定獎勵、給 agent 看什麼。設計 reward＝把「什麼叫做好」寫進系統，很容易獎勵到鑽漏洞的捷徑；設計 observation＝決定 agent 看得到什麼，看不到的它永遠學不會。",
+    "summary_en": "Half of HW3 is using PPO to make a car follow a path (the reward is given and clear); the other half is designing the reward and observation for a Proly game agent — and that half is where RL is actually hard. PPO the algorithm is a commodity; success hinges on how you define the reward and what you let the agent see. Designing the reward writes \"what counts as good\" into the system, and it's easy to reward a loophole-exploiting shortcut; designing the observation decides what the agent can perceive, and it can never learn what it can't see.",
+    "tag": "代理工程"
+  },
+  {
+    "id": "52",
+    "slug": "perception-for-navigation-detection-vs-segmentation",
+    "title": "導航要先看懂世界：偵測給你「哪裡有什麼」、分割給你「每個像素是什麼」",
+    "title_en": "Navigation Starts with Understanding the World: Detection Tells You Where Things Are, Segmentation Tells You What Every Pixel Is",
+    "summary": "機器人要導航，得先把原始像素變成規劃器讀得懂的世界。HW4 要你訓一個 YOLO 做兩件事：偵測（框出目的地、障礙——稀疏的「哪裡有什麼」）和分割（判斷每個像素是路/牆/橋/河——稠密的「每個像素是什麼」）。偵測到障礙就繞開，分割出可走區域就知道往哪走。而你得自己在虛擬環境蒐資料、設計類別——感知的上限，又是被你蒐的資料鎖死。",
+    "summary_en": "To navigate, a robot must first turn raw pixels into a world the planner can read. HW4 asks you to train a YOLO to do two things: detection (box the destination and obstacles — a sparse \"where are things\") and segmentation (label every pixel as road/wall/bridge/river — a dense \"what is every pixel\"). Detect an obstacle and route around it; segment the traversable region and you know where to go. And you must collect data in a virtual environment and design the categories yourself — so perception's ceiling is, once again, set by the data you gather.",
+    "tag": "代理工程"
   }
 ];
