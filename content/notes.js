@@ -1,6 +1,14 @@
 // 由 build_notes.py 從 notes_md/*.md 生成,勿手改。
 const NOTES = [
   {
+    "date": "2026-11-17",
+    "title": "OPRO — 讓 LLM 當優化器，用自然語言迭代出更好的解與 prompt",
+    "title_en": "Large Language Models as Optimizers (OPRO)",
+    "source": "Yang et al. 2023 · arXiv:2309.03409 · public-domain",
+    "img": "2026-11-17_opro.png",
+    "tag": "提示工程"
+  },
+  {
     "date": "2026-11-16",
     "title": "DSPy — 把 LM pipeline 寫成可編譯程式，自動優化到一個指標",
     "title_en": "DSPy — compiling declarative LM calls into self-improving pipelines",

@@ -45,6 +45,53 @@
   </div>
   <div class="filterbar" id="filterbar"></div>
   <div id="notes">
+    <article class="note" data-tag="提示工程" data-search="2026-11-17 opro — 讓 llm 當優化器，用自然語言迭代出更好的解與 prompt large language models as optimizers (opro) yang et al. 2023 · arxiv:2309.03409 · public-domain 提示工程 核心問題 · question 沒有梯度時怎麼優化？能不能直接讓 llm 當優化器，用自然語言描述任務去搜更好的解（與 prompt）？ 🔴 背景與痛點 · red yang, wang, lu, liu, le, zhou, chen (2023)，arxiv:2309.03409（google deepmind） 痛點：很多真實問題沒有梯度，derivative-based 方法用不上 示範任務：線性回歸、旅行推銷員問題（tsp） 授權：public-domain（zotero 標記）；導讀／教材可用 🟡 概念 · yellow opro = optimization by prompting llm 當 optimizer（優化器） 任務用 natural language 描述 每步：帶入「過去的解 + 分數」→ 生新解；評估後再加回 prompt，迭代 主應用：prompt optimization 找最佳指令 → 對應我的 eval-driven / loop 工程 🔵 原文依據 · blue (quotes) 「the absence of gradient imposes challenges on many real-world applications」「opro … leverage large language models (llms) as optimizers, where the optimization task is described in natural language」「the llm generates new solutions from the prompt that contains previously generated solutions with their values」「the best prompts optimized by opro outperform human-designed prompts by up to 8% on gsm8k, and by up to 50% on big-bench hard tasks」 🟠 我的想法 · takeaway 想法：「把過去的解 + 分數塞回 prompt 再生新解」＝一個純自然語言的優化迴圈，正是我外迴圈 loop engineering 的骨幹 → 分數函數＝優化目標，可把 faithfulness 閘門當 score，讓 llm 自迭代逼近（接 maker/checker） → 連結 algocoach：用 opro 式搜尋自動調教練提示，勝過手工 prompt（呼應 x-driven 驗證紀律）">
+      <div class="id">2026-11-17</div>
+      <h2 style="margin:4px 0 2px">OPRO — 讓 LLM 當優化器，用自然語言迭代出更好的解與 prompt<span class="en">Large Language Models as Optimizers (OPRO)</span></h2>
+      <div class="src">出處 Source：Yang et al. 2023 · arXiv:2309.03409 · public-domain</div>
+    <section class="card">
+      <h2>核心問題 <span class="en">· Question</span></h2>
+      <p>沒有梯度時怎麼優化？能不能直接讓 LLM 當優化器，用自然語言描述任務去搜更好的解（與 prompt）？</p>
+    </section>
+
+    <section class="card">
+      <h2>🔴 背景與痛點 <span class="en">· Red</span></h2>
+      <ul>
+        <li>Yang, Wang, Lu, Liu, Le, Zhou, Chen (2023)，arXiv:2309.03409（Google DeepMind）</li>
+        <li>痛點：很多真實問題沒有梯度，derivative-based 方法用不上</li>
+        <li>示範任務：線性回歸、旅行推銷員問題（TSP）</li>
+        <li>授權：public-domain（Zotero 標記）；導讀／教材可用</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🟡 概念 <span class="en">· Yellow</span></h2>
+      <ul>
+        <li>OPRO = Optimization by PROmpting</li>
+        <li>LLM 當 optimizer（優化器）</li>
+        <li>任務用 natural language 描述</li>
+        <li>每步：帶入「過去的解 + 分數」→ 生新解；評估後再加回 prompt，迭代</li>
+        <li>主應用：prompt optimization 找最佳指令</li>
+        <li>→ 對應我的 eval-driven / loop 工程</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🔵 原文依據 <span class="en">· Blue (quotes)</span></h2>
+      <blockquote>「the absence of gradient imposes challenges on many real-world applications」<br>「OPRO … leverage large language models (LLMs) as optimizers, where the optimization task is described in natural language」<br>「the LLM generates new solutions from the prompt that contains previously generated solutions with their values」<br>「the best prompts optimized by OPRO outperform human-designed prompts by up to 8% on GSM8K, and by up to 50% on Big-Bench Hard tasks」</blockquote>
+    </section>
+
+    <section class="card">
+      <h2>🟠 我的想法 <span class="en">· Takeaway</span></h2>
+      <ul>
+        <li>想法：「把過去的解 + 分數塞回 prompt 再生新解」＝一個純自然語言的優化迴圈，正是我外迴圈 loop engineering 的骨幹</li>
+        <li>→ 分數函數＝優化目標，可把 faithfulness 閘門當 score，讓 LLM 自迭代逼近（接 Maker/Checker）</li>
+        <li>→ 連結 AlgoCoach：用 OPRO 式搜尋自動調教練提示，勝過手工 prompt（呼應 X-driven 驗證紀律）</li>
+      </ul>
+    </section>
+    <details><summary>原卡圖 Card image</summary><p><img src="notes/2026-11-17_opro.png" alt="OPRO — 讓 LLM 當優化器，用自然語言迭代出更好的解與 prompt" style="width:100%;border:1px solid var(--line);border-radius:10px"></p></details>
+      <span class="note-tag" data-tag="提示工程">提示工程</span>
+    </article>
     <article class="note" data-tag="代理工程" data-search="2026-11-16 dspy — 把 lm pipeline 寫成可編譯程式，自動優化到一個指標 dspy — compiling declarative lm calls into self-improving pipelines khattab et al. 2023 · arxiv:2310.03714 · stanford nlp · arxiv 預設授權（非 cc；重用前宜洽作者） 代理工程 核心問題 · question 能不能別再手刻 prompt 字串？把 lm pipeline 寫成「程式」，再自動編譯優化到一個給定指標？ 🔴 背景與痛點 · red khattab, singhvi, maheshwari, zhang 等（2023），arxiv:2310.03714（stanford nlp） 痛點：現有 lm pipeline 多靠 trial-and-error 的硬刻 prompt 字串，難系統化、難優化 兩個案例：數學應用題 + 多跳檢索 / 複雜問答 / 控制 agent 迴圈 授權：arxiv 預設授權（非 cc）；重用前宜洽作者 🟡 概念 · yellow text transformation graph 文字轉換圖 declarative module 宣告式模組 parameterized 參數化（自舉示範 bootstrap demonstrations） compiler 編譯器（優化到給定指標） multi-hop retrieval 多跳檢索 → 對應我的 loop / harness 工程 🔵 原文依據 · blue (quotes) 「existing lm pipelines are typically implemented using hard-coded &quot;prompt templates&quot;」「dspy, a programming model that abstracts lm pipelines as text transformation graphs」「modules … can learn … how to apply compositions of prompting, finetuning, augmentation, and reasoning techniques」「a compiler that will optimize any dspy pipeline to maximize a given metric」「outperform standard few-shot prompting (generally by over 25% and 65%, respectively)」 🟠 我的想法 · takeaway 想法：把 prompt 當「可編譯程式」而非字串 = 我 prompt→context→harness→loop 四思維的工程化範本 →「優化到一個 metric」正合 maker/checker：把 faithfulness 閘門當編譯目標，讓 pipeline 自舉去逼近它 → 連結 coach/rag：multi-hop 檢索 + 控制 agent 迴圈可模組化，評分器=編譯目標，不再手刻 prompt">
       <div class="id">2026-11-16</div>
       <h2 style="margin:4px 0 2px">DSPy — 把 LM pipeline 寫成可編譯程式，自動優化到一個指標<span class="en">DSPy — compiling declarative LM calls into self-improving pipelines</span></h2>
