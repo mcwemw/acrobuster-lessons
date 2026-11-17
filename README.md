@@ -2,7 +2,7 @@
 
 一個靜態研究講義站，把作者（吳美真 / Emma Wu）的原創研究概念拆成一張張「概念卡」呈現。像課堂的呆一布講義，但內容全部原創。
 
-**線上瀏覽**：啟用 GitHub Pages 後的網址（見下）。
+**線上瀏覽**：https://mcwemw.github.io/acrobuster-lessons/
 
 ## 這個 repo 的重點
 
@@ -26,6 +26,8 @@ lessons/            各張講義卡 + _TEMPLATE.html
 
 直接用瀏覽器開 `index.html` 即可（純靜態、無需建置）。
 
-## 啟用 GitHub Pages
+## 線上網址（GitHub Pages）
 
-Settings → Pages → Source 選 `main` 分支 `/ (root)` → 儲存，等網址生效。
+已啟用：**https://mcwemw.github.io/acrobuster-lessons/**
+
+（設定方式：Settings → Pages → Source 選 `main` 分支 `/ (root)` → 儲存。）
