@@ -45,6 +45,53 @@
   </div>
   <div class="filterbar" id="filterbar"></div>
   <div id="notes">
+    <article class="note" data-tag="提示工程" data-search="2026-11-18 self-consistency — 取樣多條推理路徑，用多數一致挑最可信答案 self-consistency improves chain-of-thought reasoning in language models wang et al. 2022 · arxiv:2203.11171 · arxiv 預設授權（非 cc；重用前宜洽作者） 提示工程 核心問題 · question cot 只取貪婪解（一條推理路徑）就好嗎？能不能取樣多條推理路徑，再用「多數一致」挑最可信的答案？ 🔴 背景與痛點 · red wang, wei, schuurmans, le, chi 等（2022），arxiv:2203.11171 背景：cot + 預訓練 llm 在複雜推理任務上已有好結果 痛點：原 cot 用 naive greedy decoding，只走一條推理路徑 授權：arxiv 預設授權（非 cc）；重用前宜洽作者 🟡 概念 · yellow self-consistency 自我一致性（新解碼策略） 取代 greedy decoding 取樣 diverse reasoning paths（多條推理路徑） marginalize 邊際化 → 選 most consistent answer（= majority vote 多數決） 直覺：複雜題有多種思路，但指向同一正解 → 對應我的 deterministic gate / maker-checker 🔵 原文依據 · blue (quotes) 「self-consistency, to replace the naive greedy decoding used in chain-of-thought prompting」「samples a diverse set of reasoning paths instead of only taking the greedy one」「selects the most consistent answer by marginalizing out the sampled reasoning paths」「a complex reasoning problem typically admits multiple different ways of thinking leading to its unique correct answer」「gsm8k (+17.9%), svamp (+11.0%), aqua (+12.2%)」 🟠 我的想法 · takeaway 想法：「取樣多條路徑→多數決挑最一致」= 把單次生成的隨機性，用集成一致性壓成可信答案，正合我驗證紀律的精神 → 一致性可當 faithfulness 閘門的廉價代理：多路徑若收斂同一答案 → 提高信心（接 maker/checker 自評） → 連結 algocoach：教練給題解可取樣多條，用一致性當自評分，不盲信單一生成（呼應 x-driven 驗證）">
+      <div class="id">2026-11-18</div>
+      <h2 style="margin:4px 0 2px">Self-Consistency — 取樣多條推理路徑，用多數一致挑最可信答案<span class="en">Self-Consistency improves chain-of-thought reasoning in language models</span></h2>
+      <div class="src">出處 Source：Wang et al. 2022 · arXiv:2203.11171 · arXiv 預設授權（非 CC；重用前宜洽作者）</div>
+    <section class="card">
+      <h2>核心問題 <span class="en">· Question</span></h2>
+      <p>CoT 只取貪婪解（一條推理路徑）就好嗎？能不能取樣多條推理路徑，再用「多數一致」挑最可信的答案？</p>
+    </section>
+
+    <section class="card">
+      <h2>🔴 背景與痛點 <span class="en">· Red</span></h2>
+      <ul>
+        <li>Wang, Wei, Schuurmans, Le, Chi 等（2022），arXiv:2203.11171</li>
+        <li>背景：CoT + 預訓練 LLM 在複雜推理任務上已有好結果</li>
+        <li>痛點：原 CoT 用 naive greedy decoding，只走一條推理路徑</li>
+        <li>授權：arXiv 預設授權（非 CC）；重用前宜洽作者</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🟡 概念 <span class="en">· Yellow</span></h2>
+      <ul>
+        <li>self-consistency 自我一致性（新解碼策略）</li>
+        <li>取代 greedy decoding</li>
+        <li>取樣 diverse reasoning paths（多條推理路徑）</li>
+        <li>marginalize 邊際化 → 選 most consistent answer（= majority vote 多數決）</li>
+        <li>直覺：複雜題有多種思路，但指向同一正解</li>
+        <li>→ 對應我的 deterministic gate / Maker-Checker</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🔵 原文依據 <span class="en">· Blue (quotes)</span></h2>
+      <blockquote>「self-consistency, to replace the naive greedy decoding used in chain-of-thought prompting」<br>「samples a diverse set of reasoning paths instead of only taking the greedy one」<br>「selects the most consistent answer by marginalizing out the sampled reasoning paths」<br>「a complex reasoning problem typically admits multiple different ways of thinking leading to its unique correct answer」<br>「GSM8K (+17.9%), SVAMP (+11.0%), AQuA (+12.2%)」</blockquote>
+    </section>
+
+    <section class="card">
+      <h2>🟠 我的想法 <span class="en">· Takeaway</span></h2>
+      <ul>
+        <li>想法：「取樣多條路徑→多數決挑最一致」= 把單次生成的隨機性，用集成一致性壓成可信答案，正合我驗證紀律的精神</li>
+        <li>→ 一致性可當 faithfulness 閘門的廉價代理：多路徑若收斂同一答案 → 提高信心（接 Maker/Checker 自評）</li>
+        <li>→ 連結 AlgoCoach：教練給題解可取樣多條，用一致性當自評分，不盲信單一生成（呼應 X-driven 驗證）</li>
+      </ul>
+    </section>
+    <details><summary>原卡圖 Card image</summary><p><img src="notes/2026-11-18_self-consistency.png" alt="Self-Consistency — 取樣多條推理路徑，用多數一致挑最可信答案" style="width:100%;border:1px solid var(--line);border-radius:10px"></p></details>
+      <span class="note-tag" data-tag="提示工程">提示工程</span>
+    </article>
     <article class="note" data-tag="提示工程" data-search="2026-11-17 opro — 讓 llm 當優化器，用自然語言迭代出更好的解與 prompt large language models as optimizers (opro) yang et al. 2023 · arxiv:2309.03409 · public-domain 提示工程 核心問題 · question 沒有梯度時怎麼優化？能不能直接讓 llm 當優化器，用自然語言描述任務去搜更好的解（與 prompt）？ 🔴 背景與痛點 · red yang, wang, lu, liu, le, zhou, chen (2023)，arxiv:2309.03409（google deepmind） 痛點：很多真實問題沒有梯度，derivative-based 方法用不上 示範任務：線性回歸、旅行推銷員問題（tsp） 授權：public-domain（zotero 標記）；導讀／教材可用 🟡 概念 · yellow opro = optimization by prompting llm 當 optimizer（優化器） 任務用 natural language 描述 每步：帶入「過去的解 + 分數」→ 生新解；評估後再加回 prompt，迭代 主應用：prompt optimization 找最佳指令 → 對應我的 eval-driven / loop 工程 🔵 原文依據 · blue (quotes) 「the absence of gradient imposes challenges on many real-world applications」「opro … leverage large language models (llms) as optimizers, where the optimization task is described in natural language」「the llm generates new solutions from the prompt that contains previously generated solutions with their values」「the best prompts optimized by opro outperform human-designed prompts by up to 8% on gsm8k, and by up to 50% on big-bench hard tasks」 🟠 我的想法 · takeaway 想法：「把過去的解 + 分數塞回 prompt 再生新解」＝一個純自然語言的優化迴圈，正是我外迴圈 loop engineering 的骨幹 → 分數函數＝優化目標，可把 faithfulness 閘門當 score，讓 llm 自迭代逼近（接 maker/checker） → 連結 algocoach：用 opro 式搜尋自動調教練提示，勝過手工 prompt（呼應 x-driven 驗證紀律）">
       <div class="id">2026-11-17</div>
       <h2 style="margin:4px 0 2px">OPRO — 讓 LLM 當優化器，用自然語言迭代出更好的解與 prompt<span class="en">Large Language Models as Optimizers (OPRO)</span></h2>

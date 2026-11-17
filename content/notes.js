@@ -1,6 +1,14 @@
 // 由 build_notes.py 從 notes_md/*.md 生成,勿手改。
 const NOTES = [
   {
+    "date": "2026-11-18",
+    "title": "Self-Consistency — 取樣多條推理路徑，用多數一致挑最可信答案",
+    "title_en": "Self-Consistency improves chain-of-thought reasoning in language models",
+    "source": "Wang et al. 2022 · arXiv:2203.11171 · arXiv 預設授權（非 CC；重用前宜洽作者）",
+    "img": "2026-11-18_self-consistency.png",
+    "tag": "提示工程"
+  },
+  {
     "date": "2026-11-17",
     "title": "OPRO — 讓 LLM 當優化器，用自然語言迭代出更好的解與 prompt",
     "title_en": "Large Language Models as Optimizers (OPRO)",
