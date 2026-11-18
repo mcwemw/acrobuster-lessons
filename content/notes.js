@@ -1,6 +1,14 @@
 // 由 build_notes.py 從 notes_md/*.md 生成,勿手改。
 const NOTES = [
   {
+    "date": "2026-11-19",
+    "title": "Prompt Programming — 把 prompt 當自然語言寫的「程式」",
+    "title_en": "Prompt Programming for Large Language Models — Beyond the Few-Shot Paradigm",
+    "source": "Reynolds & McDonell 2021 · arXiv:2102.07350 · CC-BY-4.0",
+    "img": "2026-11-19_prompt-programming.png",
+    "tag": "提示工程"
+  },
+  {
     "date": "2026-11-18",
     "title": "Self-Consistency — 取樣多條推理路徑，用多數一致挑最可信答案",
     "title_en": "Self-Consistency improves chain-of-thought reasoning in language models",
