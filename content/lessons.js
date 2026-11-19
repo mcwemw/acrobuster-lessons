@@ -467,5 +467,23 @@ const LESSONS = [
     "summary": "機器人要導航，得先把原始像素變成規劃器讀得懂的世界。HW4 要你訓一個 YOLO 做兩件事：偵測（框出目的地、障礙——稀疏的「哪裡有什麼」）和分割（判斷每個像素是路/牆/橋/河——稠密的「每個像素是什麼」）。偵測到障礙就繞開，分割出可走區域就知道往哪走。而你得自己在虛擬環境蒐資料、設計類別——感知的上限，又是被你蒐的資料鎖死。",
     "summary_en": "To navigate, a robot must first turn raw pixels into a world the planner can read. HW4 asks you to train a YOLO to do two things: detection (box the destination and obstacles — a sparse \"where are things\") and segmentation (label every pixel as road/wall/bridge/river — a dense \"what is every pixel\"). Detect an obstacle and route around it; segment the traversable region and you know where to go. And you must collect data in a virtual environment and design the categories yourself — so perception's ceiling is, once again, set by the data you gather.",
     "tag": "代理工程"
+  },
+  {
+    "id": "53",
+    "slug": "tests-are-the-spec-you-own-what-you-merge",
+    "title": "AI 寫的程式，測試是你交出去的規格；你 merge 的，你負責",
+    "title_en": "When AI Writes the Code, Tests Are the Spec You Hand Over — and You Own What You Merge",
+    "summary": "AI 很會寫「看起來對」的程式——但看起來對不等於做對：HumanEval 只認「通過測試」不認「像參考答案」，Veracode 測逾百模型有 45% 引入漏洞，BaxBench 的正確後端約一半仍可被攻破。所以真正的交付物不是程式碼（那可重生），而是你寫的測試——它把「怎樣算對」釘死成可執行的規格。而一段文字規格可以被讀成好幾種意思，你不能執行一段文字。最後：當 AI 寫的程式出錯，負責的是按下 merge 的人；「AI 寫的」不該出現在 bug report、事故檢討或成績申訴裡。",
+    "summary_en": "AI is great at code that looks right — but looking right isn't being right: HumanEval only counts a sample correct if it passes the tests, not if it resembles a reference; Veracode found 45% of 100+ models introduced vulnerabilities; about half of BaxBench's correct backends were still exploitable. So the real deliverable isn't the code (that's regenerable) — it's the tests you write, which pin down what 'right' means as an executable spec. A prose spec can be read several ways, and you can't run a paragraph. Finally: when AI-written code is wrong, the person who hit merge owns it; 'the AI wrote it' does not belong in a bug report, an incident review, or a grade appeal.",
+    "tag": "軟體工程"
+  },
+  {
+    "id": "54",
+    "slug": "self-debugging-loop-diagnose-before-fix-stop-rule",
+    "title": "用 AI 除錯要像科學家：先診斷再修、三次無進展就停、沒 traceback 就先寫一個會失敗的測試",
+    "title_en": "Debug with AI Like a Scientist: Diagnose Before You Fix, Stop After Three Attempts, and When There's No Traceback, Write a Failing Test First",
+    "summary": "跟 AI 跑除錯迴圈很便宜（貼錯誤→要診斷→修→再跑），危險的是不經思考地一直跑。三個紀律把它從「亂猜」變「科學」：① 先診斷再修——要 AI 給「三個可能原因＋各自怎麼驗」，驗證那步你自己做（沒驗過的原因只是講得很順的猜測，建立在錯診斷上的修一定錯）；② 停損規則——同一個問題三次無進展就停，換更小的例子、更清楚的規格、或自己讀；動手前先 git commit，永遠回得去；③ 沒有 traceback 的 bug（答錯、太慢、不安全都不會 crash）要先寫成一個會失敗的測試，迴圈才有靶、你才知道何時算修完。",
+    "summary_en": "Running a debug loop with AI is cheap (paste the error, ask for a diagnosis, fix, run again); the danger is running it without thinking. Three disciplines turn it from guessing into science: (1) Diagnose before you fix — ask AI for 'three possible causes and how to check each,' but do the checking yourself (an unchecked cause is just a fluent guess, and a fix built on a wrong diagnosis is wrong however confident it sounds); (2) a stop rule — three attempts with no progress on the same problem, then stop and change something (a smaller example, a clearer spec, or read it yourself); git commit before you start so you can always go back; (3) a bug with no traceback (wrong answers, slow runs, security holes don't crash) must first be turned into a failing test, so the loop has a target and you know when you're done.",
+    "tag": "軟體工程"
   }
 ];
