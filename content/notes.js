@@ -1,6 +1,14 @@
 // 由 build_notes.py 從 notes_md/*.md 生成,勿手改。
 const NOTES = [
   {
+    "date": "2026-11-20",
+    "title": "Selective Annotation — 用圖挑「最少又最有代表」的範例來標",
+    "title_en": "Selective Annotation Makes Language Models Better Few-Shot Learners",
+    "source": "Su et al. 2022 · arXiv:2209.01975 · arXiv-license",
+    "img": "2026-11-20_selective-annotation.png",
+    "tag": "RAG"
+  },
+  {
     "date": "2026-11-19",
     "title": "Prompt Programming — 把 prompt 當自然語言寫的「程式」",
     "title_en": "Prompt Programming for Large Language Models — Beyond the Few-Shot Paradigm",
