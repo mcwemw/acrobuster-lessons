@@ -1,6 +1,14 @@
 // 由 build_notes.py 從 notes_md/*.md 生成,勿手改。
 const NOTES = [
   {
+    "date": "2026-11-21",
+    "title": "APE — 讓 LLM 自動生成並挑選「人類水準」的 prompt",
+    "title_en": "Large Language Models Are Human-Level Prompt Engineers",
+    "source": "Zhou et al. 2022 · arXiv:2211.01910 · arXiv-license（非 CC）",
+    "img": "2026-11-21_ape.png",
+    "tag": "提示工程"
+  },
+  {
     "date": "2026-11-20",
     "title": "Selective Annotation — 用圖挑「最少又最有代表」的範例來標",
     "title_en": "Selective Annotation Makes Language Models Better Few-Shot Learners",
