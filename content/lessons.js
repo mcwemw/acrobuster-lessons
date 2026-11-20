@@ -485,5 +485,14 @@ const LESSONS = [
     "summary": "跟 AI 跑除錯迴圈很便宜（貼錯誤→要診斷→修→再跑），危險的是不經思考地一直跑。三個紀律把它從「亂猜」變「科學」：① 先診斷再修——要 AI 給「三個可能原因＋各自怎麼驗」，驗證那步你自己做（沒驗過的原因只是講得很順的猜測，建立在錯診斷上的修一定錯）；② 停損規則——同一個問題三次無進展就停，換更小的例子、更清楚的規格、或自己讀；動手前先 git commit，永遠回得去；③ 沒有 traceback 的 bug（答錯、太慢、不安全都不會 crash）要先寫成一個會失敗的測試，迴圈才有靶、你才知道何時算修完。",
     "summary_en": "Running a debug loop with AI is cheap (paste the error, ask for a diagnosis, fix, run again); the danger is running it without thinking. Three disciplines turn it from guessing into science: (1) Diagnose before you fix — ask AI for 'three possible causes and how to check each,' but do the checking yourself (an unchecked cause is just a fluent guess, and a fix built on a wrong diagnosis is wrong however confident it sounds); (2) a stop rule — three attempts with no progress on the same problem, then stop and change something (a smaller example, a clearer spec, or read it yourself); git commit before you start so you can always go back; (3) a bug with no traceback (wrong answers, slow runs, security holes don't crash) must first be turned into a failing test, so the loop has a target and you know when you're done.",
     "tag": "軟體工程"
+  },
+  {
+    "id": "55",
+    "slug": "four-engineering-mindsets",
+    "title": "四大工程思維：一層疊一層的能力槓桿階梯",
+    "title_en": "Four Engineering Mindsets — A Layered Leverage Ladder for AI Capability",
+    "summary": "讓 AI 從「只能接話」變成「能自主完成任務並越做越好」的四層槓桿：Prompt → Context → Harness → Loop，不是並列選項，是一層墊一層。",
+    "summary_en": "Four layers of leverage that take AI from \"just completing text\" to \"finishing tasks autonomously and improving over time\" — Prompt → Context → Harness → Loop — not parallel options but a stack where each rests on the one below.",
+    "tag": "AI 工程"
   }
 ];

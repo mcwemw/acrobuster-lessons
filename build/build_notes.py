@@ -109,6 +109,52 @@ def esc_attr(s):
     return s.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;").replace(">", "&gt;")
 
 
+_ANCHOR = re.compile(r'<a href="([^":/]+)\.html">(.*?)</a>', re.DOTALL)
+
+# 概念 slug → 實際講義頁(當 note 的 [[slug]] 不是課卡 slug、但語意對得上某張卡時)。
+ALIAS = {
+    "delivery-verifier-discipline": "24-evaluate-the-evaluator",
+}
+
+class DeadLinkError(Exception):
+    """note 連結解不到真頁 → 發佈前就該修根(補卡/補 alias),不靜默降級。"""
+
+
+def resolve_note_links(html, out):
+    """note 的 [[slug]] 會變 root 相對 <a href="slug.html">。但課卡頁在 lessons/NN-slug.html。
+    依序把 note 連結解析成有效連結:
+      1. ALIAS 明確對照 → lessons/<對照>.html
+      2. 自動:lessons/*-<slug>.html 存在 → 指過去
+      3. out/ 下同名 root 頁(index/notes)存在 → 保留
+    解不到 → 收集後 raise DeadLinkError 中止 build。
+    原則:遇到問題不是降級。死連要大聲報、逼人補真頁,絕不偷偷變純文字把 404 藏掉。
+    """
+    les_dir = os.path.join(out, "lessons")
+    lesson_files = os.listdir(les_dir) if os.path.isdir(les_dir) else []
+    dead = []
+    def repl(m):
+        slug, txt = m.group(1), m.group(2)
+        if slug in ALIAS:
+            return f'<a href="lessons/{ALIAS[slug]}.html">{txt}</a>'
+        hit = next((f for f in lesson_files if f == f"{slug}.html"
+                    or f.endswith(f"-{slug}.html")), None)
+        if hit:
+            return f'<a href="lessons/{hit}">{txt}</a>'
+        if os.path.exists(os.path.join(out, f"{slug}.html")):
+            return m.group(0)
+        dead.append(slug)
+        return m.group(0)
+    html = _ANCHOR.sub(repl, html)
+    if dead:
+        uniq = sorted(set(dead))
+        raise DeadLinkError(
+            "note 連結解不到真頁(發佈會 404):\n  " + "\n  ".join(uniq) +
+            "\n修法(擇一,不要降級):① 建對應課卡 cards/NN-<slug>.md;"
+            "② 若語意對得上既有卡,在 build_notes.py 的 ALIAS 加對照;"
+            "③ 真的不該連,就把 note md 裡的 [[...]] 改成純文字(人工決定,非 builder 自動)。")
+    return html
+
+
 def render_note(meta, body):
     tag = meta.get("tag", "未分類")
     sections = build.render_body(body)
@@ -145,6 +191,7 @@ def main(argv):
             notes.append((meta, body))
     notes.sort(key=lambda mb: mb[0].get("date", ""), reverse=True)  # newest first
     html = PAGE_HEAD + "".join(render_note(m, b) for m, b in notes) + PAGE_TAIL
+    html = resolve_note_links(html, out)
     open(os.path.join(out, "notes.html"), "w", encoding="utf-8").write(html)
     idx = [{k: m.get(k, "") for k in ("date", "title", "title_en", "source", "img", "tag")}
            for m, _ in notes]
