@@ -31,6 +31,29 @@ tag: AI
 - **利用(exploit)**:選當前估計最好的動作;**探索(explore)**:試沒試過的以免錯過更好。(ai-rl-wikipedia)
 - **ε-greedy**:機率 ε 隨機探索、1−ε 貪婪;或 UCB/樂觀初始值。探索不足 → 卡在次優。
 
+## 4. 深化:Q-learning 更新 worked + Q vs SARSA + 收斂
+
+### 4.1 Q-learning 更新 worked
+狀態 s 做 a 得 r=5、到 s';α=0.1,γ=0.9。當前 Q(s,a)=2,s' 各動作 Q 最大 =10。
+Q(s,a) ← 2 + 0.1·[5 + 0.9·10 − 2] = 2 + 0.1·[12] = **3.2**。TD 誤差 δ=12>0 → 此動作比預期好,上調。
+
+### 4.2 Q-learning(off-policy) vs SARSA(on-policy)
+同轉移 (s,a,r,s',a'),a' 由 ε-greedy 實際選到某非最優動作:
+- **Q-learning**:用 max_{a'} Q(s',a') 更新(不管實際 a')→ 學**最優**策略,較激進。
+- **SARSA**:用實際 Q(s',a') 更新 → 學**當前行為**策略,較保守。
+**懸崖漫步**經典對比:Q-learning 學會走懸崖邊最短路(但 ε 探索時常摔);SARSA 學繞遠路避懸崖(考慮探索風險)。
+
+### 4.3 收斂條件
+Q-learning 收斂到 Q* 需:①所有 (s,a) 被無限次訪問 ②步長 α 滿足 Σα=∞, Σα²<∞(如 α=1/t)。TD/Q 是**無模型 + bootstrapping**:不需 P、R,用樣本估並以估計更新估計。
+
+### 4.4 陷阱
+| 陷阱 | 正解 |
+|---|---|
+| Q-learning=SARSA | Q 用 max(off-policy)、SARSA 用實際 a'(on-policy) |
+| RL 需環境模型 | TD/Q **無模型**;value/policy iteration 才需模型 |
+| 純利用最好 | 探索不足卡次優;需 ε-greedy/UCB 平衡 |
+| TD 等回合結束才更新 | TD **單步** bootstrap,不等回合結束(對比 Monte Carlo) |
+
 ## 我的想法 / 啟發
 
 - **RL = [[ai-probabilistic-reasoning]] 的 MDP + 從經驗估值**:expectiminimax/決策論給「已知模型下的最優」,RL 處理「模型未知、要邊做邊學」。這條線(搜尋→對抗→機率→決策→RL)資格考常串起來考。

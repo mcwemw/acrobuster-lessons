@@ -30,6 +30,30 @@ tag: AI
 - **Planning graph**(Graphplan):交替堆疊「命題層/動作層」,記錄**互斥(mutex)**關係;可抽取 admissible 啟發式(目標在圖中最早出現的層)、或直接抽解。(ai-graphplan-wikipedia)
 - 其他:把規劃編譯成 **SAT**([[ai-logic]])丟給 SAT solver(SATPlan)。
 
+## 4. 深化:STRIPS worked + planning graph mutex + 複雜度
+
+### 4.1 STRIPS 積木世界 worked
+初始:On(A,Table),On(B,Table),Clear(A),Clear(B)。目標:On(A,B)。
+動作 Stack(A,B):**前提** Clear(A)∧Clear(B)∧Holding(A)…(簡化)。
+先 Pickup(A):前提 Clear(A)∧OnTable(A)∧ArmEmpty;add Holding(A);del OnTable(A),ArmEmpty。再 Stack(A,B):add On(A,B),Clear(A),ArmEmpty;del Holding(A),Clear(B)。計畫 = [Pickup(A), Stack(A,B)]。
+
+### 4.2 planning graph 與 mutex
+交替堆「命題層 Pᵢ / 動作層 Aᵢ」。**互斥(mutex)**關係:
+- 動作互斥:一個的效果否定另一個的前提/效果(衝突),或前提互斥。
+- 命題互斥:所有產生它們的動作兩兩互斥。
+目標命題在圖中**最早同時非互斥出現的層**= admissible 啟發式(level sum/max)。Graphplan 從圖反向抽解。
+
+### 4.3 複雜度
+經典規劃(PlanSAT 計畫存在性)一般 **PSPACE-complete**;有界長度計畫 NP-complete。因子化表示讓啟發式能看穿結構,實務靠 planning graph/SATPlan/啟發式搜尋(如 FF)對抗指數。
+
+### 4.4 陷阱
+| 陷阱 | 正解 |
+|---|---|
+| 規劃=一般圖搜尋 | 規劃用**因子化狀態**,可導啟發式/偵測獨立子目標 |
+| delete list 可省 | 不可;要記哪些命題被動作**否定**(否則狀態錯) |
+| planning graph 直接給解 | 給**啟發式/mutex**;抽解需反向搜尋(Graphplan) |
+| 經典規劃假設可放寬無代價 | 放寬確定性→MDP、可觀測→POMDP,複雜度升 |
+
 ## 我的想法 / 啟發
 
 - **規劃=[[ai-search]] + 結構化狀態**:同是找路徑,但因子化表示讓啟發式「看進」狀態內部(哪些子目標已達)——這正是 AIMA「規劃比搜尋聰明」的關鍵,資格考要能說清差別。

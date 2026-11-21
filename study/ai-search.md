@@ -38,6 +38,29 @@ tag: AI
 - 要最優 + 省空間(無資訊)→ **IDS**;有好 heuristic → **A\***。
 - UCS=Dijkstra(無 h);greedy=只有 h;A\*=g+h 兼顧。
 
+## 6. 深化:A* 最優性證明 + heuristic 設計 + 速查
+
+### 6.1 A* 樹搜尋最優性(admissible 下)
+反證:設 A* 回傳次優目標 G₂(g(G₂)>C*=最優成本)。最優路徑上必有未展開節點 n(在 frontier)。因 admissible:f(n)=g(n)+h(n) ≤ g(n)+真實剩餘 = C*。而 f(G₂)=g(G₂)>C* ≥ f(n) → A* 應先展開 n 而非 G₂,矛盾。∎ 圖搜尋版需 **consistent**(否則同節點可能以更小 g 再現要重展開)。
+
+### 6.2 consistent ⇒ admissible(但反之不然)
+consistent:h(n)≤c(n,n')+h(n')。沿最優路徑歸納:h(n)≤剩餘真實成本 = admissible。反例:admissible 但非 consistent 的 h 存在(某步 h 掉太快),圖搜尋需重展開才保最優。
+
+### 6.3 heuristic 設計法:鬆弛問題(relaxation)
+拿掉原問題約束 → 子問題的最優解成本是 admissible h。例 8-puzzle:
+- 允許方塊「瞬移」(拿掉相鄰約束)→ h=**錯位方塊數**(misplaced tiles)。
+- 允許方塊「疊走」(拿掉佔格約束)→ h=**曼哈頓距離**(更強、更接近真實)。
+鬆弛問題的解**必 ≤ 原問題** → 保證 admissible。更強 h(dominates)展開更少。
+
+### 6.4 速查(b 分支/d 深度/m 最大深度)
+| 法 | 完備 | 最優 | 時間 | 空間 |
+|---|---|---|---|---|
+| BFS | ✓ | 單位成本✓ | O(bᵈ) | O(bᵈ) |
+| DFS | ✗(無限深) | ✗ | O(bᵐ) | O(bm) |
+| UCS=Dijkstra | ✓ | ✓ | O(b^{1+⌊C*/ε⌋}) | 同 |
+| IDS | ✓ | 單位成本✓ | O(bᵈ) | **O(bd)** |
+| A* | ✓ | admissible✓ | 指數(視 h) | 指數(痛點)→ IDA* 省 |
+
 ## 我的想法 / 啟發
 
 - **A\* 把演算法軌的 Dijkstra 接上 AI**:UCS 就是 Dijkstra,A\* = Dijkstra + heuristic 導向 → 兩科在這裡接起來([[shortest-path]])。
