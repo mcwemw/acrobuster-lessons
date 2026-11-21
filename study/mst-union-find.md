@@ -44,6 +44,28 @@ tag: 演算法
 - **Prim**:優先佇列從點長樹;**稠密圖**佳;O(E log V)。
 - 兩者都貪婪、都靠 cut property;結果權重相同(邊權唯一時 MST 唯一)。
 
+## 6. 深化:cut property 證明 + Kruskal trace + DSU 分析
+
+### 6.1 cut property 交換論證
+主張:對任一割 (S, V∖S),跨割最小權邊 e=(u,v) 屬於某棵 MST。
+- 設 MST T 不含 e。加入 e 形成一個環,此環必有**另一條跨割邊** e'(因環從 S 出去又回來)。
+- w(e) ≤ w(e')(e 是跨割最小)。把 T 中的 e' 換成 e → 仍連通、仍是樹、總權 **不增** → 得另一棵 MST 且含 e。∎
+這正是 Kruskal/Prim「選安全最小邊」為何對(見 [[greedy-algorithms]] 擬陣視角)。
+
+### 6.2 Kruskal trace(邊 AB=1,BC=2,AC=3,CD=4,BD=5)
+排序 1,2,3,4,5。加 AB(1)✓合併{A,B};加 BC(2)✓{A,B,C};加 AC(3)✗(A,C 同集,跳);加 CD(4)✓{A,B,C,D};已 V−1=3 條邊停。MST={AB,BC,CD} 權=7。Union-Find 每次 O(α) 判成環。
+
+### 6.3 DSU 攤還 α(n) 來源
+單獨用:路徑壓縮 → 攤還 O(log n);按秩合併 → 單次 O(log n)。**兩者合用** → 攤還 **O(α(n))**,α=反 Ackermann(對任何實際 n,α(n)≤4)。直覺:按秩保證樹矮(秩 r 的樹 ≥2^r 節點 → 高 O(log n)),路徑壓縮再把高度幾乎攤平,合起來近乎常數。Tarjan 1975 證此界緊。
+
+### 6.4 陷阱
+| 陷阱 | 正解 |
+|---|---|
+| MST 唯一 | 邊權**皆相異**才唯一;有等權可能多棵 |
+| Prim=Dijkstra 同演算法 | 骨架同,但 Prim 比**邊權 w(u,v)**、Dijkstra 比**累積距離 d[u]+w** |
+| 只用路徑壓縮就 O(α) | 要**加按秩合併**才 α;單獨任一只到 O(log n) |
+| MST 給最短路 | ✗ MST 最小化**總權**,非點對距離;兩者無關([[shortest-path]]) |
+
 ## 我的想法 / 啟發
 
 - **MST 把「貪婪 + 圖 + Union-Find」三者綁一起考**:cut property=貪婪理論、Kruskal=排序+DSU、Prim=Dijkstra 同族 → 是串 [[greedy-algorithms]]/[[graph-traversal]]/[[shortest-path]] 的綜合題。
