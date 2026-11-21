@@ -57,6 +57,20 @@ partition 後 <5:[2,4,1],=5,>5:[7,9] → pivot 5 排名=4。要第 3<4 → 遞�
 | 選擇要先排序 | 核心洞察:**不必整排**,partition 一側遞迴 O(n) |
 | MoM 實務比 Quickselect 快 | 否,常數大;MoM 的價值是**最壞保證**,非實務速度 |
 
+## 6. 延伸:MoM 當 pivot + 多選 + 串流中位數
+
+### 6.1 以 MoM 為 pivot 的「內省」選擇/排序
+Quickselect 用隨機 pivot 期望 O(n)、最壞 O(n²);若 pivot 改用 median-of-medians,**最壞也 O(n)**(但常數大)。同理 Quicksort 用 MoM pivot → 最壞 O(n log n)(introselect/introsort 思路:先隨機,退化才切 MoM/Heap)。
+
+### 6.2 多重選擇 + 分位數
+一次求多個順序統計量(k₁<…<kₘ):遞迴 partition 共享,O(n log m)。求所有分位點 → 與 [[sorting]] 連續。
+
+### 6.3 串流/線上中位數
+資料流無法整存:用**雙堆**(大根堆存較小半、小根堆存較大半,平衡大小)→ 堆頂即中位數,每筆 O(log n) 插入、O(1) 查中位。這是 [[data-structures]] heap + [[parallel-and-online]] 線上的結合。
+
+### 6.4 加權中位數 / 選擇的應用
+加權中位數(最小化 Σwᵢ|x−xᵢ|,如最優設廠點)可由 selection 變形 O(n) 求。selection 也是 Quicksort pivot 品質、k-近鄰、top-k 查詢的底層。
+
 ## 我的想法 / 啟發
 
 - **「平均 vs 最壞」第 N 次出現**(呼應 [[sorting]] Quick/Heap、[[data-structures]] 雜湊/樹、[[string-matching]] KMP/RK):Quickselect 賭平均、BFPRT 買保證——同一個權衡母題。
