@@ -59,6 +59,21 @@ i 指向「<pivot 區」末端。掃 j:3<6→swap 自身 i=0;8≥6 跳;2<6→i=1
 | Quicksort 最壞 O(n log n) | 最壞 O(n²)(已排序+固定pivot);隨機化只保證**期望** |
 | 基數排序用不穩定子排序 | 會錯——各位子排序必須**穩定**才能保序 |
 
+## 6. 延伸:其他排序 + 穩定性 + 外部排序
+
+### 6.1 Heapsort 建堆 O(n)(反直覺)
+BUILD-MAX-HEAP 由下往上 sift-down:高度 h 的節點有 ⌈n/2^{h+1}⌉ 個、各做 O(h) → Σ_{h} (n/2^{h+1})·O(h) = O(n·Σ h/2^h) = **O(n)**(非 O(n log n))。之後 n 次取最大各 O(log n) → 排序總 O(n log n)。「建堆線性」是高頻陷阱。
+
+### 6.2 其他排序
+- **Boyer-Moore 不在此**(那是字串);排序的 **Shell sort**(改良插入,O(n^{1.3~1.5}))、**Tim sort**(merge+insertion 混合,實務標準庫用,利用已排序 run)。
+- **Introsort**:Quicksort + 遞迴過深轉 Heapsort → 兼得 Quick 常數與 Heap 最壞保證(C++ std::sort)。
+
+### 6.3 穩定性的意義
+穩定 = 等鍵元素保持原相對序。**多關鍵字排序**靠穩定(先排次要鍵、再穩定排主要鍵)。基數排序就靠每位穩定子排序。Quicksort/Heapsort 不穩定,需穩定時用 Merge 或加原索引當 tiebreak。
+
+### 6.4 外部排序(資料超過記憶體)
+**多路歸併**:切成能進記憶體的 run 各自排序寫回磁碟,再 k 路歸併。I/O 次數主導(呼應 [[augmented-data-structures]] B-tree 的 I/O 模型)。merge sort 的順序存取特性使它成為外部排序主力。
+
 ## 我的想法 / 啟發
 
 - **「下界」是資格考最愛的觀念題**:要能說清「Ω(n log n) 只管比較排序;計數/基數不比較,所以不受限」——很多人背錯成「排序不可能快過 n log n」。

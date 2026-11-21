@@ -63,6 +63,24 @@ SAT →(Cook-Levin 奠基)→ **3-SAT** → {Clique, Subset-Sum} → ...
 | 分解整數是 NPC | 目前**未知**是否 NPC(在 NP∩co-NP,普遍認為不是 NPC)([[number-theoretic-algorithms]]) |
 | NPC 就無解 | 有近似/啟發/參數化/特例多項式(如二分圖 VC 精確,見 [[bipartite-matching]] König) |
 
+## 7. 延伸:複雜度類階層 + 應對策略 + 近似硬度
+
+### 7.1 複雜度類關係
+P ⊆ NP ⊆ PSPACE ⊆ EXPTIME;**co-NP**(補問題在 NP,如「無解」的驗證)。
+- NP∩co-NP:質因數分解([[number-theoretic-algorithms]])、LP([[linear-programming]])在此(LP 其實 ∈P)。
+- **#P**:計數版(數解的個數),#P-complete(如數滿足賦值數)比判定更難。
+- **PSPACE-complete**:量化布林 QBF、許多博弈/規劃([[ai-planning]])。
+已知 P⊊EXPTIME(時間階層定理);但 P=?NP、NP=?PSPACE 皆未解。
+
+### 7.2 應對 NP-hard 的策略光譜
+①**近似演算法**(有保證比,[[approximation-algorithms]])②**啟發式**(無保證但實務好,如 SAT 的 CDCL)③**參數化**(FPT:f(k)·poly(n),固定參數 k 可解,如頂點覆蓋 O(2ᵏn))④**特例多項式**(二分圖 VC、區間圖著色、樹上問題 DP)⑤**精確指數**(Held-Karp TSP O(2ⁿn²),見 [[dynamic-programming]])。
+
+### 7.3 近似硬度(PCP 定理)
+**PCP 定理**:NP=PCP(log n, 1)(多項式可驗證證明只需讀常數位元)。推論:許多問題有**近似下界**——MAX-3SAT 無法優於 7/8(除非 P=NP)、集合覆蓋 (1−o(1))ln n、頂點覆蓋在 UGC 下無法 <2。即「不只難求最優,連好近似都難」。
+
+### 7.4 自歸約(search vs decision)
+NP 問題的「找解」可多項式歸約到「判定是否有解」:逐變數固定、問剩餘是否仍有解 → 用多項式次判定建出一個解。故判定與搜尋版同難。
+
 ## 我的想法 / 啟發
 
 - **NPC 的判法是「歸約」而非「從頭解」**:資格考要會「取一個已知 NPC → 多項式轉成目標問題」的證明骨架,方向別反(要 A≤ₚB,把已知難的歸約到新問題)。

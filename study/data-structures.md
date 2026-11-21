@@ -64,6 +64,26 @@ tag: 演算法
 | 範圍/successor | ✗ 無序 | ✓ O(log n+k) | ✗ |
 | 最壞保證 | ✗ | ✓ | — |
 
+## 7. 延伸:其他平衡樹 + 進階雜湊 + heap
+
+### 7.1 其他平衡/自調結構
+- **AVL**:高度差 ≤1,比紅黑更平衡(查詢快)、改寫旋轉更頻;|bf|≤1。
+- **Splay tree**:每次存取把節點旋到根,攤還 O(log n)(位能法,見 [[amortized-analysis]]),有「最近用快」的時序局部性。
+- **Treap**:BST+heap(隨機優先權)→ 期望 O(log n),實作簡單。
+- **跳表 Skip list**:多層鏈結,期望 O(log n),併發友善。
+
+### 7.2 進階雜湊
+- **完美雜湊**:靜態鍵集,兩層雜湊 → 最壞 O(1) 查詢、O(n) 空間(CLRS 11.5)。
+- **Cuckoo hashing**:兩個雜湊函數/表,最壞 O(1) 查詢;插入可能需踢遷、偶爾 rehash。
+- **一致性雜湊(consistent hashing)**:分散式系統節點增減時只搬 O(1/n) 鍵。
+
+### 7.3 進階 heap
+- **二項堆/Fibonacci 堆**:支援 O(1) 攤還 decrease-key/merge → 加速 Prim/Dijkstra([[shortest-path]])。
+- **配對堆(pairing heap)**:實務快的 Fibonacci 替代。
+
+### 7.4 van Emde Boas / 位元技巧
+整數鍵值域 u,vEB 樹支援 successor O(log log u);基數/位元 trie 做整數有序結構。超越比較模型(利用鍵是整數)。
+
 ## 我的想法 / 啟發
 
 - **「平均 vs 最壞」又出現了**(呼應 [[sorting]] 的 Quick vs Heap):雜湊賭平均 O(1)、紅黑樹買最壞 O(log n) 保證。資格考判題先問「能不能接受最壞退化」。

@@ -72,6 +72,20 @@ Floyd O(V³) 在稀疏圖不划算。Johnson:用 Bellman-Ford 算一組 reweight
 | Floyd-Warshall | DP(中繼) | ✓ | 可偵測(對角<0) | O(V³) |
 | Johnson | reweight+Dijkstra | ✓ | 可偵測 | O(V²logV+VE) |
 
+## 7. 延伸:DAG 最短路 + A* + 差分約束
+
+### 7.1 DAG 最短路 O(V+E)
+有向無環圖:先**拓樸排序**([[graph-traversal]]),再按拓樸序鬆弛每點出邊。因無環、拓樸序保證處理 u 時其所有前驅已定案 → 一遍 O(V+E),**容負權**(無環故無負環)。比 Dijkstra/Bellman-Ford 都快,是 DAG 專用。亦可求**最長路**(關鍵路徑/PERT)。
+
+### 7.2 A* = Dijkstra + 啟發式
+A*(見 [[ai-search]])用 f(n)=g(n)+h(n) 導向目標;h≡0 退化成 Dijkstra。admissible h 保證最優、consistent h 不需重展開。單目標最短路時 A* 比 Dijkstra 展開少很多(h 引導)。是演算法軌與 AI 軌的接點。
+
+### 7.3 差分約束系統(Bellman-Ford 應用)
+一組 xⱼ−xᵢ≤wᵢⱼ 的不等式 → 建圖(邊 i→j 權 wᵢⱼ)跑 Bellman-Ford:有負環 ⟺ 無解;否則最短路距離即一組可行解。把「排程/時序約束」化成最短路,是常見建模題。
+
+### 7.4 Dijkstra 堆選型
+二元堆 O((V+E)logV);**Fibonacci 堆** decrease-key 攤還 O(1) → O(E+VlogV),稠密圖理論更優(常數大實務少用);d-ary 堆可調。
+
 ## 我的想法 / 啟發
 
 - **三演算法 = 三種設計範式的縮影**:Dijkstra=貪婪、Bellman-Ford/Floyd=動態規劃、BFS=無權特例。資格考把「最短路」當成**串起 [[greedy-algorithms]] / [[dynamic-programming]] / [[graph-traversal]] 的樞紐題**。

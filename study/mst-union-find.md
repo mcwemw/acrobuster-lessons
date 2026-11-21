@@ -66,6 +66,28 @@ tag: 演算法
 | 只用路徑壓縮就 O(α) | 要**加按秩合併**才 α;單獨任一只到 O(log n) |
 | MST 給最短路 | ✗ MST 最小化**總權**,非點對距離;兩者無關([[shortest-path]]) |
 
+## 7. 延伸:Prim 堆選型 + 其他 MST + 性質
+
+### 7.1 Prim 的堆與複雜度
+- 二元堆 + decrease-key:O(E log V)。
+- **Fibonacci 堆**:decrease-key 攤還 O(1)、extract-min O(log V) → **O(E+V log V)**,稠密圖(E~V²)理論最優。
+- 鄰接矩陣 + 線性掃描:O(V²),稠密圖實務可用。
+
+### 7.2 其他 MST 演算法
+- **Borůvka**:每輪每個分量選最小出邊同時合併,O(E log V);**天然平行**,分散式 MST 基礎。
+- **cycle property**(對偶於 cut property):任一環上**最大權邊**不在任何 MST → 「刪最大環邊」反向法。
+- **Reverse-delete**:按權由大到小刪邊(不斷連通性)。
+
+### 7.3 MST 性質(常考)
+- 邊權**皆相異** → MST 唯一。
+- MST 是**最小瓶頸生成樹**(最大邊最小),但反之不必。
+- 加一條邊成環 → 刪環上最大邊仍 MST(動態維護)。
+- 次小 MST:枚舉換一條非樹邊 + 刪其環上最大樹邊。
+
+### 7.4 DSU 進階
+- **按秩 vs 按大小**:皆保證 O(log n) 樹高;合用路徑壓縮到 α。
+- **帶權 DSU / 可回退 DSU**:維護到根的關係(如奇偶、差值),支援「同組且關係」查詢;可回退版用於離線動態連通。
+
 ## 我的想法 / 啟發
 
 - **MST 把「貪婪 + 圖 + Union-Find」三者綁一起考**:cut property=貪婪理論、Kruskal=排序+DSU、Prim=Dijkstra 同族 → 是串 [[greedy-algorithms]]/[[graph-traversal]]/[[shortest-path]] 的綜合題。
