@@ -48,6 +48,25 @@ Tₚ ≤ T₁/p + T∞。證明:把計算分成 T∞ 個「層」,第 i 層有 m
 | LRU 最優 | LRU 是 k-競爭(k=快取大小);無線上演算法能 <k-競爭(確定性下界) |
 | 隨機化線上無用 | 隨機化可破確定性下界(如 paging O(log k)-競爭) |
 
+## 4. 延伸:PRAM + 平行原語 + 線上進階
+
+### 4.1 PRAM 模型與平行原語
+**PRAM**:共享記憶體多處理器,按同時讀/寫分 EREW/CREW/CRCW。核心可平行原語:
+- **prefix sum(scan)**:O(log n) span、O(n) work,平行前綴和是無數平行演算法的積木。
+- **reduce**:O(log n) 樹狀歸約。
+- 平行 merge/sort、list ranking、圖連通性皆建於 scan/reduce。
+
+### 4.2 work-efficient 的意義
+平行演算法理想:work 與最佳序列同階(work-efficient)+ span 小。例平行 prefix sum work O(n)=序列最佳、span O(log n)。work 爆掉(如 O(n log n) 做本可 O(n) 的事)即使 span 小也浪費處理器。
+
+### 4.3 線上演算法進階
+- **k-server 問題**:k 個移動伺服器服務請求序列,最小化移動距離;確定性下界 k-競爭。
+- **paging/caching**:LRU/FIFO k-競爭;隨機化 marking 演算法 O(log k)-競爭(破確定性下界)。
+- **yao's principle**:隨機化演算法下界 = 某輸入分佈上確定性演算法的期望成本下界(min-max),證隨機化競爭比下界的工具。
+
+### 4.4 分散式/平行的現實模型
+MapReduce、BSP(bulk synchronous）、work-stealing 排程(Cilk)。Brent 定理保證貪婪排程器接近最優。現代 GPU/多核把這些從理論帶進日常。
+
 ## 我的想法 / 啟發
 
 - **平行的 work/span 二量是「總功 vs 關鍵路徑」**:span 是再多處理器也壓不掉的下限,呼應 Amdahl「序列部分卡住加速」。資格考要能由 work/span 算平行度與 Brent 界。
