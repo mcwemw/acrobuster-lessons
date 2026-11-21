@@ -3,6 +3,8 @@
 > NYCU 資工博士班資格考(AI + 演算法)逐章複習頁。每章由公開 CC 教材 ingest、每條主張可回原始來源。
 > 🔴 全程公開資料,真題零碰。章節 = 教科書真實章序(演算法→CLRS 4e、AI→AIMA 4e)。
 > 這是 TAICA 生成式AI 第十週「LLM Wiki」作業(A10)的延伸,升級成資格考逐章複習庫。
+>
+> 📎 **實作參考(程式碼對照)**:[implementations.md](implementations.md) — 每章對應 cp-algorithms(CC,C++)+ AlgoStar(F*驗證,僅參考)。概念頁不內嵌版權碼。
 
 ## 演算法（CLRS 4e）
 
