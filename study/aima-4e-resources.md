@@ -1,4 +1,4 @@
-# AIMA 4e 學習資源整合（AI 軌）🦞
+# AIMA 4e 學習資源整合（AI 軌）
 
 > 把 6 個公開 AIMA 第四版資料源逐章對齊到本庫 24 頁 AI 軌複習頁。
 > **互動中樞**（可點矩陣，GitHub Pages 開）：<https://mcwemw.github.io/acrobuster-lessons/genai/aima-4e-hub.html>
@@ -63,4 +63,4 @@
 5. 卡住的點回寫 gotchas（複利）。
 
 ---
-_連結於 2026-11-21 逐一驗證；真題零碰，只掛公開 CC/MIT 教材。_ 🦞
+_連結於 2026-11-21 逐一驗證；只掛公開 CC/MIT 教材。_

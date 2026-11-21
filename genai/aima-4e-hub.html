@@ -62,7 +62,7 @@
 <body>
 <header>
   <h1><span class="ac">AC</span><span class="rb">ROBUST</span><span class="er">er</span> · AIMA 4e 學習資源整合中樞</h1>
-  <div class="sub">Russell &amp; Norvig《Artificial Intelligence: A Modern Approach》第 4 版 — 6 個開放資料源 × 你的 24 頁資格考 AI 軌 wiki，逐章對齊。🦞 NYCU 博士資格考（AI+演算法，2027/1/5）</div>
+  <div class="sub">Russell &amp; Norvig《Artificial Intelligence: A Modern Approach》第 4 版 — 6 個開放資料源 × AI 軌 28 章複習頁，逐章對齊。</div>
 </header>
 <div class="wrap">
 
@@ -82,7 +82,7 @@
       <h3>📝 aimacode / aima-exercises</h3>
       <div class="tag">官方線上習題（4e 起只在線上）</div>
       <p>社群維護的題庫，逐章 markdown + LaTeX，部分附解答。資格考練手最直接的素材。</p>
-      <div class="use">應用：每章刷題 → 對照你 wiki 的 gotchas 表自評。練「會不會做」勝過「看得懂」。</div>
+      <div class="use">應用：每章刷題 → 對照講義 gotchas 自評。練「會不會做」勝過「看得懂」。</div>
       <div class="lic">MIT · ⚠️ 用 3e 27 章編號（後半章號 ≠ 4e）→ 本表已按主題對好；部分章無題</div>
       <a class="go" href="https://aimacode.github.io/aima-exercises/" target="_blank" rel="noopener">開啟題庫 →</a>
     </div>
@@ -91,7 +91,7 @@
       <h3>🐍 aimacode / aima-python</h3>
       <div class="tag">Norvig 官方 Python 實作 · 21 模組</div>
       <p>課本演算法的權威 Python 版（search/logic/csp/mdp/learning…），每模組配 notebook 示例。</p>
-      <div class="use">應用：把課本偽碼對到可跑程式；改輸入驗證複雜度直覺。可接進你的 AlgoCoach 檢索。</div>
+      <div class="use">應用：把課本偽碼對到可跑程式；改輸入驗證複雜度直覺。</div>
       <div class="lic">MIT · 模組在 <code>aima/</code>，blob 連結逐章在本表</div>
       <a class="go" href="https://github.com/aimacode/aima-python" target="_blank" rel="noopener">開啟 repo →</a>
     </div>
@@ -100,7 +100,7 @@
       <h3>📦 pypi / aima</h3>
       <div class="tag">可 pip 安裝的 4e 程式包（2024.9.28）</div>
       <p>aima-python 的可安裝鏡像。<code>pip install aima</code> 後直接 <code>import</code> 玩，免 clone。</p>
-      <div class="use">應用：5A10 上開獨立 venv 裝來跑課本演算法小實驗（Py 3.9/3.10；本機 3.12 需測）。</div>
+      <div class="use">應用：開獨立 venv 跑課本演算法小實驗（Py 3.9/3.10）。</div>
       <div class="lic">MIT（沿用 aima-python）</div>
       <a class="go" href="https://pypi.org/project/aima/" target="_blank" rel="noopener">開啟 PyPI →</a>
     </div>
@@ -117,8 +117,8 @@
     <div class="rc">
       <h3>📖 aima.memify.wiki</h3>
       <div class="tag">AIMA 概念 wiki（baojie/aima）</div>
-      <p>課本概念的 wiki 式參考頁。當速查詞條用；深度不及你自己的 gotchas wiki。</p>
-      <div class="use">應用：遇到陌生術語時的二手速查入口（以課本/你的 wiki 為錨，非引用來源）。</div>
+      <p>課本概念的 wiki 式參考頁。當速查詞條用；深度不及逐章 gotchas 複習頁。</p>
+      <div class="use">應用：遇到陌生術語時的二手速查入口（以課本/本站 wiki 為錨，非引用來源）。</div>
       <div class="lic">見 repo · 二手彙整 → 當 discovery 不當 citation</div>
       <a class="go" href="https://aima.memify.wiki/wiki/" target="_blank" rel="noopener">開啟 wiki →</a>
     </div>
@@ -126,12 +126,12 @@
   </div>
 
   <div class="note">
-    <b>⚠️ 版次對齊是這張表的護城河。</b>三個資源各用不同章號：你的 wiki／jsurrea／aima-python 走 <b>4e</b>，
+    <b>⚠️ 版次對齊是這張表的護城河。</b>三個資源各用不同章號：本站 wiki／jsurrea／aima-python 走 <b>4e</b>，
     但 jsurrea 有自己的 29 章排序（CSP 在對抗之前、多一章「知識中的學習」），而 aima-exercises 用 <b>3e 27 章</b>。
     盲接章號會連錯頁 — 本表全部 <b>按主題</b>對齊並逐一驗證過連結，不是按數字硬套。
   </div>
 
-  <h2>逐章整合矩陣 — 你的 24 頁 × 四路資源</h2>
+  <h2>逐章整合矩陣 — 24 頁 × 四路資源</h2>
   <div class="legend">
     <span><b class="stars">★★</b> = 高頻考點（紅條）</span>
     <span><b class="stars">★</b> = 一般</span>
@@ -140,21 +140,20 @@
   </div>
   <table id="mx">
     <thead><tr>
-      <th>4e 章</th><th>主題（我的 wiki 頁）</th><th>權重</th>
-      <th>📘 我的 wiki</th><th>🎬 互動視覺化</th><th>📝 練習題</th><th>🐍 程式</th>
+      <th>4e 章</th><th>主題（複習頁）</th><th>權重</th>
+      <th>📘 複習頁</th><th>🎬 互動視覺化</th><th>📝 練習題</th><th>🐍 程式</th>
     </tr></thead>
     <tbody></tbody>
   </table>
 
   <footer>
     建於 2026-11-21 · 連結於同日逐一驗證（jsurrea <code>/chapter-NN/</code> 1–29、aima-exercises markdown 資料夾、aima-python <code>aima/*.py</code> 皆 200）。<br>
-    📘 wiki 連結指向公開 study repo <code>mcwemw/acrobuster-lessons/study/</code>（可分享、到處可點）。真題零外洩 — 本中樞只掛公開 CC/MIT 教材，不含任何真題。<br>
-    amazing grace 🦞
+    📘 複習頁連結指向本站 <code>study/</code> 目錄。只掛公開 CC/MIT 教材。
   </footer>
 </div>
 
 <script>
-// 權重: 2=★★高頻, 1=★  (依你的 wiki 標註)
+// 權重: 2=★★高頻, 1=★
 // jsurrea: 它自己的 /chapter-NN/ 章號(已按主題對). ex: aima-exercises 3e markdown 資料夾. py: aima-python 模組.
 const EXB="https://github.com/aimacode/aima-exercises/tree/master/markdown/";
 const VZB="https://jsurrea.github.io/aima-visualizations/chapter-";
