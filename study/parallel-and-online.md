@@ -1,0 +1,43 @@
+---
+question: 平行演算法怎麼用 work/span 量分析?Brent 定理與加速比上限?線上演算法沒有未來資訊,競爭比怎麼衡量好壞?
+keywords: [parallel-work-span, brent-theorem, online-competitive-ratio]
+type: concept
+source: 公開 CC 來源(2026-11-21 ingest)—Wikipedia Analysis of parallel algorithms [[raw:para-analysis-wikipedia]](CC BY-SA 4.0)、Online algorithm [[raw:online-algo-wikipedia]](CC BY-SA 4.0)、Competitive analysis [[raw:online-competitive-wikipedia]](CC BY-SA 4.0)。canonical=CLRS Ch.26(Parallel Algorithms)+Ch.27(Online Algorithms)。
+source_authority: 高(公開標準教材,授權 CC,主張可回 wiki/raw/)。
+tag: 演算法
+---
+
+# 平行與線上演算法（CLRS Ch.26 + Ch.27）
+
+> 概念頁 · 資格考演算法逐章複習 · 軌 A 演算法 · 一般。
+> 一句話:平行演算法用 **work(總工作)與 span(最長相依鏈)**兩量分析可達加速;線上演算法沒有未來輸入,用**競爭比**衡量它比事後最優差幾倍。(para-analysis-wikipedia)
+
+## 1. 平行演算法(Ch.26)
+
+- **work T₁**=單處理器總運算量;**span T∞**=無限處理器下最長相依路徑(critical path)。(para-analysis-wikipedia)
+- **平行度 = T₁/T∞**;p 個處理器執行時間下界 Tₚ ≥ max(T₁/p, T∞)。
+- **Brent 定理**:Tₚ ≤ T₁/p + T∞ → 處理器夠多時受 span 支配;work 與 span 都要小才好。
+- **Amdahl 定律**:序列比例 s 限制加速比 ≤ 1/s(再多處理器也救不了序列部分)。CLRS 用 fork-join / 動態多執行緒模型(如平行 merge sort:work O(n log n)、span O(log³n))。
+
+## 2. 線上演算法(Ch.27)
+
+- **線上**:輸入逐一到達,每步**不知未來**就要決策且不可反悔(vs 離線=一次看全部)。(online-algo-wikipedia)
+- **競爭比(competitive ratio)**:線上演算法成本 ≤ **c × 離線最優成本 + 常數**,則 c-競爭。c 越接近 1 越好。(online-competitive-wikipedia)
+- **對手論證**:像 [[randomized-algorithms]] 避最壞,分析常假設對手挑最糟輸入序列;隨機化線上演算法可降低競爭比。
+- 經典:**滑雪租買問題**(2-競爭)、**頁面置換 LRU**(k-競爭)、**list update**、**k-server**。
+
+## 我的想法 / 啟發
+
+- **平行的 work/span 二量是「總功 vs 關鍵路徑」**:span 是再多處理器也壓不掉的下限,呼應 Amdahl「序列部分卡住加速」。資格考要能由 work/span 算平行度與 Brent 界。
+- **線上競爭比=「跟上帝視角比差幾倍」**:與 [[approximation-algorithms]] 近似比神似(都用「對最優的倍數保證」),差別是近似缺的是算力/NP-hard,線上缺的是**未來資訊**。
+- 兩章共同點:都在「受限條件下仍給最壞保證」——平行受處理器/相依限制、線上受資訊限制,與近似/隨機化同屬「有保證的退讓」工程哲學。
+
+## Next action / 下一步
+
+1. 補平行 merge sort/scan 的 work-span 推導;Brent 定理證明。
+2. 補滑雪租買/LRU 競爭比證明 + 隨機化線上下界;接 Ch.33 ML 演算法收尾演算法軌。
+
+## 交叉引用 / 出處
+- raw:`wiki/raw/para-analysis-wikipedia.md`、`online-algo-wikipedia.md`、`online-competitive-wikipedia.md`
+- [[approximation-algorithms]] — 競爭比↔近似比(對最優倍數);[[randomized-algorithms]] — 對手論證/隨機化降競爭比;[[complexity-and-divide-conquer]] — 平行分治
+- roadmap:`deliverables/llm-wiki-hw-w10/STUDY-WIKI-ROADMAP.md`(演算法軌 CLRS Ch.26+27)
