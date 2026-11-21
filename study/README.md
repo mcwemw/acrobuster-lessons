@@ -39,6 +39,7 @@
 | Ch.5 | 對抗搜尋(minimax / alpha-beta / expectiminimax) | [ai-adversarial-search.md](ai-adversarial-search.md) |
 | Ch.6 | 約束滿足 CSP(回溯 / MRV / 弧相容 AC-3) | [ai-csp.md](ai-csp.md) |
 | Ch.13–14 | 機率推論 + 貝氏網路(Bayes / d-分隔 / Markov blanket) | [ai-probabilistic-reasoning.md](ai-probabilistic-reasoning.md) |
+| Ch.18/19 | 機器學習(監督式 / 決策樹 / 偏差-變異 / 過擬合) | [ai-machine-learning.md](ai-machine-learning.md) |
 
 （軌 B 建置中,逐章補)
 
