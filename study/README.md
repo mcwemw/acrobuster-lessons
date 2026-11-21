@@ -8,10 +8,12 @@
 
 ## 演算法（CLRS 4e）
 
-> 星級=資格考重點:★★★ 核心高頻 / ★★ 常考 / ★ 一般 / — 專門。**CLRS 4e 全 35 章已全數覆蓋**(導論 Ch.1-2 併入各章)。
+> 星級=資格考重點:★★★ 核心高頻 / ★★ 常考 / ★ 一般 / — 專門。**CLRS 4e 全 35 章已全數覆蓋**(含導論 Ch.1、Ch.2 獨立頁)。
 
 | CLRS 章 | 星 | 主題 | 頁 |
 |---|---|---|---|
+| Ch.1 | ★ | 演算法的角色(定義 / 演算法即技術 / 正確×效率) | [algorithms-role.md](algorithms-role.md) |
+| Ch.2 | ★ | 入門(插入排序 / 迴圈不變式 / 增量vs分治) | [algorithms-getting-started.md](algorithms-getting-started.md) |
 | Ch.3–4 | ★★★ | 複雜度 + 分治 + Master 定理 | [complexity-and-divide-conquer.md](complexity-and-divide-conquer.md) |
 | Ch.5 | ★★ | 隨機化(Las Vegas / Monte Carlo / 期望分析) | [randomized-algorithms.md](randomized-algorithms.md) |
 | Ch.6–8 | ★★★ | 排序(比較下界 / Quick / Heap / 線性) | [sorting.md](sorting.md) |
@@ -35,7 +37,7 @@
 | Ch.34 | ★★★ | NP-完備性(歸約 / Cook-Levin / P vs NP) | [np-completeness.md](np-completeness.md) |
 | Ch.35 | ★★ | 近似演算法(近似比 / APX/PTAS/FPTAS / 2-近似) | [approximation-algorithms.md](approximation-algorithms.md) |
 
-> ✅ 演算法軌 22 頁覆蓋 CLRS 4e 全 35 章(部分相鄰章合頁)。
+> ✅ 演算法軌 24 頁覆蓋 CLRS 4e 全 35 章 + 導論 Ch.1/2(部分相鄰章合頁)。
 
 ## AI（AIMA 4e）
 
