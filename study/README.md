@@ -24,7 +24,12 @@
 > 這四章互相串連:DP / 貪婪 = 設計範式;圖遍歷(BFS=無權最短路)→ 最短路(Dijkstra=貪婪、Bellman-Ford/Floyd=DP)。
 
 ## AI（AIMA 4e）
-（建置中,軌 B)
+
+| AIMA 章 | 主題 | 頁 |
+|---|---|---|
+| Ch.3 | 搜尋(無資訊 BFS/DFS/UCS/IDS + 有資訊 A*) | [ai-search.md](ai-search.md) |
+
+（軌 B 建置中,逐章補)
 
 ## 教學簡報
 - 動態規劃教學 HTML 簡報:https://mcwemw.github.io/acrobuster-lessons/genai/dp-dynamic-programming.html
