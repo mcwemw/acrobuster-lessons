@@ -54,6 +54,22 @@ Q-learning 收斂到 Q* 需:①所有 (s,a) 被無限次訪問 ②步長 α 滿�
 | 純利用最好 | 探索不足卡次優;需 ε-greedy/UCB 平衡 |
 | TD 等回合結束才更新 | TD **單步** bootstrap,不等回合結束(對比 Monte Carlo) |
 
+## 5. 延伸:函數近似 + 策略梯度 + 探索策略
+
+### 5.1 函數近似(大/連續狀態)
+表格 Q 無法存連續/巨量狀態 → 用參數化 Q_θ(s,a):
+- **DQN**:神經網路估 Q + 經驗回放(打破相關)+ 目標網路(穩定) → Atari 突破。
+- 風險:bootstrapping + off-policy + 函數近似 =「致命三元組」可能發散。
+
+### 5.2 策略梯度(直接學策略)
+不學 Q 而直接參數化策略 π_θ,沿 ∇J=E[∇log π_θ(a|s)·回報] 上升(REINFORCE)。**Actor-Critic**:actor 更新策略、critic 估價值降變異。**PPO/TRPO**:限制每步策略變化穩定訓練(現代 RLHF 用 PPO)。適合連續動作。
+
+### 5.3 探索策略進階
+ε-greedy 之外:**UCB**(樂觀面對不確定,見 [[ai-adversarial-search]] MCTS)、**Thompson 取樣**(後驗抽樣)、內在動機/好奇心(稀疏獎勵)。探索-利用在 bandit 問題有緊的 regret 下界。
+
+### 5.4 model-based RL
+學環境模型 P,R 再規劃(Dyna、MuZero)→ 樣本效率高。連回 [[ai-decision-making]] 的 value/policy iteration(有模型)——RL=「模型未知時邊學邊規劃」。
+
 ## 我的想法 / 啟發
 
 - **RL = [[ai-probabilistic-reasoning]] 的 MDP + 從經驗估值**:expectiminimax/決策論給「已知模型下的最優」,RL 處理「模型未知、要邊做邊學」。這條線(搜尋→對抗→機率→決策→RL)資格考常串起來考。

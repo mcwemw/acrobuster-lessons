@@ -55,6 +55,20 @@ tag: AI
 | PI 迭代多 | PI 迭代**少**(但每輪評估貴);VI 迭代多但單步便宜 |
 | γ 可任意 | γ∈[0,1);γ→1 收斂慢但重視長期 |
 
+## 5. 延伸:POMDP + 收斂證明 + 博弈/VOI
+
+### 5.1 POMDP(部分可觀測)
+狀態不可直接觀測,只有帶雜訊的 observation。代理維護**信念狀態(belief)**=狀態的機率分布,在信念空間上做 MDP。信念更新用 Bayes([[ai-probabilistic-reasoning]])。精確解 PSPACE-hard;近似用 point-based value iteration。機器人定位/對話系統的框架。
+
+### 5.2 value iteration 收斂(γ-壓縮)
+Bellman 更新算子 T 是 **γ-壓縮**:‖TV−TV'‖∞ ≤ γ‖V−V'‖∞。由 Banach 不動點定理,反覆套 T 收斂到唯一不動點 V*,誤差每輪 ×γ(幾何)。給定 ε,O(log(1/ε)/log(1/γ)) 輪。這是 VI 為何保證收斂的根據。
+
+### 5.3 決策網路 / 資訊價值(VOI)
+influence diagram = 貝氏網 + 決策節點 + 效用節點。**資訊價值(VOI)**=取得某觀測後最優期望效用的提升;VOI≥0、遞減。回答「值不值得多做一個檢測/觀測」,是感測/實驗設計的理論。
+
+### 5.4 博弈論接點
+多代理下「最優」=**納許均衡**(無人想單方偏離);零和兩人=minimax([[ai-adversarial-search]])。機制設計、拍賣、合作博弈是 MDP/決策論在多代理的推廣([[ai-intelligent-agents]] 多代理環境)。
+
 ## 我的想法 / 啟發
 
 - **MDP 是整條 AI 決策線的收束點**:[[ai-adversarial-search]] expectiminimax 的機會節點、[[ai-probabilistic-reasoning]] 的機率轉移、[[ai-reinforcement-learning]] 的無模型學習,全部站在「最大化期望效用」這個地基上。資格考愛考這條脈絡。
