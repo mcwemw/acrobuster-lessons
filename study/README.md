@@ -24,11 +24,12 @@
 | Ch.20 | ★★★ | 圖遍歷 BFS/DFS/拓樸/SCC | [graph-traversal.md](graph-traversal.md) |
 | Ch.22–23 | ★★★ | 最短路 Dijkstra/Bellman-Ford/Floyd | [shortest-path.md](shortest-path.md) |
 | Ch.24 | ★★ | 網路流(最大流 / Ford-Fulkerson / 最小割) | [network-flow.md](network-flow.md) |
+| Ch.25 | ★★ | 二分圖匹配(擴增路徑 / Hopcroft-Karp / König) | [bipartite-matching.md](bipartite-matching.md) |
 | Ch.32 | ★★ | 字串比對(KMP / Rabin-Karp) | [string-matching.md](string-matching.md) |
 | Ch.34 | ★★★ | NP-完備性(歸約 / Cook-Levin / P vs NP) | [np-completeness.md](np-completeness.md) |
 | Ch.35 | ★★ | 近似演算法(近似比 / APX/PTAS/FPTAS / 2-近似) | [approximation-algorithms.md](approximation-algorithms.md) |
 
-> 已 15 頁;待建:Ch.17 擴充DS★、18 B-tree★、25 二分圖匹配★★、26–31/33 專門。
+> 已 16 頁;待建:Ch.17 擴充DS★、18 B-tree★、26–31/33 專門。全 ★★↑ 重點章已到齊。
 
 ## AI（AIMA 4e）
 
