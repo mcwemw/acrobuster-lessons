@@ -44,6 +44,8 @@
 ## AI（AIMA 4e）
 
 > 星級=資格考重點:★★★ 核心高頻 / ★★ 常考 / ★ 一般。章號 = **AIMA 4e 美國版全 28 章**;相鄰章由同一頁覆蓋者合列。
+>
+> 🎬 **逐章配外部資源**(視覺化/習題/程式):[aima-4e-resources.md](aima-4e-resources.md) · 互動中樞 → <https://mcwemw.github.io/acrobuster-lessons/genai/aima-4e-hub.html>
 
 | AIMA 章 | 星 | 主題 | 頁 |
 |---|---|---|---|
