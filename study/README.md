@@ -44,6 +44,7 @@
 | Ch.16–17 | 決策論 + MDP(期望效用 / Bellman / value-policy iteration) | [ai-decision-making.md](ai-decision-making.md) |
 | Ch.7–9 | 邏輯(命題 / 一階 FOL / 歸結 / 健全-完備) | [ai-logic.md](ai-logic.md) |
 | Ch.10/11 | 自動規劃(STRIPS / planning graph / SATPlan) | [ai-planning.md](ai-planning.md) |
+| Ch.2 | 智能代理(理性 / PEAS / 環境維度 / 架構階梯) | [ai-intelligent-agents.md](ai-intelligent-agents.md) |
 
 （軌 B 建置中,逐章補)
 
