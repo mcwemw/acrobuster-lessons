@@ -41,20 +41,22 @@
 
 ## AI（AIMA 4e）
 
-| AIMA 章 | 主題 | 頁 |
-|---|---|---|
-| Ch.3 | 搜尋(無資訊 BFS/DFS/UCS/IDS + 有資訊 A*) | [ai-search.md](ai-search.md) |
-| Ch.5 | 對抗搜尋(minimax / alpha-beta / expectiminimax) | [ai-adversarial-search.md](ai-adversarial-search.md) |
-| Ch.6 | 約束滿足 CSP(回溯 / MRV / 弧相容 AC-3) | [ai-csp.md](ai-csp.md) |
-| Ch.13–14 | 機率推論 + 貝氏網路(Bayes / d-分隔 / Markov blanket) | [ai-probabilistic-reasoning.md](ai-probabilistic-reasoning.md) |
-| Ch.18/19 | 機器學習(監督式 / 決策樹 / 偏差-變異 / 過擬合) | [ai-machine-learning.md](ai-machine-learning.md) |
-| Ch.21/22 | 強化學習(MDP / Q-learning / TD / 探索-利用) | [ai-reinforcement-learning.md](ai-reinforcement-learning.md) |
-| Ch.16–17 | 決策論 + MDP(期望效用 / Bellman / value-policy iteration) | [ai-decision-making.md](ai-decision-making.md) |
-| Ch.7–9 | 邏輯(命題 / 一階 FOL / 歸結 / 健全-完備) | [ai-logic.md](ai-logic.md) |
-| Ch.10/11 | 自動規劃(STRIPS / planning graph / SATPlan) | [ai-planning.md](ai-planning.md) |
-| Ch.2 | 智能代理(理性 / PEAS / 環境維度 / 架構階梯) | [ai-intelligent-agents.md](ai-intelligent-agents.md) |
+> 星級=資格考重點:★★★ 核心高頻 / ★★ 常考 / ★ 一般。章號以 AIMA 4e 為準(3e→4e 位移:ML 18→19、RL 21→22、規劃 10→11,頁內雙標)。
 
-> ✅ AI 軌 10 頁覆蓋 AIMA 核心全章(搜尋→對抗→CSP→邏輯→規劃→機率→決策→學習→RL→代理)。版本號:3e→4e 有位移(ML 18→19、RL 21→22、規劃 10→11),頁內雙標。
+| AIMA 章 | 星 | 主題 | 頁 |
+|---|---|---|---|
+| Ch.2 | ★ | 智能代理(理性 / PEAS / 環境維度 / 架構階梯) | [ai-intelligent-agents.md](ai-intelligent-agents.md) |
+| Ch.3 | ★★★ | 搜尋(無資訊 BFS/DFS/UCS/IDS + 有資訊 A*) | [ai-search.md](ai-search.md) |
+| Ch.5 | ★★ | 對抗搜尋(minimax / alpha-beta / expectiminimax) | [ai-adversarial-search.md](ai-adversarial-search.md) |
+| Ch.6 | ★★ | 約束滿足 CSP(回溯 / MRV / 弧相容 AC-3) | [ai-csp.md](ai-csp.md) |
+| Ch.7–9 | ★★ | 邏輯(命題 / 一階 FOL / 歸結 / 健全-完備) | [ai-logic.md](ai-logic.md) |
+| Ch.10/11 | ★ | 自動規劃(STRIPS / planning graph / SATPlan) | [ai-planning.md](ai-planning.md) |
+| Ch.13–14 | ★★★ | 機率推論 + 貝氏網路(Bayes / d-分隔 / Markov blanket) | [ai-probabilistic-reasoning.md](ai-probabilistic-reasoning.md) |
+| Ch.16–17 | ★★ | 決策論 + MDP(期望效用 / Bellman / value-policy iteration) | [ai-decision-making.md](ai-decision-making.md) |
+| Ch.18/19 | ★★★ | 機器學習(監督式 / 決策樹 / 偏差-變異 / 過擬合) | [ai-machine-learning.md](ai-machine-learning.md) |
+| Ch.21/22 | ★★ | 強化學習(MDP / Q-learning / TD / 探索-利用) | [ai-reinforcement-learning.md](ai-reinforcement-learning.md) |
+
+> ✅ AI 軌 10 頁覆蓋 AIMA 核心全章,依章節排序。★★★=搜尋/機率貝氏網/機器學習(高頻);★★=對抗/CSP/邏輯/決策MDP/RL;★=代理/規劃。
 
 ## 教學簡報
 - 動態規劃教學 HTML 簡報:https://mcwemw.github.io/acrobuster-lessons/genai/dp-dynamic-programming.html

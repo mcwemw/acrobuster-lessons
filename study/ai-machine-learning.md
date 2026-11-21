@@ -9,7 +9,7 @@ tag: AI
 
 # 機器學習:從範例學習 Machine Learning（AIMA Ch.19 4e / Ch.18 3e）
 
-> 概念頁 · 資格考 AI 逐章複習 · 軌 B AI · ★★。
+> 概念頁 · 資格考 AI 逐章複習 · 軌 B AI · ★★★。
 > 一句話:監督式學習從 (x,y) 標註對學一個泛化到新輸入的函數 h;核心張力是**擬合訓練資料 vs 泛化**——偏差-變異權衡。(ai-supervised-wikipedia)
 
 ## 1. 監督式學習框架

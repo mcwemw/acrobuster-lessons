@@ -9,7 +9,7 @@ tag: AI
 
 # 機率推論與貝氏網路 Probabilistic Reasoning（AIMA Ch.12-13）
 
-> 概念頁 · 資格考 AI 逐章複習 · 軌 B AI · ★★。
+> 概念頁 · 資格考 AI 逐章複習 · 軌 B AI · ★★★。
 > 一句話:用機率量化不確定性,**Bayes 定理**把觀測轉成後驗信念;**貝氏網路**用條件獨立把指數大的聯合分布壓成每節點只依賴父節點的乘積。(ai-bayes-wikipedia)
 
 ## 1. Bayes 定理
