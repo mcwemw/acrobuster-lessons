@@ -37,6 +37,7 @@
 |---|---|---|
 | Ch.3 | 搜尋(無資訊 BFS/DFS/UCS/IDS + 有資訊 A*) | [ai-search.md](ai-search.md) |
 | Ch.5 | 對抗搜尋(minimax / alpha-beta / expectiminimax) | [ai-adversarial-search.md](ai-adversarial-search.md) |
+| Ch.6 | 約束滿足 CSP(回溯 / MRV / 弧相容 AC-3) | [ai-csp.md](ai-csp.md) |
 
 （軌 B 建置中,逐章補)
 
