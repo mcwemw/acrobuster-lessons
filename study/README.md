@@ -5,6 +5,8 @@
 > 這是 TAICA 生成式AI 第十週「LLM Wiki」作業(A10)的延伸,升級成資格考逐章複習庫。
 >
 > 📎 **實作參考(程式碼對照)**:[implementations.md](implementations.md) — 每章對應 cp-algorithms(CC,C++)+ AlgoStar(F*驗證,僅參考)。概念頁不內嵌版權碼。
+>
+> 🎬 **AIMA 4e 外部資源整合**:[aima-4e-resources.md](aima-4e-resources.md) — 6 個公開資料源(jsurrea 視覺化/官方習題/aima-python…)逐章對齊 AI 軌 24 頁;🔴 三套章號(4e/jsurrea 29章/3e)按主題對齊。互動中樞(可點矩陣):<https://mcwemw.github.io/acrobuster-lessons/genai/aima-4e-hub.html>
 
 ## 演算法（CLRS 4e）
 

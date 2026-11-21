@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIMA 4e 學習資源整合中樞 · ACROBUSTER</title>
+<style>
+  :root{
+    --navy:#182046; --navy2:#1f2a5a; --ac:#34C759; --robust:#E74238;
+    --ink:#F5F7FC; --muted:#9aa6c7; --line:#2b356b; --gold:#E8B84B;
+    --card:#141b3d;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--navy);color:var(--ink);
+    font-family:-apple-system,"PingFang TC","Heiti TC",system-ui,sans-serif;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  header{padding:28px 22px 14px;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,#1b2452,#141b3d)}
+  h1{margin:0;font-size:24px;letter-spacing:.5px}
+  h1 .ac{color:var(--ac)} h1 .rb{color:var(--robust)} h1 .er{color:var(--ink);font-size:.7em}
+  .sub{color:var(--muted);font-size:13px;margin-top:6px}
+  .wrap{max-width:1180px;margin:0 auto;padding:20px 18px 60px}
+  h2{font-size:15px;color:var(--gold);margin:30px 0 12px;letter-spacing:1px;
+    border-left:3px solid var(--gold);padding-left:9px}
+  /* resource cards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+  .rc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px}
+  .rc h3{margin:0 0 4px;font-size:14px}
+  .rc .tag{font-size:11px;color:var(--muted)}
+  .rc p{font-size:12.5px;color:#cdd6f0;margin:8px 0 10px}
+  .rc .use{font-size:12px;color:var(--ac);background:rgba(52,199,89,.08);
+    border-radius:7px;padding:6px 8px;margin-bottom:10px}
+  .rc .lic{font-size:11px;color:var(--muted)}
+  .rc a.go{display:inline-block;margin-top:6px;font-size:12px;color:var(--navy);
+    background:var(--ac);padding:4px 10px;border-radius:6px;font-weight:600}
+  .note{background:rgba(231,66,56,.09);border:1px solid rgba(231,66,56,.4);
+    border-radius:10px;padding:12px 14px;font-size:12.5px;color:#ffd9d5;margin:14px 0}
+  .note b{color:#fff}
+  /* matrix */
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+  th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{color:var(--muted);font-size:11px;font-weight:600;position:sticky;top:0;
+    background:var(--navy);letter-spacing:.5px}
+  td.ch{white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums}
+  td.topic{font-weight:600}
+  .w2{border-left:3px solid var(--robust)}  /* ★★ high yield */
+  .w1{border-left:3px solid var(--line)}
+  .stars{color:var(--gold);font-size:12px}
+  .btn{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11.5px;
+    border:1px solid var(--line);margin:1px 2px 1px 0;white-space:nowrap}
+  .btn.wiki{border-color:#3a57b8;color:#bcd0ff}
+  .btn.viz{border-color:#2f7d4a;color:#a8f0c2}
+  .btn.ex{border-color:#8a6d2a;color:#f0dca0}
+  .btn.py{border-color:#6a4fb0;color:#d7c8ff}
+  .btn:hover{background:var(--navy2)}
+  .dash{color:#5a648c;font-size:12px}
+  footer{color:var(--muted);font-size:11.5px;margin-top:30px;border-top:1px solid var(--line);padding-top:14px}
+  .legend{font-size:12px;color:var(--muted);margin:4px 0 2px}
+  .legend span{margin-right:14px}
+</style>
+</head>
+<body>
+<header>
+  <h1><span class="ac">AC</span><span class="rb">ROBUST</span><span class="er">er</span> · AIMA 4e 學習資源整合中樞</h1>
+  <div class="sub">Russell &amp; Norvig《Artificial Intelligence: A Modern Approach》第 4 版 — 6 個開放資料源 × 你的 24 頁資格考 AI 軌 wiki，逐章對齊。🦞 NYCU 博士資格考（AI+演算法，2027/1/5）</div>
+</header>
+<div class="wrap">
+
+  <h2>六個資料源 — 是什麼 · 怎麼用 · 授權</h2>
+  <div class="cards">
+
+    <div class="rc">
+      <h3>🎬 jsurrea / aima-visualizations</h3>
+      <div class="tag">4e 完整 29 章 · 每章互動微前端</div>
+      <p>最現代、最完整的 4e 視覺化：逐步跑演算法、改參數即時看結果、KaTeX 數學。每章獨立網址。</p>
+      <div class="use">應用：讀完 wiki 概念後，用它「看演算法動起來」建直覺 — A*、minimax、AC-3、MCMC、反傳。</div>
+      <div class="lic">MIT · ⚠️ 用它自己的章號（CSP=05、對抗=06，跟官方 4e 相反）→ 本表已按主題對好</div>
+      <a class="go" href="https://jsurrea.github.io/aima-visualizations/" target="_blank" rel="noopener">開啟畫廊 →</a>
+    </div>
+
+    <div class="rc">
+      <h3>📝 aimacode / aima-exercises</h3>
+      <div class="tag">官方線上習題（4e 起只在線上）</div>
+      <p>社群維護的題庫，逐章 markdown + LaTeX，部分附解答。資格考練手最直接的素材。</p>
+      <div class="use">應用：每章刷題 → 對照你 wiki 的 gotchas 表自評。練「會不會做」勝過「看得懂」。</div>
+      <div class="lic">MIT · ⚠️ 用 3e 27 章編號（後半章號 ≠ 4e）→ 本表已按主題對好；部分章無題</div>
+      <a class="go" href="https://aimacode.github.io/aima-exercises/" target="_blank" rel="noopener">開啟題庫 →</a>
+    </div>
+
+    <div class="rc">
+      <h3>🐍 aimacode / aima-python</h3>
+      <div class="tag">Norvig 官方 Python 實作 · 21 模組</div>
+      <p>課本演算法的權威 Python 版（search/logic/csp/mdp/learning…），每模組配 notebook 示例。</p>
+      <div class="use">應用：把課本偽碼對到可跑程式；改輸入驗證複雜度直覺。可接進你的 AlgoCoach 檢索。</div>
+      <div class="lic">MIT · 模組在 <code>aima/</code>，blob 連結逐章在本表</div>
+      <a class="go" href="https://github.com/aimacode/aima-python" target="_blank" rel="noopener">開啟 repo →</a>
+    </div>
+
+    <div class="rc">
+      <h3>📦 pypi / aima</h3>
+      <div class="tag">可 pip 安裝的 4e 程式包（2024.9.28）</div>
+      <p>aima-python 的可安裝鏡像。<code>pip install aima</code> 後直接 <code>import</code> 玩，免 clone。</p>
+      <div class="use">應用：5A10 上開獨立 venv 裝來跑課本演算法小實驗（Py 3.9/3.10；本機 3.12 需測）。</div>
+      <div class="lic">MIT（沿用 aima-python）</div>
+      <a class="go" href="https://pypi.org/project/aima/" target="_blank" rel="noopener">開啟 PyPI →</a>
+    </div>
+
+    <div class="rc">
+      <h3>🕹️ aimacode / aima-javascript</h3>
+      <div class="tag">經典 JS 視覺化（精選概念）</div>
+      <p>aimacode 官方的 JS 視覺化集，以「視覺化優先、程式其次」；涵蓋部分主題（搜尋、賽局等）。</p>
+      <div class="use">應用：jsurrea 的前身/補充；特定概念想換個呈現方式看時用。</div>
+      <div class="lic">MIT · 精選章節非全 28 章</div>
+      <a class="go" href="https://aimacode.github.io/aima-javascript/" target="_blank" rel="noopener">開啟畫廊 →</a>
+    </div>
+
+    <div class="rc">
+      <h3>📖 aima.memify.wiki</h3>
+      <div class="tag">AIMA 概念 wiki（baojie/aima）</div>
+      <p>課本概念的 wiki 式參考頁。當速查詞條用；深度不及你自己的 gotchas wiki。</p>
+      <div class="use">應用：遇到陌生術語時的二手速查入口（以課本/你的 wiki 為錨，非引用來源）。</div>
+      <div class="lic">見 repo · 二手彙整 → 當 discovery 不當 citation</div>
+      <a class="go" href="https://aima.memify.wiki/wiki/" target="_blank" rel="noopener">開啟 wiki →</a>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <b>⚠️ 版次對齊是這張表的護城河。</b>三個資源各用不同章號：你的 wiki／jsurrea／aima-python 走 <b>4e</b>，
+    但 jsurrea 有自己的 29 章排序（CSP 在對抗之前、多一章「知識中的學習」），而 aima-exercises 用 <b>3e 27 章</b>。
+    盲接章號會連錯頁 — 本表全部 <b>按主題</b>對齊並逐一驗證過連結，不是按數字硬套。
+  </div>
+
+  <h2>逐章整合矩陣 — 你的 24 頁 × 四路資源</h2>
+  <div class="legend">
+    <span><b class="stars">★★</b> = 高頻考點（紅條）</span>
+    <span><b class="stars">★</b> = 一般</span>
+    <span>｜點任一按鈕開對應資源（新分頁）</span>
+    <span>｜<span class="dash">—</span> = 該資源無此主題</span>
+  </div>
+  <table id="mx">
+    <thead><tr>
+      <th>4e 章</th><th>主題（我的 wiki 頁）</th><th>權重</th>
+      <th>📘 我的 wiki</th><th>🎬 互動視覺化</th><th>📝 練習題</th><th>🐍 程式</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <footer>
+    建於 2026-11-21 · 連結於同日逐一驗證（jsurrea <code>/chapter-NN/</code> 1–29、aima-exercises markdown 資料夾、aima-python <code>aima/*.py</code> 皆 200）。<br>
+    📘 wiki 連結指向公開 study repo <code>mcwemw/acrobuster-lessons/study/</code>（可分享、到處可點）。真題零外洩 — 本中樞只掛公開 CC/MIT 教材，不含任何真題。<br>
+    amazing grace 🦞
+  </footer>
+</div>
+
+<script>
+// 權重: 2=★★高頻, 1=★  (依你的 wiki 標註)
+// jsurrea: 它自己的 /chapter-NN/ 章號(已按主題對). ex: aima-exercises 3e markdown 資料夾. py: aima-python 模組.
+const EXB="https://github.com/aimacode/aima-exercises/tree/master/markdown/";
+const VZB="https://jsurrea.github.io/aima-visualizations/chapter-";
+const PYB="https://github.com/aimacode/aima-python/blob/master/aima/";
+const WKB="https://github.com/mcwemw/acrobuster-lessons/blob/main/study/";
+const rows=[
+ ["1","AI 導論","ai-introduction",1,[["01","導論"]],[["1-Introduction","Ch1"]],[]],
+ ["2","智能代理","ai-intelligent-agents",1,[["02","代理"]],[["2-Intelligent-Agent","Ch2"]],[["agents.py","agents"]]],
+ ["3","搜尋（無/有資訊）","ai-search",2,[["03","搜尋"]],[["3-Solving-Problems-By-Searching","Ch3"]],[["search.py","search"]]],
+ ["4","複雜環境搜尋","ai-search-complex",2,[["04","複雜搜尋"]],[["4-Beyond-Classical-Search","Ch4"]],[["search.py","search"]]],
+ ["5","對抗搜尋／賽局","ai-adversarial-search",2,[["06","對抗"]],[["5-Adversarial-Search","Ch5"]],[["games.py","games"]]],
+ ["6","約束滿足 CSP","ai-csp",2,[["05","CSP"]],[["6-Constraint-Satisfaction-Problems","Ch6"]],[["csp.py","csp"]]],
+ ["7–9","邏輯與知識表示","ai-logic",2,[["07","邏輯代理"],["08","FOL"],["09","FOL 推論"]],[["7-Logical-Agents","Ch7"],["8-First-Order-Logic","Ch8"],["9-Inference-In-First-Order-Logic","Ch9"]],[["logic.py","logic"]]],
+ ["10","知識表示","ai-knowledge-representation",1,[["10","知識表示"]],[["12-Knowledge-Representation","3e-Ch12"]],[["knowledge.py","knowledge"]]],
+ ["11","自動規劃","ai-planning",1,[["11","規劃"]],[["10-Classical-Planning","3e-Ch10"],["11-Planning-And-Acting-In-The-Real-World","3e-Ch11"]],[["planning.py","planning"]]],
+ ["12–13","機率推論（貝氏網）","ai-probabilistic-reasoning",2,[["12","不確定性"],["13","機率推論"]],[["13-Quantifying-Uncertainity","3e-Ch13"],["14-Probabilistic-Reasoning","3e-Ch14"]],[["probability.py","probability"]]],
+ ["14","時序機率模型","ai-temporal-models",2,[["14","時序推論"]],[["15-Probabilistic-Reasoning-Over-Time","3e-Ch15"]],[["probability.py","probability"]]],
+ ["15","機率編程","ai-probabilistic-programming",1,[["18","機率編程"]],[],[["probability.py","probability"]]],
+ ["16–17","決策論／MDP","ai-decision-making",2,[["15","簡單決策"],["16","複雜決策"]],[["16-Making-Simple-Decisions","3e-Ch16"],["17-Making-Complex-Decision","3e-Ch17"]],[["mdp.py","mdp"],["making_simple_decisions.py","simple-dec"]]],
+ ["18","多代理決策","ai-multiagent",1,[["17","多代理"]],[],[["game_theory.py","game_theory"]]],
+ ["19","從範例學習","ai-machine-learning",2,[["19","學習"],["20","知識中的學習"]],[["18-Learning-From-Examples","3e-Ch18"],["19-Knowledge-In-Learning","3e-Ch19"]],[["learning.py","learning"]]],
+ ["20","學習機率模型","ai-learning-probabilistic",2,[["21","機率模型"]],[["20-Learning-Probabilistic-Models","3e-Ch20"]],[["probabilistic_learning.py","prob-learning"]]],
+ ["21","深度學習","ai-deep-learning",2,[["22","深度學習"]],[],[["deep_learning.py","deep_learning"]]],
+ ["22","強化學習","ai-reinforcement-learning",2,[["23","強化學習"]],[["21-Reinforcement-Learning","3e-Ch21"]],[["reinforcement_learning.py","RL"]]],
+ ["23","自然語言處理","ai-nlp",1,[["24","NLP"]],[["22-Natural-Language-Processing","3e-Ch22"]],[["nlp.py","nlp"],["text.py","text"]]],
+ ["24","NLP 深度學習","ai-nlp-deep",1,[["25","深度 NLP"]],[["23-Natural-Language-For-Communication","3e-Ch23"]],[["nlp.py","nlp"]]],
+ ["25","電腦視覺","ai-computer-vision",1,[["27","電腦視覺"]],[["24-Perception","3e-Ch24"]],[["perception.py","perception"]]],
+ ["26","機器人","ai-robotics",1,[["26","機器人"]],[["25-Robotics","3e-Ch25"]],[]],
+ ["27","哲學·倫理·安全","ai-philosophy-ethics-safety",1,[["28","倫理安全"]],[["26-Philosophical-Foundations","3e-Ch26"]],[]],
+ ["28","AI 的未來","ai-future",1,[["29","AI 未來"]],[],[]],
+];
+function cell(items,cls,base,suffix){
+  if(!items||!items.length) return '<span class="dash">—</span>';
+  return items.map(it=>{
+    const href = cls==='viz' ? base+it[0]+'/' : base+it[0]+(suffix||'');
+    return `<a class="btn ${cls}" target="_blank" rel="noopener" href="${href}">${it[1]}</a>`;
+  }).join('');
+}
+const tb=document.querySelector('#mx tbody');
+rows.forEach(r=>{
+  const [ch,topic,wiki,w,viz,ex,py]=r;
+  const tr=document.createElement('tr');
+  tr.className = w===2?'w2':'w1';
+  tr.innerHTML =
+    `<td class="ch">${ch}</td>`+
+    `<td class="topic">${topic}</td>`+
+    `<td class="stars">${w===2?'★★':'★'}</td>`+
+    `<td><a class="btn wiki" target="_blank" rel="noopener" href="${WKB}${wiki}.md">${wiki.replace(/^ai-/,'')}</a></td>`+
+    `<td>${cell(viz,'viz',VZB)}</td>`+
+    `<td>${cell(ex,'ex',EXB)}</td>`+
+    `<td>${cell(py,'py',PYB)}</td>`;
+  tb.appendChild(tr);
+});
+</script>
+</body>
+</html>
