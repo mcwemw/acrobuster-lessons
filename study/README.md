@@ -13,7 +13,9 @@
 | Ch.10–13 | 資料結構(雜湊 / BST / 紅黑樹) | [data-structures.md](data-structures.md) |
 | Ch.19+21 | MST + Union-Find(Kruskal / Prim / DSU) | [mst-union-find.md](mst-union-find.md) |
 | Ch.24 | 網路流(最大流 / Ford-Fulkerson / 最小割) | [network-flow.md](network-flow.md) |
+| Ch.16 | 攤還分析(aggregate / accounting / potential) | [amortized-analysis.md](amortized-analysis.md) |
 | Ch.32 | 字串比對(KMP / Rabin-Karp) | [string-matching.md](string-matching.md) |
+| Ch.34 | NP-完備性(歸約 / Cook-Levin / P vs NP) | [np-completeness.md](np-completeness.md) |
 | Ch.14 | 動態規劃 DP | [dynamic-programming.md](dynamic-programming.md) |
 | Ch.15 | 貪婪 Greedy | [greedy-algorithms.md](greedy-algorithms.md) |
 | Ch.20 | 圖遍歷 BFS/DFS/拓樸/SCC | [graph-traversal.md](graph-traversal.md) |

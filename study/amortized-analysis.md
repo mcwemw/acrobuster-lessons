@@ -1,0 +1,51 @@
+---
+question: 攤還分析在算什麼(跟平均情形差在哪)？aggregate / accounting / potential 三法怎麼用？動態陣列為何 append 攤還 O(1)？
+keywords: [amortized-analysis, potential-method, dynamic-array]
+type: concept
+source: 公開 CC 來源(2026-11-21 ingest)—Wikipedia Amortized analysis [[raw:amort-analysis-wikipedia]](CC BY-SA 4.0)、Dynamic array [[raw:amort-dynarray-wikipedia]](CC BY-SA 4.0)。canonical=CLRS Ch.16。
+source_authority: 高(公開標準教材,授權 CC,主張可回 wiki/raw/)。
+tag: 演算法
+---
+
+# 攤還分析 Amortized Analysis（CLRS Ch.16）
+
+> 概念頁 · 資格考演算法逐章複習 · 軌 A 演算法。
+> 一句話:看**一連串操作的總成本平均到每次**,保證最壞序列下的平均——**不是機率平均**。(amort-analysis-wikipedia)
+
+## 1. 是什麼(跟平均情形的差別)
+
+- 攤還成本 = 最壞情況下「n 次操作的總成本 / n」。**不涉及機率/輸入分佈**(這點和「平均情形分析」根本不同)。(amort-analysis-wikipedia)
+- 用途:某些資料結構單次操作偶爾很貴,但**攤到整個序列很便宜**。
+
+## 2. 三種方法
+
+- **聚合法 Aggregate**:直接算 n 次操作總成本 T(n),攤還 = T(n)/n。
+- **記帳法 Accounting**:每次操作「多收一點 credit」存起來,貴的操作用存款付。保證存款不為負 ⇒ 攤還上界成立。
+- **位能法 Potential**:定義位能函數 Φ(狀態);攤還成本 = 實際成本 + ΔΦ。選對 Φ 讓貴操作的 ΔΦ 為負來抵銷。(amort-analysis-wikipedia)
+
+## 3. 經典例
+
+- **動態陣列 append(doubling)**:滿了就配**兩倍**空間搬移。偶爾一次 O(n) 搬,但 n 次 append 總搬移 ≈ 2n → **攤還 O(1)**。(amort-dynarray-wikipedia)
+- **堆疊 multipop**:push/pop/multipop 混合序列,每元素最多被 pop 一次 → 攤還 O(1)。
+- **二進位計數器 increment**:n 次加一總翻轉位元 ≈ 2n → 攤還 O(1)。
+- **Union-Find** 的 α(n)(見 [[mst-union-find]])也是攤還結果。
+
+## 4. 為什麼不是「最壞單次」
+
+單看 append 最壞是 O(n)(那次搬移),但**不可能每次都搬**——doubling 讓貴操作稀疏到被便宜操作攤平。資格考要點:**別把偶發的貴操作當每次成本**。
+
+## 我的想法 / 啟發
+
+- **攤還 vs 平均情形是資格考最常混淆點**:攤還是「最壞序列的確定性平均」,平均情形是「對輸入分佈取期望」——務必講清不混用。
+- **位能法最通用**:選 Φ 像選 DP 的狀態([[dynamic-programming]])——選對了貴操作自動被抵銷,是高分技巧。
+- doubling 的「總搬移 ≈ 2n」是最愛考的攤還計算,要能一步算出。
+
+## Next action / 下一步
+
+1. 建 NP-完備(Ch.34)補完演算法軌。
+2. 補位能法對 Fibonacci heap / splay tree 的攤還證明。
+
+## 交叉引用 / 出處
+- raw:`wiki/raw/amort-analysis-wikipedia.md`、`amort-dynarray-wikipedia.md`
+- [[mst-union-find]] — Union-Find α(n) 攤還;[[data-structures]] — 動態陣列/雜湊 rehash;[[complexity-and-divide-conquer]] — 複雜度表達
+- roadmap:`deliverables/llm-wiki-hw-w10/STUDY-WIKI-ROADMAP.md`(演算法軌 CLRS Ch.16)
