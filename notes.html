@@ -45,6 +45,54 @@
   </div>
   <div class="filterbar" id="filterbar"></div>
   <div id="notes">
+    <article class="note" data-tag="提示工程" data-search="2026-11-22 prompt engineering guide — dair.ai 一站式提示技術實作庫 prompt engineering guide — one-stop reference for prompting techniques saravia, elvis · dair.ai 2023 · promptingguide.ai · 無明確 cc 授權 提示工程 核心問題 · question 學完技術分類後，哪裡可以查每招的實作範例與各模型指南？ 🔴 背景與痛點 · red saravia, elvis (dair.ai, 2023)，promptingguide.ai 痛點：prompting 技術散落論文/部落格，缺一站式可查的實踐參考 授權：個人站台，無明確 cc 授權（僅供學習導讀，不可商用再散布） 🟡 概念 · yellow 18 prompting 技術（cot / self-consistency / react / tot / ape / reflexion / meta prompting / prompt chaining…） 9 應用域 21 模型指南（claude / gpt-4 / gemini / llama / mistral / qwen…） 7 agent 頁面（context engineering / deep agents / function calling） 12 jupyter notebooks 1099 mdx 頁 · 13 語言 · 更新至 2026-03 → four-engineering-mindsets prompt 層實作查閱庫 → algocoach 提示設計實作配對 🔵 原文依據 · blue (quotes) 「comprehensive reference covering 18 prompting techniques」「cot, self-consistency, react, tot, active-prompt, rag, reflexion, meta prompting, prompt chaining, ape」「21 model-specific guides (claude, gpt-4, gemini, llama, mistral, qwen...)」「7 agent pages (context engineering, deep agents, function calling)」「1099 mdx pages, 13 languages, last updated 2026-03」 🟠 我的想法 · takeaway 想法：the prompt report 建了技術分類表，這站是每招的實作查閱庫——互補關係，不重複 → 設計 algocoach 提示時可按技術名查具體範例（cot / react / ape） → 可作 acrobuster 課程素材：「18 招提示手法」系列導讀入口">
+      <div class="id">2026-11-22</div>
+      <h2 style="margin:4px 0 2px">Prompt Engineering Guide — DAIR.AI 一站式提示技術實作庫<span class="en">Prompt Engineering Guide — one-stop reference for prompting techniques</span></h2>
+      <div class="src">出處 Source：Saravia, Elvis · DAIR.AI 2023 · promptingguide.ai · 無明確 CC 授權</div>
+    <section class="card">
+      <h2>核心問題 <span class="en">· Question</span></h2>
+      <p>學完技術分類後，哪裡可以查每招的實作範例與各模型指南？</p>
+    </section>
+
+    <section class="card">
+      <h2>🔴 背景與痛點 <span class="en">· Red</span></h2>
+      <ul>
+        <li>Saravia, Elvis (DAIR.AI, 2023)，promptingguide.ai</li>
+        <li>痛點：prompting 技術散落論文/部落格，缺一站式可查的實踐參考</li>
+        <li>授權：個人站台，無明確 CC 授權（僅供學習導讀，不可商用再散布）</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🟡 概念 <span class="en">· Yellow</span></h2>
+      <ul>
+        <li>18 prompting 技術（CoT / Self-Consistency / ReAct / ToT / APE / Reflexion / Meta Prompting / Prompt Chaining…）</li>
+        <li>9 應用域</li>
+        <li>21 模型指南（Claude / GPT-4 / Gemini / Llama / Mistral / Qwen…）</li>
+        <li>7 agent 頁面（context engineering / deep agents / function calling）</li>
+        <li>12 Jupyter notebooks</li>
+        <li>1099 MDX 頁 · 13 語言 · 更新至 2026-03</li>
+        <li>→ <a href="lessons/55-four-engineering-mindsets.html">four-engineering-mindsets</a> Prompt 層實作查閱庫</li>
+        <li>→ AlgoCoach 提示設計實作配對</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🔵 原文依據 <span class="en">· Blue (quotes)</span></h2>
+      <blockquote>「comprehensive reference covering 18 prompting techniques」<br>「CoT, Self-Consistency, ReAct, ToT, Active-Prompt, RAG, Reflexion, Meta Prompting, Prompt Chaining, APE」<br>「21 model-specific guides (Claude, GPT-4, Gemini, Llama, Mistral, Qwen...)」<br>「7 agent pages (context engineering, deep agents, function calling)」<br>「1099 MDX pages, 13 languages, last updated 2026-03」</blockquote>
+    </section>
+
+    <section class="card">
+      <h2>🟠 我的想法 <span class="en">· Takeaway</span></h2>
+      <ul>
+        <li>想法：The Prompt Report 建了技術分類表，這站是每招的實作查閱庫——互補關係，不重複</li>
+        <li>→ 設計 AlgoCoach 提示時可按技術名查具體範例（CoT / ReAct / APE）</li>
+        <li>→ 可作 ACROBUSTER 課程素材：「18 招提示手法」系列導讀入口</li>
+      </ul>
+    </section>
+    <details><summary>原卡圖 Card image</summary><p><img src="notes/2026-11-22_promptingguide-dair.png" alt="Prompt Engineering Guide — DAIR.AI 一站式提示技術實作庫" style="width:100%;border:1px solid var(--line);border-radius:10px"></p></details>
+      <span class="note-tag" data-tag="提示工程">提示工程</span>
+    </article>
     <article class="note" data-tag="提示工程" data-search="2026-11-21 ape — 讓 llm 自動生成並挑選「人類水準」的 prompt large language models are human-level prompt engineers zhou et al. 2022 · arxiv:2211.01910 · arxiv-license（非 cc） 提示工程 核心問題 · question 好的 prompt 多半靠人手工調。能不能讓 llm 自己生成一池候選指令，再用分數自動挑出最好的那條？ 🔴 背景與痛點 · red zhou, muresanu, han, paster, pitis, chan, ba (2022)，arxiv:2211.01910 痛點：任務表現高度依賴 prompt 品質，而最有效的 prompt 多是人手工做的 授權：arxiv 預設授權（非 cc；導讀引用可，重製散布受限） 🟡 概念 · yellow ape（automatic prompt engineer）：把「指令」當成要優化的『程式』 由 llm 生成一池候選指令，依 score function 搜尋最佳 評分：讓另一個 llm 照該指令做 zero-shot，表現即分數 24 個 nlp 任務中，19/24 達到或超越人類標註者水準 → four-engineering-mindsets prompt engineering 自動化 → delivery-verifier-discipline 用獨立模型評分 = maker/checker 🔵 原文依據 · blue (quotes) 「we treat the instruction as the &quot;program,&quot; optimized by searching over a pool of instruction candidates proposed by an llm … to maximize a chosen score function」「we evaluate the zero-shot performance of another llm following the selected instruction」「our automatically generated instructions outperform the prior llm baseline by a large margin and achieve better or comparable performance … on 19/24 tasks」 🟠 我的想法 · takeaway 想法：用「另一個 llm 的表現」當分數來挑指令，正是我堅持的獨立評估／不可自評 → 把 coach 的 system prompt 當可搜尋的『程式』，用 faithfulness 分數自動挑，而不是手工調 → 與 opro／dspy 同族：eval-driven 把 prompt 從手工調變成可優化目標">
       <div class="id">2026-11-21</div>
       <h2 style="margin:4px 0 2px">APE — 讓 LLM 自動生成並挑選「人類水準」的 prompt<span class="en">Large Language Models Are Human-Level Prompt Engineers</span></h2>
