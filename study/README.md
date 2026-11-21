@@ -13,6 +13,7 @@
 | CLRS 章 | 星 | 主題 | 頁 |
 |---|---|---|---|
 | Ch.3–4 | ★★★ | 複雜度 + 分治 + Master 定理 | [complexity-and-divide-conquer.md](complexity-and-divide-conquer.md) |
+| Ch.5 | ★★ | 隨機化(Las Vegas / Monte Carlo / 期望分析) | [randomized-algorithms.md](randomized-algorithms.md) |
 | Ch.6–8 | ★★★ | 排序(比較下界 / Quick / Heap / 線性) | [sorting.md](sorting.md) |
 | Ch.9 | ★★ | 選擇 / 中位數(Quickselect / median-of-medians) | [selection.md](selection.md) |
 | Ch.10–13 | ★★★ | 資料結構(雜湊 / BST / 紅黑樹) | [data-structures.md](data-structures.md) |
@@ -26,7 +27,7 @@
 | Ch.32 | ★★ | 字串比對(KMP / Rabin-Karp) | [string-matching.md](string-matching.md) |
 | Ch.34 | ★★★ | NP-完備性(歸約 / Cook-Levin / P vs NP) | [np-completeness.md](np-completeness.md) |
 
-> 已 12 頁;待建:Ch.5 隨機化★★、9 選擇★★、17 擴充DS★、18 B-tree★、25 二分圖匹配★★、26–31/33 專門、35 近似★★。
+> 已 14 頁;待建:Ch.17 擴充DS★、18 B-tree★、25 二分圖匹配★★、26–31/33 專門、35 近似★★。
 
 ## AI（AIMA 4e）
 
