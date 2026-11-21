@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>動態規劃 DP — 教學簡報</title>
+<style>
+  :root{
+    --navy:#182046; --green:#34C759; --red:#E74238; --ink:#1c2230;
+    --paper:#F5F7FC; --muted:#5b647a; --line:#d7deec; --accent:#2f6df0;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;font-family:"STHeiti","Heiti TC","PingFang TC",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--navy)}
+  #deck{height:100vh;display:grid;place-items:center}
+  .slide{display:none;width:min(960px,92vw);min-height:min(620px,86vh);background:var(--paper);
+    border-radius:18px;padding:48px 56px;box-shadow:0 24px 60px rgba(0,0,0,.35);overflow:auto}
+  .slide.on{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .kicker{font-size:14px;letter-spacing:.14em;color:var(--accent);font-weight:700;text-transform:uppercase}
+  h1{font-size:40px;line-height:1.15;margin:.2em 0 .1em;color:var(--navy)}
+  h2{font-size:30px;margin:.1em 0 .5em;color:var(--navy)}
+  p,li{font-size:20px;line-height:1.6}
+  ul{padding-left:1.2em} li{margin:.35em 0}
+  .big{font-size:23px}
+  .tag{display:inline-block;padding:.1em .6em;border-radius:999px;font-size:15px;font-weight:700;color:#fff}
+  .tag.g{background:var(--green)} .tag.r{background:var(--red)} .tag.n{background:var(--navy)}
+  code,.mono{font-family:"SF Mono",ui-monospace,Menlo,monospace;background:#eef1fa;padding:.08em .4em;border-radius:6px;font-size:.92em}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:14px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .card h3{margin:.1em 0 .3em;color:var(--navy);font-size:19px}
+  .note{color:var(--muted);font-size:16px}
+  .src{font-size:14px;color:var(--muted);border-top:1px dashed var(--line);margin-top:22px;padding-top:10px}
+  .center{display:grid;place-content:center;text-align:center;min-height:460px}
+  .lobster{font-size:52px}
+  #hud{position:fixed;bottom:18px;left:0;right:0;display:flex;justify-content:center;gap:16px;align-items:center;color:#cdd6f0;font-size:14px}
+  #hud button{background:#2a335c;color:#fff;border:0;border-radius:8px;padding:6px 12px;font-size:14px;cursor:pointer}
+  #hud button:hover{background:#39457a}
+  .flow{font-size:18px;line-height:2;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+  .ok{color:var(--green);font-weight:700}.bad{color:var(--red);font-weight:700}
+</style>
+</head>
+<body>
+<div id="deck">
+  <!-- 1 -->
+  <section class="slide on">
+    <div class="center">
+      <div class="lobster">🦞</div>
+      <div class="kicker">LLM Wiki → 教學簡報</div>
+      <h1>動態規劃 Dynamic Programming</h1>
+      <p class="big">把大問題拆成<strong>重疊的小問題</strong>,每個<strong>只算一次、記下來重用</strong>。</p>
+      <p class="note">給原本不熟的人的 10 分鐘入門 · 來源:5 篇公開 CC 教材</p>
+    </div>
+  </section>
+  <!-- 2 -->
+  <section class="slide">
+    <div class="kicker">先看痛點</div>
+    <h2>暴力遞迴為什麼慢?</h2>
+    <p>算費氏數 <code>fib(n)=fib(n-1)+fib(n-2)</code>,直接遞迴會把<strong>同一個子問題重算非常多次</strong>:</p>
+    <div class="flow"><span class="mono">fib(5)</span> 要 <span class="mono">fib(3)</span> 兩次、<span class="mono">fib(2)</span> 三次… → 整體 <span class="bad">指數級 O(φⁿ)</span></div>
+    <p class="big" style="margin-top:18px">關鍵觀察:<strong>工作量爆炸,是因為一直重算算過的東西。</strong></p>
+    <div class="src">來源:dp-wikipedia、dp-erickson(ch.3)</div>
+  </section>
+  <!-- 3 -->
+  <section class="slide">
+    <div class="kicker">核心點子</div>
+    <h2>記下來,就不用重算</h2>
+    <p><strong>記憶化 (memoization)</strong>:第一次算某個子問題,就把答案存進表;之後要用,直接查表。</p>
+    <div class="flow"><span class="mono">fib(5)</span>:每個 <span class="mono">fib(k)</span> <span class="ok">只算一次</span> → 從 O(φⁿ) 降到 <span class="ok">O(n)</span></div>
+    <p class="big" style="margin-top:18px">這就是動態規劃的靈魂:<strong>相異子問題數 × 每次轉移成本</strong>,不再有重算。</p>
+    <div class="src">來源:dp-wikipedia、dp-erickson</div>
+  </section>
+  <!-- 4 -->
+  <section class="slide">
+    <div class="kicker">什麼題目能用</div>
+    <h2>DP 成立的兩個前提(缺一不可)</h2>
+    <div class="cols">
+      <div class="card"><h3>① 重疊子問題</h3><p>同一個子問題會被<strong>反覆用到</strong> → 記下來才有省。<br><span class="note">若子問題都不同(如 merge sort 左右半)→ 那是分治,不是 DP。</span></p></div>
+      <div class="card"><h3>② 最優子結構</h3><p>原問題的最優解,能由<strong>子問題的最優解拼出來</strong> → 才能由小解推大解。</p></div>
+    </div>
+    <p class="big" style="margin-top:18px">口訣:<strong>「會重複算」＋「大解由小解的最優拼出」</strong> → 才是 DP 題。</p>
+    <div class="src">來源:dp-wikipedia、dp-erickson</div>
+  </section>
+  <!-- 5 -->
+  <section class="slide">
+    <div class="kicker">兩種寫法,同一條遞迴</div>
+    <h2>記憶化 vs. 製表</h2>
+    <div class="cols">
+      <div class="card"><h3>記憶化 Top-down</h3><p>照遞迴自然寫,算過就存、再用查表。<br><span class="ok">只算真正用到的狀態</span>、貼近思路;<span class="note">代價:遞迴堆疊+查表開銷。</span></p></div>
+      <div class="card"><h3>製表 Bottom-up</h3><p>按依賴順序<strong>由小到大迭代填表</strong>,不遞迴。<br><span class="ok">無堆疊、常數小、可壓空間</span>;<span class="note">代價:要想清填表順序。</span></p></div>
+    </div>
+    <p class="note" style="margin-top:16px">時間複雜度同階;選哪個看狀態是否稠密、要不要空間壓縮。</p>
+    <div class="src">來源:dp-cp-algorithms</div>
+  </section>
+  <!-- 6 -->
+  <section class="slide">
+    <div class="kicker">動手流程</div>
+    <h2>設計一題 DP 的 6 步</h2>
+    <ul>
+      <li><strong>定狀態</strong>:一個子問題用什麼參數唯一描述?</li>
+      <li><strong>寫轉移</strong>:大狀態最優解 = 哪些小狀態怎麼組合?</li>
+      <li><strong>定邊界</strong>:最小子問題的答案(base case)。</li>
+      <li><strong>定求值順序</strong>:記憶化(遞迴)或製表(由小到大)。</li>
+      <li><strong>讀答案 + 還原</strong>:最終狀態即解;要輸出方案就回溯。</li>
+      <li><strong>算複雜度</strong>:≈ <span class="tag n">狀態數 × 單次轉移成本</span>。</li>
+    </ul>
+    <div class="src">來源:dp-erickson、dp-cp-algorithms</div>
+  </section>
+  <!-- 7 -->
+  <section class="slide">
+    <div class="kicker">經典例</div>
+    <h2>0/1 背包 Knapsack</h2>
+    <p>n 件物品各有重量/價值,背包容量 W,求<strong>不超重的最大總價值</strong>。</p>
+    <ul>
+      <li><strong>狀態</strong> <code>dp[i][w]</code> = 前 i 件、容量 w 時的最大價值</li>
+      <li><strong>轉移</strong> = max(不取第 i 件 <code>dp[i-1][w]</code>, 取 <code>dp[i-1][w-wᵢ]+vᵢ</code>)</li>
+      <li><strong>複雜度</strong> <span class="tag n">O(nW)</span>(偽多項式:隨 W 的數值而非位數)</li>
+    </ul>
+    <p class="note">同套路也解:最長遞增子序列 LIS、編輯距離 edit distance。</p>
+    <div class="src">來源:dp-knapsack-wikipedia、dp-knapsack-cp</div>
+  </section>
+  <!-- 8 -->
+  <section class="slide">
+    <div class="kicker">別硬套</div>
+    <h2>什麼時候「不」用 DP</h2>
+    <div class="cols">
+      <div class="card"><h3>子問題不重疊</h3><p>→ 用<strong>分治</strong>(divide &amp; conquer)。沒有重算,DP 沒省處。</p></div>
+      <div class="card"><h3>局部最優=全域最優</h3><p>→ 用<strong>貪婪</strong>(greedy),更簡單。DP 是「貪婪不成立時」的保險。</p></div>
+    </div>
+    <p class="big" style="margin-top:18px"><span class="tag g">記住</span> DP 不是越多越好——先確認兩個前提成立。</p>
+    <div class="src">來源:dp-wikipedia、dp-erickson</div>
+  </section>
+  <!-- 9 -->
+  <section class="slide">
+    <div class="kicker">可追溯性 Provenance</div>
+    <h2>這份簡報的知識來源(5 篇公開 CC)</h2>
+    <ul>
+      <li>Wikipedia — Dynamic programming · <span class="note">CC BY-SA 4.0</span></li>
+      <li>CP-Algorithms — Intro to DP · <span class="note">CC BY-SA 4.0</span></li>
+      <li>Wikipedia — Knapsack problem · <span class="note">CC BY-SA 4.0</span></li>
+      <li>Jeff Erickson《Algorithms》ch.3 DP · <span class="note">CC BY 4.0</span></li>
+      <li>CP-Algorithms — 0-1 Knapsack · <span class="note">CC BY-SA 4.0</span></li>
+    </ul>
+    <p class="note">每張投影片的主張 → 可回連 <code>wiki/pages/dynamic-programming.md</code> → 再回連 <code>wiki/raw/</code> 原始來源。流程/反思見作業 README。</p>
+    <div class="src">🦞 ACROBUSTER · 第十週 LLM Wiki 作業 · 2026-11-21</div>
+  </section>
+</div>
+
+<div id="hud">
+  <button onclick="go(-1)">← 上一頁</button>
+  <span id="pg">1 / 9</span>
+  <button onclick="go(1)">下一頁 →</button>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];let i=0;
+  function show(n){slides[i].classList.remove('on');i=Math.max(0,Math.min(slides.length-1,n));slides[i].classList.add('on');document.getElementById('pg').textContent=(i+1)+' / '+slides.length;}
+  function go(d){show(i+d);}
+  addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(1);else if(e.key==='ArrowLeft')go(-1);});
+  addEventListener('click',e=>{if(e.target.closest('#hud'))return;const r=innerWidth/2;go(e.clientX>r?1:-1);});
+</script>
+</body>
+</html>
