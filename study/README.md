@@ -29,6 +29,7 @@
 | Ch.17–18 | ★ | 擴充資料結構 + B-tree(順序統計/區間樹/B-tree) | [augmented-data-structures.md](augmented-data-structures.md) |
 | Ch.29 | ★ | 線性規劃(單純形 / 對偶 / 互補鬆弛) | [linear-programming.md](linear-programming.md) |
 | Ch.28+30 | ★ | FFT + 矩陣運算(FFT / Strassen / LU) | [fft-and-matrix.md](fft-and-matrix.md) |
+| Ch.31 | ★ | 數論(歐幾里得 / 快速冪 / RSA) | [number-theoretic-algorithms.md](number-theoretic-algorithms.md) |
 | Ch.34 | ★★★ | NP-完備性(歸約 / Cook-Levin / P vs NP) | [np-completeness.md](np-completeness.md) |
 | Ch.35 | ★★ | 近似演算法(近似比 / APX/PTAS/FPTAS / 2-近似) | [approximation-algorithms.md](approximation-algorithms.md) |
 
