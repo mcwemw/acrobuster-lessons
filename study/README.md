@@ -27,6 +27,7 @@
 | Ch.25 | ★★ | 二分圖匹配(擴增路徑 / Hopcroft-Karp / König) | [bipartite-matching.md](bipartite-matching.md) |
 | Ch.32 | ★★ | 字串比對(KMP / Rabin-Karp) | [string-matching.md](string-matching.md) |
 | Ch.17–18 | ★ | 擴充資料結構 + B-tree(順序統計/區間樹/B-tree) | [augmented-data-structures.md](augmented-data-structures.md) |
+| Ch.29 | ★ | 線性規劃(單純形 / 對偶 / 互補鬆弛) | [linear-programming.md](linear-programming.md) |
 | Ch.34 | ★★★ | NP-完備性(歸約 / Cook-Levin / P vs NP) | [np-completeness.md](np-completeness.md) |
 | Ch.35 | ★★ | 近似演算法(近似比 / APX/PTAS/FPTAS / 2-近似) | [approximation-algorithms.md](approximation-algorithms.md) |
 
