@@ -44,6 +44,29 @@ tag: 演算法
 - **Kosaraju**(兩趟 DFS:原圖記 finish 序 → 反圖按該序 DFS)或 **Tarjan**(一趟 DFS + low-link),皆 **O(V+E)**。
 - 用途:把有向圖縮成 DAG(condensation)再做拓樸/DP。
 
+## 6. 深化:邊分類 + Kosaraju 正確性 + 拓樸 trace
+
+### 6.1 DFS 邊分類 + 括號定理
+discovery d[]/finish f[] 滿足**括號結構**:任兩頂點的 [d,f] 區間要嘛包含、要嘛不相交(絕不交錯)。據此分類有向邊 u→v:
+- **tree/forward**:v 在 u 的區間內(d[u]<d[v]<f[v]<f[u])。
+- **back**:v 是 u 的祖先(d[v]<d[u]<f[u]<f[v])→ **存在 back edge ⟺ 有環**。
+- **cross**:區間不相交(v 已完成,d[v]<f[v]<d[u])。
+無向圖只有 tree/back 兩類。
+
+### 6.2 Kahn 拓樸 trace(邊 A→C,B→C,C→D,B→D)
+in-degree:A=0,B=0,C=2,D=2。佇列取 0 入度:{A,B}→ 輸出 A,移除 A→C(C 降 1);輸出 B,移除 B→C(C=0 入列)、B→D(D 降 1)→ 輸出 C,移除 C→D(D=0 入列)→ 輸出 D。序 **A,B,C,D**。若最後輸出數 < V ⟹ 有環(剩點入度永不歸零)。
+
+### 6.3 Kosaraju 為何對(兩趟 DFS)
+第一趟在原圖記 finish time。第二趟在**反圖**按 finish **遞減**序起 DFS,每棵樹=一個 SCC。直覺:縮點後的 condensation 是 DAG;finish 最大的點必在 condensation 的「源」SCC,反圖把邊反向使該 SCC 的 DFS 走不出自己 → 恰好圈出一個 SCC。O(V+E)。
+
+### 6.4 陷阱
+| 陷阱 | 正解 |
+|---|---|
+| BFS 能求有權最短路 | 只限**無權/等權**;有權要 Dijkstra([[shortest-path]]) |
+| 拓樸序唯一 | 一般**不唯一**(多個 0 入度點時);唯一 ⟺ 存在哈密頓路徑 |
+| 無向圖有 cross edge | 無向 DFS 只有 tree/back;cross/forward 僅有向圖 |
+| DFS 遞迴深度 | 最壞 O(V) 堆疊,大圖要改顯式 stack 防爆 |
+
 ## 我的想法 / 啟發
 
 - **O(V+E) 是圖演算法的「便宜基準」**:BFS/DFS/拓樸/SCC 全是這個階 → 資格考看到「線性於圖大小」先想這組。
