@@ -106,6 +106,31 @@ Ch02 is the **master index** for all of AIMA: every subsequent chapter (search, 
 出處 Source：AIMA 4th Ed. §2.1–2.4（pp. 55–75）及作者觀點整合。Author's synthesis based on R&N §2.1–2.4.
 :::
 
+## 互動視覺化導覽 · Interactive Visualisation Guide
+
+**jsurrea AIMA Visualizations — Chapter 02**（`jsurrea.github.io/aima-visualizations/chapter-02/`）提供 6 個互動模組，把本章核心概念帶進可操作的動態環境：
+
+| # | 模組 | 核心互動 | 關鍵學習點 |
+|---|---|---|---|
+| 1 | **Rationality & Performance Measures** | 切換三種評分規則 × 四種初始狀態 | ①「+1/clean room」→正確；②「+10/Suck」→ King Midas 誘因扭曲；③「−1/action」→代理選 NoOp 躺平。理性≠好績效，**績效定義決定一切** |
+| 2 | **PEAS Framework Builder** | 點選 5 種代理（Taxi/醫療/影像/購物/西洋棋）→即時渲染 4 欄表格 | 練習「先填 PEAS 再設計」的工程直覺；看各欄如何因任務而異 |
+| 3 | **Environment Properties** | ①書中範例 + 難度條；②🔧自訂七維度 → 自動推薦架構 | 七維度難易如何映射到架構選型；`n/7 hard` 視覺化讓「越難越往上爬」直觀呈現 |
+| 4 | **Agent Type Explorer** | 點選五級架構查組件與範例 | 每級「多了什麼」（+model / +goals / +utility / +learning）逐層累積 |
+| 5 | **Vacuum World — Simple Reflex** | play/pause/step；調初始狀態看不同路徑 | Condition-action 規則的極限：完全可觀察才有效；若遮蔽一格即失敗 |
+| 6 | **Vacuum World — Model-Based** | 與模組 5 並排對比 | 內部模型如何彌補部分可觀察缺口；兩者行為差異清楚說明「模型」的價值 |
+
+**設計特點**：每組件均含教學說明文字 + 可逐步播放的動畫 + 鍵盤導航；評分動畫特別適合解釋「理性代理不是最優解，是期望最優解」。
+
+::: en
+The jsurrea AIMA Visualizations site (chapter-02) has six interactive modules: (1) **Rationality & Performance Measures** — toggle three scoring rules (correct / King Midas perverse-incentive / action-minimising misalignment) across four initial states to see how the performance measure definition drives agent behaviour; (2) **PEAS Framework Builder** — click five canonical agents to explore their four-column PEAS tables; (3) **Environment Properties** — classify book examples by their seven dimensions, or build a custom environment and get an architecture recommendation; (4) **Agent Type Explorer** — browse all five architecture tiers with component lists and real-world examples; (5–6) **Vacuum World (Simple Reflex vs Model-Based)** — step-by-step animation comparing the two architectures side by side, illustrating exactly how an internal world model compensates for partial observability.
+:::
+
+::: src
+出處 Source：jsurrea, *AIMA Visualizations*, Chapter 02 — Intelligent Agents，開源 MIT，`github.com/jsurrea/aima-visualizations`（2026-11-22 閱覽），作者觀點重述。Open-source MIT project; author's paraphrase of visualisation content.
+:::
+
+---
+
 ## 一句話帶走 · Takeaway
 
 PEAS 先填、七維度判環境、五級架構選設計；越難（部分可觀察 + 隨機 + 動態）就往架構階梯上爬。整個 AIMA 都是這張表的具體化。
