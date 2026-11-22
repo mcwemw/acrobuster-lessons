@@ -119,6 +119,73 @@
     </section>
 
     <section class="card">
+      <h2>進階延伸 <span class="en">· Advanced Topics (§2.5+)</span></h2>
+      <p><strong>多代理系統</strong>：多個代理共存，可分為<strong>合作型</strong>（共享目標，任務分配/協商）與<strong>競爭型</strong>（博弈，納許均衡）。環境維度「多代理」軸決定是否需要博弈推理（→第五章對抗搜尋）。</p>
+      <p><strong>BDI 架構</strong>（Belief–Desire–Intention）：符號式審議代理，維護信念（世界模型）、慾望（目標集）、意圖（已承諾的計畫）三層結構，是知識型代理的經典框架。</p>
+      <p><strong>包容架構</strong>（Brooks）：分層反應式行為，無中央知識模型；低層行為可「包容」（subsume）高層行為輸出，適合即時機器人。</p>
+      <p><strong>有限理性（Bounded Rationality, Simon）</strong>：在計算/資訊受限下採用「足夠好（satisficing）」策略。理性 ≠ 全知——這是讓理性代理可工程化的關鍵假設，也是整本 AIMA 的前提。</p>
+      <p><strong>LLM 作為代理（當代對應）</strong>：感知 = prompt/工具回傳，行動 = 工具呼叫，記憶 = context window/向量庫，學習 = fine-tuning/RLHF。<strong>ReAct</strong>（推理 + 行動交錯）正是本章「基於目標 + 學習型」在大型語言模型時代的體現。</p>
+      <p class="en"><strong>Multi-agent systems</strong>: agents coexist cooperatively (shared goals, task allocation, negotiation) or competitively (game-theoretic reasoning, Nash equilibria). The multi-agent dimension triggers Chapter 5's adversarial search tools. <strong>BDI architecture</strong>: symbolic deliberative agents maintain beliefs (world model), desires (goal set), and intentions (committed plans). <strong>Subsumption architecture</strong> (Brooks): layered reactive behaviours with no central knowledge model — lower layers can subsume (override) higher-layer outputs; well-suited for real-time robotics. <strong>Bounded rationality</strong> (Simon): under limited computation/information, agents satisfice rather than optimise — this is what makes rational agents engineerable. <strong>LLMs as agents</strong>: perception = prompt/tool returns; action = tool calls; memory = context window/vector store; learning = fine-tuning/RLHF. ReAct (interleaved reasoning + acting) is the goal-based + learning architecture from this chapter instantiated in LLMs.</p>
+      <div class="src">出處 Source：AIMA 4th Ed. §2.4–2.5；ai-agentarch-wikipedia；作者觀點整合。</div>
+    </section>
+
+    <section class="card">
+      <h2>練習題解答 <span class="en">· Exercise Answers (aimacode/aima-exercises Ch.2)</span></h2>
+      <p>以下為 <a href="https://aimacode.github.io/aima-exercises/agents-exercises/">官方練習題</a> 精選題目的參考解答。</p>
+
+      <p><strong>Ex.4 — 以下敘述各為真或假？（理性代理基礎觀念）</strong></p>
+      <ul>
+        <li><strong>(a) 只感知部分狀態的代理無法完全理性。→ 假</strong>：理性 = 在<em>已知感知</em>下做期望最好的選擇；感知受限不妨礙理性，只是限制了可用資訊。反例：只感知溫度的恆溫器仍可理性。</li>
+        <li><strong>(b) 存在環境使純反射代理無法理性行動。→ 真</strong>：若環境需要記住歷史（如吸塵器無位置感測器，需記住已清潔格），純反射代理因無內部狀態而反覆循環，無法達最佳績效。</li>
+        <li><strong>(c) 存在環境使每個代理都是理性的。→ 真</strong>：若所有行動績效期望值相同（如全空地圖無任何任務），任何代理行為都不劣於其他代理，故每個都「理性」。</li>
+        <li><strong>(d) 代理程式的輸入與代理函數的輸入相同。→ 假</strong>：代理函數接受<em>完整感知序列</em>（歷史）；代理程式只接受<em>當前感知</em>，內部狀態由程式自己維護。</li>
+        <li><strong>(e) 在完全不可觀察的環境中每個代理都理性。→ 假</strong>：無感知代理無法做任何有依據的決策；若一代理固定選次優動作，另一代理固定選最優動作，後者期望績效更高，前者不理性。</li>
+        <li><strong>(f) 完全理性的撲克代理永遠不輸。→ 假</strong>：理性最大化<em>期望</em>效用（長期平均），但每手牌有隨機性；即使策略最優，單局仍可能因牌面運氣輸牌。</li>
+        <li><strong>(i) 純隨機選動作的代理在某確定性環境中理性。→ 真</strong>：若確定性環境中任何動作序列績效相同（平坦環境），隨機選擇不劣於任何固定策略，故可理性。</li>
+      </ul>
+      <p class="en"><strong>Ex.4 — True/False on rational agents:</strong> (a) <em>False</em> — rational means best action given available percepts; partial perception limits information, not rationality itself. (b) <em>True</em> — an environment requiring memory (e.g. vacuum world without location sensor) cannot be handled by a pure reflex agent that loops forever. (c) <em>True</em> — if all actions yield the same expected performance (completely flat environment), every agent is trivially rational. (d) <em>False</em> — agent function takes the complete percept history; agent program receives only the current percept and maintains internal state itself. (e) <em>False</em> — with zero perception an agent cannot distinguish states; a fixed suboptimal action sequence can be beaten by another agent. (f) <em>False</em> — rational maximises expected (long-run) utility; stochastic card deals mean even the best strategy loses individual hands. (i) <em>True</em> — if every action achieves identical performance in a deterministic environment, random selection is as good as any fixed policy.</p>
+
+      <p><strong>Ex.5 — 為以下任務描述 PEAS 並判定七維度</strong></p>
+      <p><em>範例一：踢足球</em></p>
+      <ul>
+        <li><strong>P</strong>：進球、防守、守規則、贏比賽。</li>
+        <li><strong>E</strong>：足球場、球、隊友、對手、裁判。</li>
+        <li><strong>A</strong>：腳（踢/傳/射）、身體（衝撞/佔位）、口語（溝通）。</li>
+        <li><strong>S</strong>：視覺、本體感覺（位置/速度）、聽覺（哨音/呼叫）。</li>
+      </ul>
+      <p>七維度：<strong>部分可觀察</strong>（遮擋/視角盲區）、<strong>多代理</strong>（22 名球員）、<strong>隨機</strong>（球路/身體接觸不可預期）、<strong>序列</strong>（每個動作影響後續戰術）、<strong>動態</strong>（場況持續改變）、<strong>連續</strong>（位置/速度）、<strong>已知</strong>（規則事先已知）。</p>
+      <p><em>範例二：在網路上購買二手 AI 書</em></p>
+      <ul>
+        <li><strong>P</strong>：以最低價取得目標書籍、節省時間。</li>
+        <li><strong>E</strong>：網頁、電商平台、搜尋引擎、其他買家。</li>
+        <li><strong>A</strong>：輸入關鍵字、點連結、填表單、付款。</li>
+        <li><strong>S</strong>：網頁內容（文字/圖片）。</li>
+      </ul>
+      <p>七維度：<strong>部分可觀察</strong>（無法同時看所有賣家庫存）、<strong>多代理</strong>（其他買家競爭）、<strong>隨機</strong>（庫存/價格隨時變化）、<strong>序列</strong>（搜尋→比價→下單有順序依賴）、<strong>動態</strong>（價格和庫存持續改變）、<strong>離散</strong>（書籍為可數物件）、<strong>未知</strong>（新網站/未知賣家）。</p>
+      <p class="en"><strong>Ex.5 — PEAS + environment dimensions:</strong> <em>Soccer</em>: P = score goals / defend / win; E = field, ball, teammates, opponents, referee; A = legs/body, voice; S = vision, proprioception, hearing. Dimensions: partially observable, multi-agent, stochastic, sequential, dynamic, continuous, known (rules). <em>Online used-book shopping</em>: P = acquire book at lowest cost / save time; E = web pages, e-commerce sites, other buyers; A = type queries, click, fill forms, pay; S = web content. Dimensions: partially observable, multi-agent, stochastic, sequential, dynamic, discrete, unknown (new sites).</p>
+
+      <p><strong>Ex.7 — 定義以下術語</strong></p>
+      <ul>
+        <li><strong>Agent（代理人）</strong>：透過感測器感知環境、透過致動器行動的任何實體。</li>
+        <li><strong>Agent function（代理函數）</strong>：從感知序列到行動的數學映射（抽象規格）。</li>
+        <li><strong>Agent program（代理程式）</strong>：在機器上執行、實現代理函數的具體程式碼（只接收當前感知）。</li>
+        <li><strong>Rationality（理性）</strong>：選擇在至今感知序列與先驗知識下、期望績效最大化的行動。</li>
+        <li><strong>Autonomy（自主性）</strong>：依靠自身感知與學習（而非僅靠設計者的內建知識）行動的程度。</li>
+        <li><strong>Reflex agent（反射代理）</strong>：純粹根據當前感知套用 condition-action 規則，無記憶/歷史。</li>
+        <li><strong>Model-based agent（基於模型的代理）</strong>：維護內部世界狀態（模型），以應對部分可觀察環境。</li>
+        <li><strong>Goal-based agent（基於目標的代理）</strong>：用目標 + 搜尋/規劃決定達成目標的行動序列。</li>
+        <li><strong>Utility-based agent（基於效用的代理）</strong>：用效用函數在多目標/不確定結果間取捨，選期望效用最高的行動。</li>
+        <li><strong>Learning agent（學習型代理）</strong>：以上任一架構加上學習元件，從經驗中改善未來績效。</li>
+      </ul>
+      <p class="en"><strong>Ex.7 — Definitions:</strong> <em>Agent</em>: any entity that perceives its environment via sensors and acts via actuators. <em>Agent function</em>: abstract mathematical mapping from percept sequences to actions. <em>Agent program</em>: concrete implementation running on hardware that receives only the current percept. <em>Rationality</em>: choosing the action that maximises expected performance given the current percept sequence and built-in knowledge. <em>Autonomy</em>: the degree to which an agent relies on its own percepts and learning rather than purely on the designer's prior knowledge. <em>Reflex agent</em>: acts solely on current percept via condition-action rules; no memory. <em>Model-based agent</em>: maintains an internal world state to cope with partial observability. <em>Goal-based agent</em>: uses goals plus search/planning to determine action sequences. <em>Utility-based agent</em>: uses a utility function to trade off competing objectives or uncertain outcomes, selecting the action with highest expected utility. <em>Learning agent</em>: any of the above architectures augmented with a learning component that improves performance through experience.</p>
+
+      <p><strong>Ex.10（延伸）— 恆溫器是哪種代理架構？</strong></p>
+      <p>恆溫器是<strong>簡單反射代理</strong>：感知當前溫度，套用固定規則（溫度 &lt; 設定 − 3°→ 開暖氣；溫度 &gt; 設定 + 3° → 關暖氣）。無需內部狀態（溫度完全可觀察）、無目標搜尋、無效用函數——condition-action 規則完全描述其行為。</p>
+      <p class="en"><strong>Ex.10 — Thermostat architecture:</strong> A <strong>simple reflex agent</strong>. It senses the current temperature and applies fixed condition-action rules (temperature &lt; setting − 3° → turn on furnace; temperature &gt; setting + 3° → turn off furnace). No internal state is needed (temperature is fully observable), no search or planning is performed, and no utility function is used — a pure condition-action mapping.</p>
+      <div class="src">出處：<a href="https://aimacode.github.io/aima-exercises/agents-exercises/">aimacode/aima-exercises Ch.2</a>（CC 授權），解答為作者原創重述，以 AIMA 4th Ed. §2.1–2.4 為依據。Source: aimacode/aima-exercises Ch.2 (CC-licensed); answers are the author's original paraphrase based on AIMA 4th Ed.</div>
+    </section>
+
+    <section class="card">
       <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
       <p>PEAS 先填、七維度判環境、五級架構選設計；越難（部分可觀察 + 隨機 + 動態）就往架構階梯上爬。整個 AIMA 都是這張表的具體化。</p>
       <p class="en">Fill PEAS first, classify environment dimensions second, pick architecture tier third. The harder the environment (partially observable + stochastic + dynamic), the higher up the ladder you go. All of AIMA is an elaboration of this single table.</p>
