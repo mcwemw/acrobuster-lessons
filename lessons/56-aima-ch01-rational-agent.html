@@ -134,6 +134,42 @@
     </section>
 
     <section class="card">
+      <h2>練習題解答 <span class="en">· Exercise Answers (aimacode/aima-exercises Ch.1)</span></h2>
+      <p>以下為 <a href="https://github.com/aimacode/aima-exercises/tree/master/markdown/1-Introduction">官方練習題</a> 精選五題的參考解答。</p>
+
+      <p><strong>Ex.1 — 定義五個核心概念</strong></p>
+      <ul>
+        <li><strong>(a) Intelligence（智慧）</strong>：感知環境、推理、學習、並在新情況中有效行動的能力——特別是在未見過的情境下仍能達成目標。</li>
+        <li><strong>(b) Artificial Intelligence（人工智慧）</strong>：讓機器（尤其是電腦程式）表現出智慧行為的科學與工程；AIMA 選「理性行動」作為操作型定義。</li>
+        <li><strong>(c) Agent（代理人）</strong>：透過感測器感知環境、透過致動器採取行動的任何實體（人、機器人、軟體均可）。</li>
+        <li><strong>(d) Rationality（理性）</strong>：在已知感知序列與內建知識下，選擇能<em>最大化績效期望值</em>的行動——不要求全知，而是在現有資訊下做最好的決策（bounded rationality）。</li>
+        <li><strong>(e) Logical Reasoning（邏輯推理）</strong>：從前提依形式規則推出結論（演繹推理）；與機率推理或啟發式推理不同，結論在前提為真時必然為真。</li>
+      </ul>
+
+      <p><strong>Ex.4 — 反射動作（縮手）是理性的嗎？是智慧的嗎？</strong></p>
+      <ul>
+        <li><strong>理性？是</strong>——演化已校準反射動作以最大化存活期望值（縮手避免組織損傷）。從績效量度的角度，這是「在設計條件下最優的預設行動」。但反射無法依語境調整（例如必須繼續握著熱鍋時無法抑制），因此是受限的理性。</li>
+        <li><strong>智慧？否（以 AIMA 標準）</strong>——反射是預設的「條件→行動」規則，繞過推理過程。AIMA 的理性代理可以無推理地理性行動（恆溫器是理性的但不智慧）。智慧需要感知→推理→學習的完整迴路，純反射缺少學習與適應。</li>
+      </ul>
+
+      <p><strong>Ex.5 — 難解／不可判定問題代表 AI 不可能嗎？</strong></p>
+      <p>不。理性不要求完美解——AIMA 的代理在<strong>有限理性（bounded rationality）</strong>下運作，以有限計算和時間做盡可能好的決策。現實中許多 AI 系統對 NP-hard 問題用啟發式搜尋或近似演算法取得足夠好的解（例如圍棋 AI 的 MCTS）。難解性排除「最優完美解」，不排除「夠好的近似解」——AI 的目標正是後者。</p>
+
+      <p><strong>Ex.6 — 若程式在 IQ 測試得 200 分，比人更有智慧嗎？</strong></p>
+      <p>不必然。IQ 測試測量的是<em>特定認知能力的窄帶</em>（模式識別、邏輯類比）；高分不代表通用智慧。智慧更廣泛地包含語言理解、具身推理、社交認知、創造力、在新情境中學習等。針對單一測試優化的程式不能泛化到其他任務。這呼應「acting rationally ≠ thinking humanly」：在某個基準上表現優異 ≠ 擁有一般智慧。</p>
+
+      <p><strong>Ex.9 — 以下系統在多大程度上是 AI？</strong></p>
+      <ul>
+        <li><strong>超市條碼掃描器</strong>：幾乎不是——簡單模式匹配，無推理、無學習、無適應。</li>
+        <li><strong>網路搜尋引擎</strong>：中度 AI——涉及大量機器學習（排名、NLP、相關性學習），但非完全自主代理。</li>
+        <li><strong>語音電話選單</strong>：弱 AI——基本語音辨識，但後端通常是規則樹，推理能力有限。</li>
+        <li><strong>動態路由演算法</strong>：中度——能感知網路狀態並適應（像理性代理對環境回應），但無跨域學習。</li>
+      </ul>
+      <p>以 AIMA「感知環境→選行動最大化績效」的標準，四者都是不同程度的代理人；差異在複雜性與適應能力。</p>
+      <div class="src">出處：<a href="https://github.com/aimacode/aima-exercises/tree/master/markdown/1-Introduction">aimacode/aima-exercises Ch.1</a>（CC 授權），解答為作者原創重述，以 AIMA 4th Ed. 為依據。</div>
+    </section>
+
+    <section class="card">
       <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
       <p>R&N 不要「像人」，要「理性」：在已知資訊下最大化績效期望值的代理人，才是 AIMA 整個框架的錨點。考試遇到「四種 AI 定義」，先畫 2×2、記住 R&N 選右下角。</p>
       <p class="en">R&N don't want "human-like" — they want "rational": an agent that maximises expected performance given available knowledge is the anchor of the entire AIMA framework. On exams: draw the 2×2 matrix first, remember R&N pick the bottom-right cell.</p>
