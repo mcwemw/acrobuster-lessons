@@ -92,6 +92,47 @@ Choosing "acting rationally" as the definition of AI sets the agenda for the ent
 出處 Source：AIMA 4th Ed. §1.1（pp. 19–22），作者觀點整合。Author's synthesis based on R&N §1.1.
 :::
 
+## 知識回答練習 · Knowledge Practice
+
+**Define in your own words: (a) intelligence, (b) artificial intelligence, (c) agent, (d) rationality, (e) logical reasoning.**
+
+**(a) Intelligence（智慧）**
+感知環境、在知識與目標的驅動下作出決策，使預期結果最佳化的能力——不只是遵循固定規則，還能在新情境中調整行為。
+
+**(b) Artificial Intelligence（人工智慧）**
+設計能**感知**環境並**行動**以達成目標的系統之學問。涵蓋推理、學習、規劃、感知四大領域；AIMA 採「理性代理人」取向：讓機器在各種環境下最大化績效期望值，而非複製人類思維。
+
+**(c) Agent（代理人）**
+透過**感測器**感知環境、透過**執行器**對環境施加影響的系統。核心是「感知→決策→行動」迴圈：任何能將輸入（感知序列）映射到輸出（行動）的實體，都是代理人——從溫控器到自駕車，從軟體助理到人類。
+
+**(d) Rationality（理性）**
+對每一個可能的感知序列，選擇能最大化**績效測量**期望值的行動——以至今的感知序列及內建知識為依據。理性 ≠ 全知：在資訊有限下做「預期最好的選擇」才是理性；若收集更多資訊能提升績效，理性代理人應去收集。
+
+**(e) Logical Reasoning（邏輯推理）**
+從已知前提出發，依形式規則（三段論、一階邏輯推導規則）得出必然結論的過程。對應 2×2 矩陣的「理性思考」象限。AIMA 承認其價值，但指出兩項限制：①非形式知識難以完整形式化；②推理步驟的計算量容易爆炸，不總能在有限時間內求解。
+
+> **考試提示**：這五個概念在 AIMA Ch.1 一起出現，出題常要求對比——特別是「rationality vs. logical reasoning」（理性行動≠邏輯推理：前者只要結果最佳；後者要求推導過程形式化，計算代價高）。
+
+::: en
+**(a) Intelligence**: The capacity to perceive an environment, reason under uncertainty, and act to maximise expected outcomes — going beyond fixed rules to adapt behaviour in novel situations.
+
+**(b) Artificial Intelligence**: The science and engineering of designing systems (agents) that perceive their environment and act to achieve goals. AIMA adopts the **rational-agent** view: maximising expected performance, not mimicking human thought.
+
+**(c) Agent**: Any entity that perceives its environment through sensors and acts on it through actuators. The defining loop is percept → decision → action. Examples range from a thermostat to a self-driving car.
+
+**(d) Rationality**: For each possible percept sequence, selecting the action that maximises the expected value of the performance measure, given available percepts and built-in knowledge. Rationality ≠ omniscience — it means doing the best possible with available information, including gathering more information when that improves expected performance.
+
+**(e) Logical Reasoning**: Deriving conclusions from premises via formal rules (syllogisms, first-order logic inference). Corresponds to the "Thinking Rationally" cell of the 2×2 matrix. AIMA notes two key limitations: (1) not all knowledge is easily formalised; (2) computation can explode, making it impractical as the sole approach to AI.
+
+> **Exam tip**: The key contrast is *rationality vs. logical reasoning* — a rational agent does not need to use logical deduction; it only needs to pick the best-expected action. Logical reasoning is one possible mechanism, not a requirement.
+:::
+
+::: src
+出處 Source：AIMA 4th Ed. §1.1–1.2 及作者整合重述。Author's synthesis based on R&N §1.1–1.2.
+:::
+
+---
+
 ## 一句話帶走 · Takeaway
 
 R&N 不要「像人」，要「理性」：在已知資訊下最大化績效期望值的代理人，才是 AIMA 整個框架的錨點。考試遇到「四種 AI 定義」，先畫 2×2、記住 R&N 選右下角。
