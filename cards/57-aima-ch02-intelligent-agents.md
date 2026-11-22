@@ -96,10 +96,39 @@ AIMA Ch02 是整本書的**全景索引**：後面每一章（搜尋、邏輯、
 
 考試策略：遇到「描述某系統的代理設計」→先填 PEAS → 判定七維度 → 由難易選架構。部分可觀察 + 隨機 → 信念狀態 / MDP；多代理 → 對抗搜尋/機制設計。
 
+**代理設計範例（PREP 論述結構）**
+
+> **Point（論點）**：「外送機器人」在最難維度組合下，需要學習型 + 效用型架構。
+>
+> **Reason（理由）**：環境維度直接決定演算法工具——部分可觀察逼出內部模型，隨機逼出機率推論，序列性逼出規劃，多代理逼出博弈推理；一個環境若同時觸發多個「難」軸，架構就必須疊加對應能力。
+>
+> **Example（例證）**：
+>
+> | PEAS 要素 | 外送機器人 |
+> |---|---|
+> | **P**erformance | 準時送達、零碰撞、最短路徑、低電耗 |
+> | **E**nvironment | 街道、行人、車輛、紅綠燈、天候 |
+> | **A**ctuators | 馬達、轉向、剎車、蜂鳴器 |
+> | **S**ensors | GPS、相機、距離感測、里程計 |
+>
+> 七維度判定：**部分可觀察**（無法看到所有行人意圖）、**多代理**（其他車輛/行人）、**隨機**（天候/行人路徑不可預期）、**序列**（路線決策影響後續）、**動態**（即時交通持續變化）、**連續**（位置/速度）、**未知**（首次跑的新路段）→ 7/7 全命中難側。
+>
+> 架構選型：簡單反射不夠（部分可觀察）→ 需**基於模型**（維護世界狀態）；多目標衝突（速度 vs 安全）→ 需**效用函數**；新環境動態未知 → 需**學習元件**。最終：**學習型效用代理 + 信念狀態 + 規劃**。
+>
+> **Point（結論）**：PEAS → 七維 → 架構這條流程，讓申論題有系統性骨幹，不必靠直覺列舉；每個維度都對應一個「不夠就升架構」的充分理由。
+
 LLM agent 的現代對應：感知 = prompt/工具回傳，行動 = 工具呼叫，記憶 = context/向量庫，學習 = fine-tuning/RLHF。ReAct（推理+行動交錯）正是本章「基於目標 + 學習型」在 LLM 時代的體現。
 
 ::: en
-Ch02 is the **master index** for all of AIMA: every subsequent chapter (search, logic, probability, planning, learning, RL) is a tool for making agents rational under some combination of environment dimensions. Exam strategy: given a system description → fill PEAS → classify seven dimensions → pick architecture tier. Modern LLM agents map directly onto this framework: perception = prompts/tool returns, action = tool calls, memory = context/vector store, learning = fine-tuning/RLHF.
+Exam strategy for "describe the agent design of a system" — use the **P-R-E-P** structure:
+
+**Point**: A food-delivery robot operating in a fully hard environment requires a learning + utility-based architecture.
+
+**Reason**: Environment dimensions directly map to algorithm needs — partial observability demands an internal model; stochasticity demands probabilistic reasoning; sequential decisions demand planning; multi-agent settings demand game-theoretic reasoning. When multiple "hard" dimensions fire simultaneously, the architecture must stack corresponding capabilities.
+
+**Example** — Food Delivery Robot: P = on-time/collision-free/shortest path/low battery; E = streets/pedestrians/vehicles/traffic lights/weather; A = motors/steering/brakes/horn; S = GPS/cameras/range sensors/odometer. All 7 dimensions hit the "hard" end: partially observable, multi-agent, stochastic, sequential, dynamic, continuous, unknown. Architecture chain: simple reflex insufficient → model-based (track world state) → utility (trade off speed vs safety) → learning (handle unknown routes). Result: **learning + utility-based agent with belief state and planning**.
+
+**Point**: The PEAS → dimensions → architecture pipeline gives exam answers a systematic skeleton rather than an ad-hoc list; each hard dimension is a justified reason to move one step up the architecture ladder.
 :::
 
 ::: src
