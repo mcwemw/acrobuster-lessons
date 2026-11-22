@@ -60,7 +60,7 @@ tag: AI
 ## Next action / 下一步
 
 1. 補 AI 各子領域地圖(感知/推理/學習/行動)對應後續章節。
-2. 接 [[ai-intelligent-agents]](Ch.2)把「理性」具體成 PEAS + 架構。
+2. 接 [ai-intelligent-agents](ai-intelligent-agents.md)（Ch.2）把「理性」具體成 PEAS + 架構。
 
 ## 交叉引用 / 出處
 - raw:`wiki/raw/aic1-ai-wikipedia.md`、`aic1-turing-wikipedia.md`、`aic1-history-wikipedia.md`
