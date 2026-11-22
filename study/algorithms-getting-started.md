@@ -100,13 +100,13 @@ Ch.2 已埋:最壞/最佳/平均;merge sort 的 T(n)=2T(n/2)+Θ(n) 是第一個�
 ## 我的想法 / 啟發
 
 - **迴圈不變式是「演算法版的歸納法」**,也是這門課教的第一個嚴謹工具:資格考證正確性十之八九靠它,三步(初始/維持/終止)要能對任一迴圈機械套用——別只會跑、要會證。
-- **增量 vs 分治**在 Ch.2 就埋下整門課的兩條主線:後面 [[dynamic-programming]](增量式填表)、[[complexity-and-divide-conquer]]/[[sorting]](分治)都是這裡的延伸。
+- **增量 vs 分治**在 Ch.2 就埋下整門課的兩條主線:後面 [dynamic-programming](dynamic-programming.md)（增量式填表）、[[complexity-and-divide-conquer]]/[sorting](sorting.md)（分治）都是這裡的延伸。
 - **插入排序「最佳 O(n)」**常被忽略:近乎排序的輸入它極快,所以實務上小陣列/混合排序(如 Timsort)仍用它——提醒「漸進最壞不是全部」。
 
 ## Next action / 下一步
 
 1. 補 merge 合併子程序的迴圈不變式證明 + 哨兵(sentinel)技巧。
-2. 接 [[sorting]](Ch.6-8)把 merge sort 的分治推到 heap/quick 與比較下界。
+2. 接 [sorting](sorting.md)（Ch.6-8）把 merge sort 的分治推到 heap/quick 與比較下界。
 
 ## 交叉引用 / 出處
 - raw:`wiki/raw/start-insertion-wikipedia.md`、`start-loopinvariant-wikipedia.md`、`start-mergesort-wikipedia.md`

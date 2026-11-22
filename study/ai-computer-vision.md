@@ -60,7 +60,7 @@ tag: AI
 ## Next action / 下一步
 
 1. 補 U-Net/Mask R-CNN 結構 + 3D 視覺(立體/深度估計)。
-2. 接 [[ai-robotics]](Ch.26)——視覺作為機器人的感知輸入。
+2. 接 [ai-robotics](ai-robotics.md)（Ch.26）——視覺作為機器人的感知輸入。
 
 ## 交叉引用 / 出處
 - raw:`wiki/raw/aic25-cv-wikipedia.md`、`aic25-detection-wikipedia.md`、`aic25-segmentation-wikipedia.md`

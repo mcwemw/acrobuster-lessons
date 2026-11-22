@@ -69,7 +69,7 @@ DL = FOL 的可判定片段:TBox(概念公理)+ ABox(個體斷言)。表達力�
 ## Next action / 下一步
 
 1. 補事件演算/情境演算完整公理 + Allen 時間區間 13 關係。
-2. 接 [[ai-logic]](Ch.7-9 推理)與 [[ai-planning]](Ch.11,KR 用於動作表示)。
+2. 接 [ai-logic](ai-logic.md)（Ch.7-9 推理）與 [ai-planning](ai-planning.md)（Ch.11，KR 用於動作表示）。
 
 ## 交叉引用 / 出處
 - raw:`wiki/raw/aic10-krr-wikipedia.md`、`aic10-ontology-wikipedia.md`、`aic10-semnet-wikipedia.md`

@@ -87,7 +87,7 @@ A 機 10¹⁰ 運算/秒跑 insertion sort(2n²);B 機 10⁷ 運算/秒(慢 1000
 ## Next action / 下一步
 
 1. 補不同成長率(n! / 2ⁿ / n² / n log n / log n)在大 n 的實際執行時間對照表。
-2. 接 [[algorithms-getting-started]](Ch.2)用插入排序示範「正確性(迴圈不變式)+效率(漸進分析)」怎麼落地。
+2. 接 [algorithms-getting-started](algorithms-getting-started.md)（Ch.2）用插入排序示範「正確性(迴圈不變式)+效率(漸進分析)」怎麼落地。
 
 ## 交叉引用 / 出處
 - raw:`wiki/raw/algo-role-wikipedia.md`、`algo-analysis-wikipedia.md`、`algo-correctness-wikipedia.md`

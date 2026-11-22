@@ -60,7 +60,7 @@ tag: AI
 ## Next action / 下一步
 
 1. 補 Gibbs/HMC 完整步驟 + 變分(ELBO)推導;VAE 作為機率編程 × 深度學習接點。
-2. 接 [[ai-learning-probabilistic]](Ch.20)的 EM/貝氏學習——機率模型的參數學習。
+2. 接 [ai-learning-probabilistic](ai-learning-probabilistic.md)（Ch.20）的 EM/貝氏學習——機率模型的參數學習。
 
 ## 交叉引用 / 出處
 - raw:`wiki/raw/aic15-probprog-wikipedia.md`、`aic15-generative-wikipedia.md`、`aic15-mcmc-wikipedia.md`

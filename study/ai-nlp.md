@@ -62,7 +62,7 @@ Laplace(加一):P(wᵢ|wᵢ₋₁)=(count(wᵢ₋₁wᵢ)+1)/(count(wᵢ₋₁)+
 ## Next action / 下一步
 
 1. 補依存剖析 + CRF 序列標註 + perplexity 推導。
-2. 接 [[ai-nlp-deep]](Ch.24)——詞向量/Transformer/LLM 如何超越 n-gram+CFG。
+2. 接 [ai-nlp-deep](ai-nlp-deep.md)（Ch.24）——詞向量/Transformer/LLM 如何超越 n-gram+CFG。
 
 ## 交叉引用 / 出處
 - raw:`wiki/raw/aic23-nlp-wikipedia.md`、`aic23-ngram-wikipedia.md`、`aic23-cfg-wikipedia.md`

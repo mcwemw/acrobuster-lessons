@@ -58,7 +58,7 @@ dropout(訓練時隨機關神經元,近似 ensemble)、權重衰減(L2)、early 
 ## Next action / 下一步
 
 1. 補 LSTM 門控方程 + ResNet 殘差 + batch norm 完整式。
-2. 接 [[ai-nlp-deep]](Ch.24 Transformer/LLM)與 [[ai-computer-vision]](Ch.25 CNN 視覺)。
+2. 接 [ai-nlp-deep](ai-nlp-deep.md)（Ch.24 Transformer/LLM）與 [ai-computer-vision](ai-computer-vision.md)（Ch.25 CNN 視覺）。
 
 ## 交叉引用 / 出處
 - raw:`wiki/raw/aic21-deeplearning-wikipedia.md`、`aic21-backprop-wikipedia.md`、`aic21-cnn-wikipedia.md`

@@ -66,7 +66,7 @@ OR 節點:代理挑一個動作(找到一個可行即可)。AND 節點:環境可
 ## Next action / 下一步
 
 1. 補 LRTA* 線上搜尋 + conformant/contingent 規劃完整例。
-2. 接 [[ai-csp]](Ch.6)的 min-conflicts(也是區域搜尋)、[[ai-adversarial-search]] MCTS。
+2. 接 [ai-csp](ai-csp.md)（Ch.6）的 min-conflicts(也是區域搜尋)、[[ai-adversarial-search]] MCTS。
 
 ## 交叉引用 / 出處
 - raw:`wiki/raw/aic4-localsearch-wikipedia.md`、`aic4-annealing-wikipedia.md`、`aic4-genetic-wikipedia.md`

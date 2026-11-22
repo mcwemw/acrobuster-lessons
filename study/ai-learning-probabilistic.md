@@ -62,7 +62,7 @@ tag: AI
 ## Next action / 下一步
 
 1. 補 EM 的 ELBO/下界單調性證明 + 共軛先驗完整推導。
-2. 接 [[ai-deep-learning]](Ch.21)——參數學習從機率模型推到神經網路(MLE=交叉熵最小化)。
+2. 接 [ai-deep-learning](ai-deep-learning.md)（Ch.21）——參數學習從機率模型推到神經網路(MLE=交叉熵最小化)。
 
 ## 交叉引用 / 出處
 - raw:`wiki/raw/aic20-mle-wikipedia.md`、`aic20-em-wikipedia.md`、`aic20-naivebayes-wikipedia.md`

@@ -30,7 +30,7 @@ tag: AI
 
 - **前向演算法**:遞迴 αₜ(x)=P(eₜ|x)·Σ_{x'} P(x|x')αₜ₋₁(x') → 濾波 O(S²T)。
 - **前向-後向**:結合前向 α 與後向 β 做平滑。
-- **Viterbi**:同前向但把 Σ 換 **max** + 記回溯指標 → 求最可能狀態序,是標準 [[dynamic-programming]](狀態=時刻×隱藏態)。
+- **Viterbi**:同前向但把 Σ 換 **max** + 記回溯指標 → 求最可能狀態序,是標準 [dynamic-programming](dynamic-programming.md)（狀態=時刻×隱藏態）。
 
 ## 深化:卡爾曼 + 粒子濾波 + worked
 
