@@ -1,6 +1,14 @@
 // 由 build_notes.py 從 notes_md/*.md 生成,勿手改。
 const NOTES = [
   {
+    "date": "2026-11-23",
+    "title": "Risk-certified LLM-as-a-judge — 有統計保證的裁判 prompt 選擇",
+    "title_en": "Risk-certified prompt optimization for LLM-as-a-judge guardrails",
+    "source": "Jawad et al. 2026 · arXiv · RAG Evaluation (UQUHTUCQ)",
+    "img": "2026-11-23_risk-certified-llm-judge.png",
+    "tag": "RAG"
+  },
+  {
     "date": "2026-11-22",
     "title": "Prompt Engineering Guide — DAIR.AI 一站式提示技術實作庫",
     "title_en": "Prompt Engineering Guide — one-stop reference for prompting techniques",

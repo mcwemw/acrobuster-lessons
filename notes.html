@@ -45,6 +45,53 @@
   </div>
   <div class="filterbar" id="filterbar"></div>
   <div id="notes">
+    <article class="note" data-tag="RAG" data-search="2026-11-23 risk-certified llm-as-a-judge — 有統計保證的裁判 prompt 選擇 risk-certified prompt optimization for llm-as-a-judge guardrails jawad et al. 2026 · arxiv · rag evaluation (uquhtucq) rag 核心問題 · question llm 當裁判時，怎麼保證它自己不被繞過？有沒有統計上可認證的方法？ 🔴 背景與痛點 · red jawad, landeau, iradukunda, beaumont, rezel, schaack, brunel (2026)，arxiv 痛點：system prompt 控的 llm-judge 只優化平均準確率，沒有安全保證 授權：cc（需查原文；以 abstract 為準） 🟡 概念 · yellow constrained optimization：最大化 benign pass rate，同時限 missed-attack ≤ α cps：固定 prompt pool + upper confidence bound 認證 crisp：自適應搜尋 + risk feedback rewriting distribution-free risk certification 免分布假設 → 我的 faithfulness judge 可加 α 誤判閾值設計 → maker/checker 紀律的統計版 🔵 原文依據 · blue (quotes) 「llm-as-a-judge guardrails are often controlled primarily through system prompts」「maximize benign pass rate while keeping the missed-attack rate below a user-specified level α with finite-sample statistical control」「cps … certifies candidates on a held-out evaluation set using simultaneous upper confidence bounds」「crisp … hard example-guided rewriting and a reusable-holdout interface」「risk-certified selection consistently respects the target missed-attack level on heldout tests」 🟠 我的想法 · takeaway 想法：llm-judge 本身就是攻擊面——用「有統計認證的 prompt 選擇」來收緊安全邊界 → 我的 faithfulness judge 也能借這個框架加 α 閾值設計，不只是「調出最高準確率」 → crisp 的 hard-example rewriting 像我的 maker/checker：先找難例再修正 → distribution-free = 樣本有限時也能認證，適合研究早期小 n 實驗">
+      <div class="id">2026-11-23</div>
+      <h2 style="margin:4px 0 2px">Risk-certified LLM-as-a-judge — 有統計保證的裁判 prompt 選擇<span class="en">Risk-certified prompt optimization for LLM-as-a-judge guardrails</span></h2>
+      <div class="src">出處 Source：Jawad et al. 2026 · arXiv · RAG Evaluation (UQUHTUCQ)</div>
+    <section class="card">
+      <h2>核心問題 <span class="en">· Question</span></h2>
+      <p>LLM 當裁判時，怎麼保證它自己不被繞過？有沒有統計上可認證的方法？</p>
+    </section>
+
+    <section class="card">
+      <h2>🔴 背景與痛點 <span class="en">· Red</span></h2>
+      <ul>
+        <li>Jawad, Landeau, Iradukunda, Beaumont, Rezel, Schaack, Brunel (2026)，arXiv</li>
+        <li>痛點：system prompt 控的 LLM-judge 只優化平均準確率，沒有安全保證</li>
+        <li>授權：CC（需查原文；以 abstract 為準）</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🟡 概念 <span class="en">· Yellow</span></h2>
+      <ul>
+        <li>constrained optimization：最大化 benign pass rate，同時限 missed-attack ≤ α</li>
+        <li>CPS：固定 prompt pool + upper confidence bound 認證</li>
+        <li>CRISP：自適應搜尋 + risk feedback rewriting</li>
+        <li>distribution-free risk certification 免分布假設</li>
+        <li>→ 我的 faithfulness judge 可加 α 誤判閾值設計</li>
+        <li>→ Maker/Checker 紀律的統計版</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🔵 原文依據 <span class="en">· Blue (quotes)</span></h2>
+      <blockquote>「LLM-as-a-judge guardrails are often controlled primarily through system prompts」<br>「maximize benign pass rate while keeping the missed-attack rate below a user-specified level α with finite-sample statistical control」<br>「CPS … certifies candidates on a held-out evaluation set using simultaneous upper confidence bounds」<br>「CRISP … hard example-guided rewriting and a reusable-holdout interface」<br>「risk-certified selection consistently respects the target missed-attack level on heldout tests」</blockquote>
+    </section>
+
+    <section class="card">
+      <h2>🟠 我的想法 <span class="en">· Takeaway</span></h2>
+      <ul>
+        <li>想法：LLM-judge 本身就是攻擊面——用「有統計認證的 prompt 選擇」來收緊安全邊界</li>
+        <li>→ 我的 faithfulness judge 也能借這個框架加 α 閾值設計，不只是「調出最高準確率」</li>
+        <li>→ CRISP 的 hard-example rewriting 像我的 Maker/Checker：先找難例再修正</li>
+        <li>→ distribution-free = 樣本有限時也能認證，適合研究早期小 n 實驗</li>
+      </ul>
+    </section>
+    <details><summary>原卡圖 Card image</summary><p><img src="notes/2026-11-23_risk-certified-llm-judge.png" alt="Risk-certified LLM-as-a-judge — 有統計保證的裁判 prompt 選擇" style="width:100%;border:1px solid var(--line);border-radius:10px"></p></details>
+      <span class="note-tag" data-tag="RAG">RAG</span>
+    </article>
     <article class="note" data-tag="提示工程" data-search="2026-11-22 prompt engineering guide — dair.ai 一站式提示技術實作庫 prompt engineering guide — one-stop reference for prompting techniques saravia, elvis · dair.ai 2023 · promptingguide.ai · 無明確 cc 授權 提示工程 核心問題 · question 學完技術分類後，哪裡可以查每招的實作範例與各模型指南？ 🔴 背景與痛點 · red saravia, elvis (dair.ai, 2023)，promptingguide.ai 痛點：prompting 技術散落論文/部落格，缺一站式可查的實踐參考 授權：個人站台，無明確 cc 授權（僅供學習導讀，不可商用再散布） 🟡 概念 · yellow 18 prompting 技術（cot / self-consistency / react / tot / ape / reflexion / meta prompting / prompt chaining…） 9 應用域 21 模型指南（claude / gpt-4 / gemini / llama / mistral / qwen…） 7 agent 頁面（context engineering / deep agents / function calling） 12 jupyter notebooks 1099 mdx 頁 · 13 語言 · 更新至 2026-03 → four-engineering-mindsets prompt 層實作查閱庫 → algocoach 提示設計實作配對 🔵 原文依據 · blue (quotes) 「comprehensive reference covering 18 prompting techniques」「cot, self-consistency, react, tot, active-prompt, rag, reflexion, meta prompting, prompt chaining, ape」「21 model-specific guides (claude, gpt-4, gemini, llama, mistral, qwen...)」「7 agent pages (context engineering, deep agents, function calling)」「1099 mdx pages, 13 languages, last updated 2026-03」 🟠 我的想法 · takeaway 想法：the prompt report 建了技術分類表，這站是每招的實作查閱庫——互補關係，不重複 → 設計 algocoach 提示時可按技術名查具體範例（cot / react / ape） → 可作 acrobuster 課程素材：「18 招提示手法」系列導讀入口">
       <div class="id">2026-11-22</div>
       <h2 style="margin:4px 0 2px">Prompt Engineering Guide — DAIR.AI 一站式提示技術實作庫<span class="en">Prompt Engineering Guide — one-stop reference for prompting techniques</span></h2>
