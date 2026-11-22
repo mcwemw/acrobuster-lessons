@@ -77,6 +77,51 @@
     </section>
 
     <section class="card">
+      <h2>四種代理人程式 <span class="en">· Four Agent Program Types (§2.4)</span></h2>
+      <p>AIMA §2.4 定義四種（+一種）代理人架構，<strong>由簡到複</strong>依次升級能力：</p>
+      <table>
+      <thead>
+      <tr><th>類型</th><th>有什麼</th><th>能處理</th><th>範例</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><strong>①簡單反射</strong><br>Simple Reflex</td>
+        <td>條件-行動規則<br>（if-then）</td>
+        <td>完全可觀察環境<br>無記憶</td>
+        <td>恆溫器（溫度＜設定→開暖氣）、自動門</td>
+      </tr>
+      <tr>
+        <td><strong>②基於模型的反射</strong><br>Model-Based Reflex</td>
+        <td>內部狀態<br>（世界模型）</td>
+        <td>部分可觀察環境<br>可追蹤看不到的部分</td>
+        <td>自駕車記錄旁車位置（即使超出感測範圍）</td>
+      </tr>
+      <tr>
+        <td><strong>③目標導向</strong><br>Goal-Based</td>
+        <td>目標＋搜尋／規劃</td>
+        <td>需要多步推理才能達成目標的情境</td>
+        <td>GPS 導航（選路到達目的地）</td>
+      </tr>
+      <tr>
+        <td><strong>④效用導向</strong><br>Utility-Based</td>
+        <td>效用函數<br>（偏好排序）</td>
+        <td>目標衝突、需要在多條件下取最優解</td>
+        <td>自駕車選最快 vs 最安全路線；醫療診斷系統</td>
+      </tr>
+      <tr>
+        <td><strong>⑤學習代理人</strong><br>Learning Agent</td>
+        <td>績效元件＋學習元件<br>＋評審＋問題產生器</td>
+        <td>未知環境；從經驗改善</td>
+        <td>AlphaGo（從自我對弈學習）、ChatGPT（RLHF）</td>
+      </tr>
+      </tbody>
+      </table>
+      <p>🔑 <strong>升級關係</strong>：①無記憶 → ②加世界模型 → ③加目標搜尋 → ④加效用取捨 → ⑤加學習閉環。考試常問「哪種代理人能在部分可觀察環境運作？」→ ②以上（有內部狀態）。</p>
+      <p class="en"><strong>Four agent types (§2.4)</strong>: ① Simple reflex — condition-action rules, needs full observability. ② Model-based reflex — adds internal state to handle partial observability. ③ Goal-based — adds search/planning over goal states. ④ Utility-based — adds utility function to resolve conflicts and trade-offs. ⑤ Learning agent — adds critic + learning element to improve from experience. Exam tip: agents ②–⑤ can handle partial observability via internal state.</p>
+      <div class="src">出處 Source：AIMA 4th Ed. §2.4（pp. 65–72），作者改寫重述。Paraphrased from R&N §2.4.</div>
+    </section>
+
+    <section class="card">
       <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
       <p>選擇「理性代理人」作為 AI 的定義，決定了整本 AIMA 的研究方向：<strong>搜尋、規劃、機率推理、學習</strong>都是讓代理人在各種環境維度下達成理性行動的工具。考試時，「為什麼不選 Turing Test？」的回答就藏在這裡：Turing Test 是充分而非必要——能通過 Turing Test 的系統不一定是最有用的 AI（例如 Siri 不用真的像人才有用），且難以科學量化。</p>
       <p class="en">Choosing "acting rationally" as the definition of AI sets the agenda for the entire AIMA textbook: <strong>search, planning, probabilistic reasoning, and learning</strong> are all tools for achieving rational behaviour across different environment types. For exams: "Why not the Turing Test?" — it is sufficient but not necessary. A system that passes the Turing Test is not necessarily the most useful AI (Siri doesn't need to be human-like to be useful), and the test is hard to operationalise scientifically.</p>
