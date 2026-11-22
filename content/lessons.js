@@ -494,5 +494,14 @@ const LESSONS = [
     "summary": "讓 AI 從「只能接話」變成「能自主完成任務並越做越好」的四層槓桿：Prompt → Context → Harness → Loop，不是並列選項，是一層墊一層。",
     "summary_en": "Four layers of leverage that take AI from \"just completing text\" to \"finishing tasks autonomously and improving over time\" — Prompt → Context → Harness → Loop — not parallel options but a stack where each rests on the one below.",
     "tag": "AI 工程"
+  },
+  {
+    "id": "56",
+    "slug": "aima-ch01-rational-agent",
+    "title": "AIMA Ch01：AI 的四種定義與理性代理人框架",
+    "title_en": "AIMA Ch01: Four Definitions of AI and the Rational Agent Framework",
+    "summary": "R&N 提出 AI 的四種定義，最終選「理性代理人」：不是模仿人，而是在給定知識下最大化績效期望值。",
+    "summary_en": "R&N offer four definitions of AI, then commit to the 'rational agent': not mimicking humans, but maximising expected performance given available knowledge.",
+    "tag": "模型原理"
   }
 ];

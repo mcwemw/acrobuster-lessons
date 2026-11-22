@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIMA Ch01 AI 定義 — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站 · Research Lessons</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表 Back to lessons</a>
+  <article>
+    <h1>AIMA Ch01：AI 的四種定義與理性代理人框架<span class="en">AIMA Ch01: Four Definitions of AI and the Rational Agent Framework</span></h1>
+    <p class="summary">R&N 提出 AI 的四種定義，最終選「理性代理人」：不是模仿人，而是在給定知識下最大化績效期望值。</p>
+    <p class="summary en">R&N offer four definitions of AI, then commit to the 'rational agent': not mimicking humans, but maximising expected performance given available knowledge.</p>
+
+    <section class="card">
+      <h2>是什麼 <span class="en">· What it is</span></h2>
+      <p>Russell & Norvig（AIMA 4th Ed. §1.1）把 AI 的定義拆成 <strong>2×2 矩陣</strong>：</p>
+          <table>
+          <thead>
+          <tr><th></th><th>像人類（Human-like）</th><th>理性（Rational）</th></tr>
+          </thead>
+          <tbody>
+          <tr><td><strong>思考</strong></td><td>Thinking Humanly（認知科學）</td><td>Thinking Rationally（邏輯推理）</td></tr>
+          <tr><td><strong>行動</strong></td><td>Acting Humanly（Turing Test）</td><td><strong>Acting Rationally ← R&N 選這個</strong></td></tr>
+          </tbody>
+          </table>
+      <ul>
+        <li><strong>Acting Humanly（Turing Test）</strong>：Turing（1950）提出以對話無法辨別為人機的測試；需要 NLP、知識表示、推理、學習。</li>
+        <li><strong>Thinking Humanly（認知科學）</strong>：要求模型與人腦的過程一致，不只是正確結果。</li>
+        <li><strong>Thinking Rationally（邏輯推理）</strong>：Aristotle 的三段論、FOL；難在把非形式知識形式化，且計算量爆炸。</li>
+        <li><strong>Acting Rationally（理性代理人）</strong>：在<strong>給定知識下，最大化績效期望值</strong>的行動選擇。不要求模仿人，也不一定用邏輯推理——只要能達成目標即可。</li>
+      </ul>
+      <p class="en">Russell & Norvig (AIMA 4th Ed. §1.1) organise the definitions of AI into a <strong>2×2 matrix</strong>: thinking vs. acting × human-like vs. rational. R&N commit to <strong>Acting Rationally (the rational-agent approach)</strong>: selecting actions that maximise expected performance given available percepts and built-in knowledge — without requiring human-like thought or strict logical deduction.</p>
+      <div class="src">出處 Source：Russell & Norvig, <em>Artificial Intelligence: A Modern Approach</em>, 4th Ed., §1.1（pp. 19–22），作者改寫重述。Paraphrased from R&N AIMA 4th Ed. §1.1.</div>
+      <p>---</p>
+      <p><strong>理性代理人（Rational Agent）</strong></p>
+      <blockquote>對每一個可能的感知序列，理性代理人應選擇能最大化其<strong>績效測量（performance measure）</strong>期望值的行動——以感知序列提供的證據及代理人內建的知識為依據。（§2.2）</blockquote>
+      <p>PEAS 框架（§2.3）——描述任務環境的四要素：</p>
+          <table>
+          <thead>
+          <tr><th>要素</th><th>說明</th></tr>
+          </thead>
+          <tbody>
+          <tr><td><strong>P</strong>erformance measure</td><td>績效測量：成功的標準（例：掃地機器人清潔面積）</td></tr>
+          <tr><td><strong>E</strong>nvironment</td><td>環境：代理人所在的世界（例：有地毯的房間）</td></tr>
+          <tr><td><strong>A</strong>ctuators</td><td>執行器：代理人可做的動作（例：前進/轉向/吸塵）</td></tr>
+          <tr><td><strong>S</strong>ensors</td><td>感知器：代理人接收環境訊號的管道（例：攝影機/碰撞感測）</td></tr>
+          </tbody>
+          </table>
+      <blockquote>理性 ≠ 全知（Omniscient）。理性是在<em>現有資訊</em>下做最好的預期決策；若嘗試收集更多資訊能提升績效，理性代理人應這樣做（= 學習）。</blockquote>
+      <p class="en"><strong>Rational Agent (§2.2):</strong> For each possible percept sequence, a rational agent selects the action that maximises its <strong>performance measure</strong> in expectation, given (a) the percept sequence so far and (b) whatever built-in knowledge it has. <strong>PEAS</strong> (§2.3) captures the four elements of a task environment: Performance measure, Environment, Actuators, Sensors. Rationality ≠ omniscience: a rational agent acts on the best available expected outcome, and should acquire more information when doing so improves performance.</p>
+      <div class="src">出處 Source：AIMA 4th Ed. §2.2–2.3（pp. 57–64），作者改寫重述。Paraphrased from R&N §2.2–2.3.</div>
+      <p>---</p>
+      <p><strong>任務環境的七個維度</strong>（§2.3，高頻考點）</p>
+          <table>
+          <thead>
+          <tr><th>維度</th><th>選項</th><th>說明</th></tr>
+          </thead>
+          <tbody>
+          <tr><td>可觀察性</td><td>完全 / 部分</td><td>感測器能否看到環境完整狀態</td></tr>
+          <tr><td>代理人數</td><td>單一 / 多</td><td>是否有其他代理人影響結果</td></tr>
+          <tr><td>確定性</td><td>確定 / 隨機（/ 策略性）</td><td>下一狀態是否完全由當前狀態+行動決定</td></tr>
+          <tr><td>情節性</td><td>情節 / 序列</td><td>行動是否影響未來情節</td></tr>
+          <tr><td>動態性</td><td>靜態 / 動態（/ 半動態）</td><td>環境是否在代理人決策時自行改變</td></tr>
+          <tr><td>離散性</td><td>離散 / 連續</td><td>狀態/時間/感知/行動是否有限可數</td></tr>
+          <tr><td>知識</td><td>已知 / 未知</td><td>環境規則是否事先已知</td></tr>
+          </tbody>
+          </table>
+      <p>例：西洋棋 = 完全可觀察、雙代理人、確定、序列、靜態、離散、已知。</p>
+      <p class="en">The <strong>seven dimensions of task environments</strong> (§2.3, frequently tested): Observability (fully / partially), Number of agents (single / multi), Determinism (deterministic / stochastic), Episodic vs sequential, Dynamics (static / dynamic / semidynamic), Discreteness (discrete / continuous), Known vs unknown. Example: Chess = fully observable, multi-agent, deterministic, sequential, static, discrete, known.</p>
+      <div class="src">出處 Source：AIMA 4th Ed. §2.3（pp. 60–65），作者改寫重述。Paraphrased from R&N §2.3.</div>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
+      <p>選擇「理性代理人」作為 AI 的定義，決定了整本 AIMA 的研究方向：<strong>搜尋、規劃、機率推理、學習</strong>都是讓代理人在各種環境維度下達成理性行動的工具。考試時，「為什麼不選 Turing Test？」的回答就藏在這裡：Turing Test 是充分而非必要——能通過 Turing Test 的系統不一定是最有用的 AI（例如 Siri 不用真的像人才有用），且難以科學量化。</p>
+      <p class="en">Choosing "acting rationally" as the definition of AI sets the agenda for the entire AIMA textbook: <strong>search, planning, probabilistic reasoning, and learning</strong> are all tools for achieving rational behaviour across different environment types. For exams: "Why not the Turing Test?" — it is sufficient but not necessary. A system that passes the Turing Test is not necessarily the most useful AI (Siri doesn't need to be human-like to be useful), and the test is hard to operationalise scientifically.</p>
+      <div class="src">出處 Source：AIMA 4th Ed. §1.1（pp. 19–22），作者觀點整合。Author's synthesis based on R&N §1.1.</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
+      <p>R&N 不要「像人」，要「理性」：在已知資訊下最大化績效期望值的代理人，才是 AIMA 整個框架的錨點。考試遇到「四種 AI 定義」，先畫 2×2、記住 R&N 選右下角。</p>
+      <p class="en">R&N don't want "human-like" — they want "rational": an agent that maximises expected performance given available knowledge is the anchor of the entire AIMA framework. On exams: draw the 2×2 matrix first, remember R&N pick the bottom-right cell.</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
+</body>
+</html>
