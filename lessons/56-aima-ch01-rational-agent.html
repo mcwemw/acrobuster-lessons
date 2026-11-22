@@ -145,18 +145,22 @@
         <li><strong>(d) Rationality（理性）</strong>：在已知感知序列與內建知識下，選擇能<em>最大化績效期望值</em>的行動——不要求全知，而是在現有資訊下做最好的決策（bounded rationality）。</li>
         <li><strong>(e) Logical Reasoning（邏輯推理）</strong>：從前提依形式規則推出結論（演繹推理）；與機率推理或啟發式推理不同，結論在前提為真時必然為真。</li>
       </ul>
+      <p class="en"><strong>Ex.1 — Five core definitions:</strong> (a) <em>Intelligence</em>: the ability to perceive, reason, learn and act effectively — especially in novel situations. (b) <em>AI</em>: the science and engineering of making machines exhibit intelligent behaviour; R&N adopt "acting rationally" as the operational definition. (c) <em>Agent</em>: anything that perceives its environment via sensors and acts via actuators. (d) <em>Rationality</em>: selecting the action that maximises expected performance given the current percept sequence and built-in knowledge — not omniscience, but best-available decision (bounded rationality). (e) <em>Logical reasoning</em>: deriving conclusions from premises using formal inference rules (deduction); unlike probabilistic or heuristic reasoning, conclusions are guaranteed true when premises are true.</p>
 
       <p><strong>Ex.4 — 反射動作（縮手）是理性的嗎？是智慧的嗎？</strong></p>
       <ul>
         <li><strong>理性？是</strong>——演化已校準反射動作以最大化存活期望值（縮手避免組織損傷）。從績效量度的角度，這是「在設計條件下最優的預設行動」。但反射無法依語境調整（例如必須繼續握著熱鍋時無法抑制），因此是受限的理性。</li>
         <li><strong>智慧？否（以 AIMA 標準）</strong>——反射是預設的「條件→行動」規則，繞過推理過程。AIMA 的理性代理可以無推理地理性行動（恆溫器是理性的但不智慧）。智慧需要感知→推理→學習的完整迴路，純反射缺少學習與適應。</li>
       </ul>
+      <p class="en"><strong>Ex.4 — Reflex actions (flinching from heat): rational? intelligent?</strong> <em>Rational: yes</em> — evolution has calibrated reflexes to maximise expected survival (withdrawing prevents tissue damage). From a performance-measure perspective this is the optimal default action under design conditions. However, reflexes cannot adapt to context (e.g. cannot suppress the flinch when you must hold the hot pan), making them narrowly rational. <em>Intelligent: no</em> (by AIMA's standard) — a reflex is a hardcoded condition-action rule that bypasses reasoning. A rational agent can act rationally without reasoning (a thermostat is rational but not intelligent). Intelligence requires the full perceive→reason→learn loop; pure reflexes lack learning and adaptation.</p>
 
       <p><strong>Ex.5 — 難解／不可判定問題代表 AI 不可能嗎？</strong></p>
       <p>不。理性不要求完美解——AIMA 的代理在<strong>有限理性（bounded rationality）</strong>下運作，以有限計算和時間做盡可能好的決策。現實中許多 AI 系統對 NP-hard 問題用啟發式搜尋或近似演算法取得足夠好的解（例如圍棋 AI 的 MCTS）。難解性排除「最優完美解」，不排除「夠好的近似解」——AI 的目標正是後者。</p>
+      <p class="en"><strong>Ex.5 — Do intractable/undecidable problems make AI impossible?</strong> No. Rationality does not require perfect solutions. AIMA's rational agent operates under <em>bounded rationality</em> — doing the best it can with finite computation and time. Many real-world AI systems solve NP-hard problems well enough using heuristic search or approximation algorithms (e.g. MCTS for Go). Intractability rules out the <em>optimal exact</em> solution; it does not rule out a <em>good-enough approximate</em> solution — and the latter is exactly AI's goal.</p>
 
       <p><strong>Ex.6 — 若程式在 IQ 測試得 200 分，比人更有智慧嗎？</strong></p>
       <p>不必然。IQ 測試測量的是<em>特定認知能力的窄帶</em>（模式識別、邏輯類比）；高分不代表通用智慧。智慧更廣泛地包含語言理解、具身推理、社交認知、創造力、在新情境中學習等。針對單一測試優化的程式不能泛化到其他任務。這呼應「acting rationally ≠ thinking humanly」：在某個基準上表現優異 ≠ 擁有一般智慧。</p>
+      <p class="en"><strong>Ex.6 — Does scoring 200 on an IQ test make a program more intelligent than a human?</strong> Not necessarily. IQ tests measure a <em>narrow band</em> of cognitive ability (pattern recognition, logical analogies). A high score does not imply general intelligence, which also requires language understanding, embodied reasoning, social cognition, creativity, and learning in novel domains. A program optimised for one benchmark cannot generalise. This echoes "acting rationally ≠ thinking humanly": excelling on a specific benchmark ≠ possessing general intelligence.</p>
 
       <p><strong>Ex.9 — 以下系統在多大程度上是 AI？</strong></p>
       <ul>
@@ -166,7 +170,8 @@
         <li><strong>動態路由演算法</strong>：中度——能感知網路狀態並適應（像理性代理對環境回應），但無跨域學習。</li>
       </ul>
       <p>以 AIMA「感知環境→選行動最大化績效」的標準，四者都是不同程度的代理人；差異在複雜性與適應能力。</p>
-      <div class="src">出處：<a href="https://github.com/aimacode/aima-exercises/tree/master/markdown/1-Introduction">aimacode/aima-exercises Ch.1</a>（CC 授權），解答為作者原創重述，以 AIMA 4th Ed. 為依據。</div>
+      <p class="en"><strong>Ex.9 — To what extent are these systems AI?</strong> <em>Barcode scanner</em>: minimal — simple pattern matching, no reasoning, learning, or adaptation. <em>Web search engine</em>: moderate AI — involves substantial ML (ranking, NLP, relevance learning) but not a fully autonomous agent. <em>Voice phone menus</em>: weak AI — basic speech recognition but typically backed by rule trees with limited reasoning. <em>Dynamic routing algorithms</em>: moderate — sense network state and adapt (like a rational agent responding to environment), but no cross-domain learning. By AIMA's "perceive → act to maximise performance" standard, all four qualify as agents to varying degrees; they differ in complexity and adaptability.</p>
+      <div class="src">出處：<a href="https://github.com/aimacode/aima-exercises/tree/master/markdown/1-Introduction">aimacode/aima-exercises Ch.1</a>（CC 授權），解答為作者原創重述，以 AIMA 4th Ed. 為依據。Source: aimacode/aima-exercises Ch.1 (CC-licensed); answers are the author's original paraphrase based on AIMA 4th Ed.</div>
     </section>
 
     <section class="card">
