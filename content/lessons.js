@@ -503,5 +503,14 @@ const LESSONS = [
     "summary": "R&N 提出 AI 的四種定義，最終選「理性代理人」：不是模仿人，而是在給定知識下最大化績效期望值。",
     "summary_en": "R&N offer four definitions of AI, then commit to the 'rational agent': not mimicking humans, but maximising expected performance given available knowledge.",
     "tag": "模型原理"
+  },
+  {
+    "id": "57",
+    "slug": "aima-ch02-intelligent-agents",
+    "title": "AIMA Ch02：理性代理、PEAS 與代理架構階梯",
+    "title_en": "AIMA Ch02: Rational Agents, PEAS, and the Agent Architecture Ladder",
+    "summary": "AI 的統一框架是「代理」：感測環境、依績效量度選行動；PEAS 刻劃任務，七維環境決定選哪種架構——從簡單反射到學習型五級。",
+    "summary_en": "The unifying AI framework is 'agent': perceive the environment, select actions to maximise a performance measure. PEAS describes the task; seven environment dimensions determine which architecture—simple reflex through learning agent—is appropriate.",
+    "tag": "模型原理"
   }
 ];
