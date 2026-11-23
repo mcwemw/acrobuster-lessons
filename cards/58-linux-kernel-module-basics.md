@@ -1,7 +1,7 @@
 ---
 id: "58"
 slug: linux-kernel-module-basics
-tag: OS
+tag: Linux
 title: Linux Kernel Module：動態插拔的 Kernel 擴充單元
 title_en: "Linux Kernel Module: Dynamically Loadable Kernel Extensions"
 title_short: Kernel Module 基礎

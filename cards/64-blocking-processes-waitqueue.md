@@ -1,7 +1,7 @@
 ---
 id: "64"
 slug: blocking-processes-waitqueue
-tag: OS
+tag: Linux
 title: Blocking 與 Wait Queue：讓 Kernel 優雅等待事件
 title_en: "Blocking and Wait Queues: Letting the Kernel Wait for Events Gracefully"
 title_short: 阻塞與 Wait Queue

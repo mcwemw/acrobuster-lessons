@@ -1,7 +1,7 @@
 ---
 id: "60"
 slug: kernel-user-data-transfer
-tag: OS
+tag: Linux
 title: Kernel-User Space 資料轉移：copy_to_user / copy_from_user
 title_en: "Kernel↔User Space Data Transfer: copy_to_user / copy_from_user"
 title_short: Kernel-User 資料轉移

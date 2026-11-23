@@ -520,7 +520,7 @@ const LESSONS = [
     "title_en": "Linux Kernel Module: Dynamically Loadable Kernel Extensions",
     "summary": "Kernel module 讓你在不重新編譯 kernel 的情況下動態擴充功能；代價是不能用 C 標準函式庫，也不能假設自己跑在 user space。",
     "summary_en": "Kernel modules let you extend the kernel at runtime without recompiling it — the trade-off is losing the C standard library and all user-space assumptions.",
-    "tag": "OS"
+    "tag": "Linux"
   },
   {
     "id": "59",
@@ -529,7 +529,7 @@ const LESSONS = [
     "title_en": "Character Device Driver: Hooking a Device into the VFS via file_operations",
     "summary": "字元裝置讓 user-space 程式可以像讀寫普通檔案一樣操作硬體；misc_register 是最簡潔的做法，自動搞定裝置號碼和 /dev/ 節點。",
     "summary_en": "Character devices let user-space programs interact with hardware exactly like a regular file. `misc_register` is the cleanest path — it handles device numbers and /dev node creation automatically.",
-    "tag": "OS"
+    "tag": "Linux"
   },
   {
     "id": "60",
@@ -538,7 +538,7 @@ const LESSONS = [
     "title_en": "Kernel↔User Space Data Transfer: copy_to_user / copy_from_user",
     "summary": "Kernel 和 user space 有各自獨立的位址空間；直接解參考 user pointer 是未定義行為。正確做法是透過 copy_to_user / copy_from_user 安全搬資料。",
     "summary_en": "Kernel and user space have separate address spaces. Dereferencing a user pointer directly is undefined behavior — always use `copy_to_user` / `copy_from_user`.",
-    "tag": "OS"
+    "tag": "Linux"
   },
   {
     "id": "61",
@@ -547,7 +547,7 @@ const LESSONS = [
     "title_en": "Kernel Mutex: DEFINE_MUTEX and mutex_trylock for Race-Free Device Access",
     "summary": "Kernel 的共用資料要靠 mutex 保護；字元裝置的慣用做法是在 open 用 trylock（已鎖就回 EBUSY），在 release 解鎖，讓同一時間只有一個行程能存取裝置。",
     "summary_en": "Shared kernel data needs mutex protection. The idiomatic character device pattern uses `trylock` in open (returns `EBUSY` if already locked) and `unlock` in release — ensuring only one process accesses the device at a time.",
-    "tag": "OS"
+    "tag": "Linux"
   },
   {
     "id": "62",
@@ -556,7 +556,7 @@ const LESSONS = [
     "title_en": "/proc Virtual Filesystem: Lightweight Kernel Information Export",
     "summary": "/proc 是 kernel 把內部狀態暴露給 user-space 的虛擬 FS；比字元裝置更輕量，不需要 major/minor number，適合唯讀的診斷資訊輸出。",
     "summary_en": "/proc is a virtual filesystem the kernel uses to expose internal state to user-space. Lighter than a character device — no major/minor number required. Ideal for read-only diagnostic exports.",
-    "tag": "OS"
+    "tag": "Linux"
   },
   {
     "id": "63",
@@ -565,7 +565,7 @@ const LESSONS = [
     "title_en": "System Calls: The Only Legitimate Gate from User-Space into the Kernel",
     "summary": "System call 是 user-space 程式唯一能合法進入 kernel 的路徑；x86 透過 `syscall` 指令，RISC-V 透過 `ecall`，完成特權切換（ring 3 → ring 0）。",
     "summary_en": "A system call is the only legitimate path from user-space into the kernel. On x86 it uses the `syscall` instruction; on RISC-V, `ecall`. Both trigger a privilege-level transition (user mode → kernel mode).",
-    "tag": "OS"
+    "tag": "Linux"
   },
   {
     "id": "64",
@@ -574,7 +574,7 @@ const LESSONS = [
     "title_en": "Blocking and Wait Queues: Letting the Kernel Wait for Events Gracefully",
     "summary": "當 kernel 需要等待事件（硬體就緒、資料到達），不應 busy-wait；用 wait queue 讓行程睡眠，事件發生時 wake_up 喚醒，CPU 在等待期間可排班其他工作。",
     "summary_en": "When the kernel needs to wait for an event (hardware ready, data arrived), it should not busy-wait. Use a wait queue to put the process to sleep; call `wake_up` when the event fires. The CPU is free to schedule other work while waiting.",
-    "tag": "OS"
+    "tag": "Linux"
   },
   {
     "id": "65",
@@ -583,6 +583,6 @@ const LESSONS = [
     "title_en": "Interrupt Handlers: Top Half Must Be Fast, Bottom Half Does the Work",
     "summary": "中斷處理器跑在中斷情境（不能睡眠、不能用 mutex），必須極快完成；真正的工作放到 bottom half（tasklet 或 workqueue）在 process context 完成。",
     "summary_en": "Interrupt handlers run in interrupt context — no sleeping, no mutex. They must finish fast. Actual work goes into the bottom half (tasklet or workqueue) which runs in process context where sleeping is allowed.",
-    "tag": "OS"
+    "tag": "Linux"
   }
 ];

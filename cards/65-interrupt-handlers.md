@@ -1,7 +1,7 @@
 ---
 id: "65"
 slug: interrupt-handlers
-tag: OS
+tag: Linux
 title: 中斷處理：Top Half 要快，Bottom Half 才做事
 title_en: "Interrupt Handlers: Top Half Must Be Fast, Bottom Half Does the Work"
 title_short: 中斷處理機制

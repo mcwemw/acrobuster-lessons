@@ -1,7 +1,7 @@
 ---
 id: "63"
 slug: system-calls
-tag: OS
+tag: Linux
 title: System Call：User-Space 進 Kernel 的唯一正門
 title_en: "System Calls: The Only Legitimate Gate from User-Space into the Kernel"
 title_short: System Call 機制
