@@ -1,7 +1,7 @@
 ---
 id: "56"
 slug: aima-ch01-rational-agent
-tag: 模型原理
+tag: AI/AIMA
 title: "AIMA Ch01：AI 的四種定義與理性代理人框架"
 title_en: "AIMA Ch01: Four Definitions of AI and the Rational Agent Framework"
 title_short: AIMA Ch01 AI 定義

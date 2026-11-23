@@ -1,7 +1,7 @@
 ---
 id: "57"
 slug: aima-ch02-intelligent-agents
-tag: 模型原理
+tag: AI/AIMA
 title: "AIMA Ch02：理性代理、PEAS 與代理架構階梯"
 title_en: "AIMA Ch02: Rational Agents, PEAS, and the Agent Architecture Ladder"
 title_short: AIMA Ch02 代理架構
