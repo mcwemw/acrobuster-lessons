@@ -4,6 +4,13 @@ on:
   push:
     paths:
       - 'wiki/pages/**/*.md'
+    branches:
+      - main  # only trusted branch; forks cannot trigger self-hosted runner
+  workflow_dispatch:
+    inputs:
+      wiki_file:
+        description: 'Wiki page path (e.g. wiki/pages/rag-lewis-2020.md)'
+        required: false
 
 permissions:
   contents: write
@@ -11,7 +18,7 @@ permissions:
 
 jobs:
   generate:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout
