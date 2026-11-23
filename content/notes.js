@@ -1,6 +1,14 @@
 // 由 build_notes.py 從 notes_md/*.md 生成,勿手改。
 const NOTES = [
   {
+    "date": "2026-11-24",
+    "title": "Rubric Semantics or Numerical Priors? — LLM 評審的量表方向偏誤",
+    "title_en": "Rubric Semantics or Numerical Priors? Auditing Scale-Direction Bias in LLM Judges",
+    "source": "Kim et al. 2026 · arXiv preprint · 非 CC 授權，僅供研究引用",
+    "img": "2026-11-24_rubric-semantics-llm-judge.png",
+    "tag": "RAG"
+  },
+  {
     "date": "2026-11-23",
     "title": "Risk-certified LLM-as-a-judge — 有統計保證的裁判 prompt 選擇",
     "title_en": "Risk-certified prompt optimization for LLM-as-a-judge guardrails",
