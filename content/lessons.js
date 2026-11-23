@@ -584,5 +584,50 @@ const LESSONS = [
     "summary": "中斷處理器跑在中斷情境（不能睡眠、不能用 mutex），必須極快完成；真正的工作放到 bottom half（tasklet 或 workqueue）在 process context 完成。",
     "summary_en": "Interrupt handlers run in interrupt context — no sleeping, no mutex. They must finish fast. Actual work goes into the bottom half (tasklet or workqueue) which runs in process context where sleeping is allowed.",
     "tag": "Linux"
+  },
+  {
+    "id": "66",
+    "slug": "process-fork-exec",
+    "title": "Process 生命週期：fork / exec / wait 三步曲",
+    "title_en": "Process Lifecycle: The fork / exec / wait Trilogy",
+    "summary": "Unix process model 三個核心 syscall：fork 複製行程、exec 替換映像、wait 收割殭屍。理解這三步是寫 shell、daemon 或任何多行程程式的基礎。",
+    "summary_en": "Three core syscalls define the Unix process model — fork copies a process, exec replaces its image, wait reaps the zombie. Understanding this trilogy is fundamental to writing shells, daemons, or any multiprocess program.",
+    "tag": "Linux"
+  },
+  {
+    "id": "67",
+    "slug": "shared-memory-ipc",
+    "title": "Shared Memory IPC：最快的行程間通訊",
+    "title_en": "Shared Memory IPC: The Fastest Inter-Process Communication",
+    "summary": "Shared memory 讓多個行程直接共用同一塊實體記憶體，資料不需複製，是所有 IPC 機制中吞吐量最高的；代價是必須自行用 semaphore 或 mutex 協調存取。",
+    "summary_en": "Shared memory lets multiple processes map the same physical memory — no copying, maximum throughput. The tradeoff is that you must coordinate access yourself with a semaphore or mutex.",
+    "tag": "Linux"
+  },
+  {
+    "id": "68",
+    "slug": "posix-threads-mutex",
+    "title": "POSIX Threads：共享記憶體的並行模型",
+    "title_en": "POSIX Threads: The Shared-Memory Concurrency Model",
+    "summary": "Pthread 讓同一行程內多條執行緒共享位址空間，省去 IPC 的複製開銷；mutex 保護共享狀態，condition variable 讓執行緒等待條件成立而非 busy-wait。",
+    "summary_en": "Pthreads run multiple threads within one process, sharing the address space — no IPC copying. Mutex guards shared state; condition variables let threads wait for conditions without spinning.",
+    "tag": "Linux"
+  },
+  {
+    "id": "69",
+    "slug": "page-replacement",
+    "title": "分頁置換演算法：LRU、LFU 與 Working Set",
+    "title_en": "Page Replacement Algorithms: LRU, LFU, and Working Set",
+    "summary": "當實體記憶體滿了，OS 要決定踢出哪個分頁；OPT 是理論上限，LRU 以歷史替代未來，LFU 看頻率，Clock 是 LRU 的低成本近似。理解這些演算法是 OS 課的核心題型。",
+    "summary_en": "When physical memory is full, the OS must evict a page. OPT (optimal) is the theoretical ceiling. LRU approximates it with recency, LFU with frequency, Clock with a cheap bit-based approximation of LRU.",
+    "tag": "Linux"
+  },
+  {
+    "id": "70",
+    "slug": "fuse-userspace-fs",
+    "title": "FUSE：在 User-Space 實作檔案系統",
+    "title_en": "FUSE: Implementing a Filesystem in User Space",
+    "summary": "FUSE (Filesystem in Userspace) 讓你用普通使用者程式碼實作完整的 Linux 檔案系統，不用寫 kernel module；VFS 把操作透過 /dev/fuse 轉發，程序回傳結果，對上層完全透明。",
+    "summary_en": "FUSE lets you implement a fully functional Linux filesystem as a regular user-space program — no kernel module needed. The kernel's VFS layer proxies all filesystem calls through /dev/fuse to your process, which handles them and returns results transparently.",
+    "tag": "Linux"
   }
 ];

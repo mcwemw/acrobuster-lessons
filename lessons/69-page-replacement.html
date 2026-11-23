@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>分頁置換 LRU/LFU — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站 · Research Lessons</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表 Back to lessons</a>
+  <article>
+    <h1>分頁置換演算法：LRU、LFU 與 Working Set<span class="en">Page Replacement Algorithms: LRU, LFU, and Working Set</span></h1>
+    <p class="summary">當實體記憶體滿了，OS 要決定踢出哪個分頁；OPT 是理論上限，LRU 以歷史替代未來，LFU 看頻率，Clock 是 LRU 的低成本近似。理解這些演算法是 OS 課的核心題型。</p>
+    <p class="summary en">When physical memory is full, the OS must evict a page. OPT (optimal) is the theoretical ceiling. LRU approximates it with recency, LFU with frequency, Clock with a cheap bit-based approximation of LRU.</p>
+
+    <section class="card">
+      <h2>是什麼 <span class="en">· What it is</span></h2>
+      <p><strong>分頁置換的情境</strong>：每個行程有虛擬位址空間；物理 RAM 只有有限個 frame；page fault 時 OS 把需要的頁調進來，若沒空位就要踢出（evict）一頁。</p>
+      <p><strong>主要演算法比較</strong>：</p>
+          <table>
+          <thead>
+          <tr><th>演算法</th><th>策略</th><th>實作複雜度</th><th>Page Fault 率</th></tr>
+          </thead>
+          <tbody>
+          <tr><td>OPT (Belady)</td><td>踢掉「最遠的未來才用」</td><td>不可實作（需未來知識）</td><td>最低（理論下界）</td></tr>
+          <tr><td><strong>LRU</strong></td><td>踢掉「最久沒用」</td><td>中（需完整時間戳）</td><td>接近 OPT</td></tr>
+          <tr><td><strong>LFU</strong></td><td>踢掉「用最少次」</td><td>中（需計數器）</td><td>與 LRU 互有優劣</td></tr>
+          <tr><td><strong>Clock</strong></td><td>循環掃，reference bit=0 才踢</td><td>低（指針+1 bit）</td><td>比 LRU 稍差，實務常用</td></tr>
+          <tr><td>FIFO</td><td>踢掉「最早進來」</td><td>最低</td><td>差，有 Belady's Anomaly</td></tr>
+          </tbody>
+          </table>
+      <p><strong>LRU 的 O(1) 實作</strong>（經典面試題）：</p>
+      <pre><code class="language-python">from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.cap = capacity
+        self.cache = OrderedDict()      # key → value，有序（插入序 / move_to_end）
+
+    def get(self, key: int) -&gt; int:
+        if key not in self.cache:
+            return -1
+        self.cache.move_to_end(key)     # 移到「最近使用」端
+        return self.cache[key]
+
+    def put(self, key: int, value: int):
+        if key in self.cache:
+            self.cache.move_to_end(key)
+        self.cache[key] = value
+        if len(self.cache) &gt; self.cap:
+            self.cache.popitem(last=False)   # 踢掉最舊（LRU）端</code></pre>
+      <p class="en">Page replacement is the OS problem: <em>given a full set of physical frames, which page do I evict to bring in the new one?</em> OPT evicts the page used furthest in the future — perfect but requires oracle knowledge. LRU (Least Recently Used) approximates OPT by evicting the page unused for the longest time. LFU (Least Frequently Used) evicts the least-accessed page — good for skewed access patterns. Clock algorithm uses a single reference bit per frame; a pointer sweeps frames, clearing bits (second chance) until it finds bit=0 to evict. Clock is LRU's practical sibling, used in real OS kernels.</p>
+      <div class="src">出處 Source：OS Concepts (Silberschatz) Ch. 10; nctu-ms07 OS HW4 Page Replacement Assignment; LeetCode 146 (LRU Cache).</div>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
+      <p><strong>Belady's Anomaly</strong>（FIFO 的反直覺現象）：</p>
+      <pre><code>存取序列：1 2 3 4 1 2 5 1 2 3 4 5
+3 frames：9 page faults
+4 frames：10 page faults  ← 更多 frame 反而更多 fault！</code></pre>
+      <p>FIFO 有這個問題；LRU、OPT 不會（它們是「堆疊演算法」，frame 增加一定不會更差）。</p>
+      <p><strong>Working Set 模型</strong>：</p>
+      <ul>
+        <li>定義：行程在最近 Δ 個存取中用到的分頁集合，`W(t, Δ)`</li>
+        <li>若能保留 working set → page fault 率低；若分配 frame < |W| → <strong>thrashing</strong>（大量 page fault，CPU 忙換頁而不做事）</li>
+      </ul>
+      <p class="en"><strong>Belady's Anomaly</strong>: FIFO can produce <em>more</em> page faults with <em>more</em> frames — counterintuitive and a classic exam question. Stack algorithms (OPT, LRU) are immune: more frames ⊇ fewer frames' hit set. The <strong>Working Set</strong> model captures this: `W(t, Δ)` is the set of pages referenced in the last Δ accesses. If allocated frames < |W|, the process constantly page-faults — called <strong>thrashing</strong>. The fix is either give the process more frames or swap it out entirely.</p>
+      <div class="src">出處 Source：OS Concepts Ch. 10 (Virtual Memory); Denning 1968 "The Working Set Model for Program Behavior". 作者整合。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
+      <p>LRU 踢最舊、LFU 踢最少用、Clock 是 LRU 的廉價近似；FIFO 有 Belady's Anomaly 是考試陷阱；Working Set 太小會 thrashing。</p>
+      <p class="en">LRU evicts the least recently used, LFU the least frequently used, Clock approximates LRU with one bit. FIFO's Belady's Anomaly is a classic trap — more frames, more faults. Working set too small → thrashing.</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
+</body>
+</html>

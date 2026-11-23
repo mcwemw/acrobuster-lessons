@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shared Memory IPC — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站 · Research Lessons</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表 Back to lessons</a>
+  <article>
+    <h1>Shared Memory IPC：最快的行程間通訊<span class="en">Shared Memory IPC: The Fastest Inter-Process Communication</span></h1>
+    <p class="summary">Shared memory 讓多個行程直接共用同一塊實體記憶體，資料不需複製，是所有 IPC 機制中吞吐量最高的；代價是必須自行用 semaphore 或 mutex 協調存取。</p>
+    <p class="summary en">Shared memory lets multiple processes map the same physical memory — no copying, maximum throughput. The tradeoff is that you must coordinate access yourself with a semaphore or mutex.</p>
+
+    <section class="card">
+      <h2>是什麼 <span class="en">· What it is</span></h2>
+      <p>兩種 API，選 POSIX（`shm_open`）或 System V（`shmget`）：</p>
+      <pre><code class="language-c">// === POSIX Shared Memory（現代推薦）===
+#include &lt;sys/mman.h&gt;
+#include &lt;fcntl.h&gt;
+
+// 建立 / 開啟共享物件
+int fd = shm_open(&quot;/myshm&quot;, O_CREAT | O_RDWR, 0600);
+ftruncate(fd, sizeof(SharedData));
+
+// 映射到虛擬位址空間
+SharedData *shm = mmap(NULL, sizeof(SharedData),
+                       PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+close(fd);  // fd 可以關了，映射已建立
+
+// 存取共享記憶體（需要同步！）
+shm-&gt;counter++;
+
+// 清除
+munmap(shm, sizeof(SharedData));
+shm_unlink(&quot;/myshm&quot;);</code></pre>
+      <pre><code class="language-c">// === System V（較舊，常見於考題）===
+#include &lt;sys/shm.h&gt;
+
+key_t key = ftok(&quot;/tmp&quot;, 42);
+int shmid = shmget(key, sizeof(SharedData), IPC_CREAT | 0600);
+SharedData *shm = shmat(shmid, NULL, 0);
+// 使用後
+shmdt(shm);
+shmctl(shmid, IPC_RMID, NULL);</code></pre>
+      <p><strong>比較其他 IPC</strong>：</p>
+          <table>
+          <thead>
+          <tr><th>機制</th><th>吞吐量</th><th>需複製</th><th>適用場景</th></tr>
+          </thead>
+          <tbody>
+          <tr><td>Shared Memory</td><td>★★★★★</td><td>否</td><td>大量資料、同機器</td></tr>
+          <tr><td>Pipe / FIFO</td><td>★★★</td><td>是（kernel buffer）</td><td>串流、parent↔child</td></tr>
+          <tr><td>Socket</td><td>★★</td><td>是（2次）</td><td>跨機器、跨語言</td></tr>
+          <tr><td>Message Queue</td><td>★★★</td><td>是</td><td>訊息型、有邊界</td></tr>
+          </tbody>
+          </table>
+      <p class="en">POSIX shared memory (`shm_open` + `mmap`) maps the same physical pages into two or more processes' virtual address spaces. No data is copied — a write in process A is immediately visible in process B. That's also the danger: without synchronization, concurrent writes corrupt the data. Use a POSIX semaphore (`sem_open`) or a `pthread_mutex` with `PTHREAD_PROCESS_SHARED` as the guard.</p>
+      <div class="src">出處 Source：APUE Ch. 15 (IPC); POSIX.1-2017 §3.357; nctu-ms07 OS HW2 Shared Memory Assignment.</div>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
+      <pre><code class="language-c">// 兩行程共用的控制結構——mutex 要設 PROCESS_SHARED
+typedef struct {
+    pthread_mutex_t lock;   // 必須 PTHREAD_PROCESS_SHARED
+    int counter;
+    char buf[4096];
+} SharedData;
+
+// 初始化（建立方）：
+pthread_mutexattr_t attr;
+pthread_mutexattr_init(&amp;attr);
+pthread_mutexattr_setpshared(&amp;attr, PTHREAD_PROCESS_SHARED);
+pthread_mutex_init(&amp;shm-&gt;lock, &amp;attr);</code></pre>
+      <p><strong>mmap vs shmget</strong>：`mmap(MAP_SHARED)` 也可以直接映射普通檔案作為 IPC（file-backed shared memory），不需要 `shm_open`；`shmget` 是 System V 的做法，兩者底層都是 kernel 的匿名記憶體頁。</p>
+      <p class="en">The classic pitfall: forgetting `PTHREAD_PROCESS_SHARED` on the mutex attribute. Without it, the mutex is only valid within one process's address space — it silently misbehaves across process boundaries. Set the attribute before `pthread_mutex_init` when the lock lives in shared memory. Alternatively, use a POSIX named semaphore (`sem_open`/`sem_wait`/`sem_post`) which is always process-shared by design.</p>
+      <div class="src">出處 Source：APUE Ch. 15; "The Linux Programming Interface" Ch. 54 (POSIX Shared Memory). 作者整合。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
+      <p>Shared memory = 零複製的行程間通訊，是最快的 IPC；代價是共享記憶體沒有自動保護，race condition 需要自行用 semaphore 或 mutex 防守。</p>
+      <p class="en">Shared memory = zero-copy IPC, highest throughput of all IPC mechanisms. The cost: no automatic protection — you own the synchronization. Forget the semaphore and you have a silent race condition.</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
+</body>
+</html>

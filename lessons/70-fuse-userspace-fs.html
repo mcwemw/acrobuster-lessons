@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FUSE 使用者空間 FS — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站 · Research Lessons</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表 Back to lessons</a>
+  <article>
+    <h1>FUSE：在 User-Space 實作檔案系統<span class="en">FUSE: Implementing a Filesystem in User Space</span></h1>
+    <p class="summary">FUSE (Filesystem in Userspace) 讓你用普通使用者程式碼實作完整的 Linux 檔案系統，不用寫 kernel module；VFS 把操作透過 /dev/fuse 轉發，程序回傳結果，對上層完全透明。</p>
+    <p class="summary en">FUSE lets you implement a fully functional Linux filesystem as a regular user-space program — no kernel module needed. The kernel's VFS layer proxies all filesystem calls through /dev/fuse to your process, which handles them and returns results transparently.</p>
+
+    <section class="card">
+      <h2>是什麼 <span class="en">· What it is</span></h2>
+      <p><strong>架構</strong>：</p>
+      <pre><code>user: open(&quot;/mnt/myfuse/hello.txt&quot;)
+         ↓
+kernel VFS → /dev/fuse (kernel driver) ──→ FUSE daemon (user process)
+                                               │
+                                            你的 C/C++ 程式碼
+                                               │
+         ↑ 回傳結果（errno, 資料, stat）←──────┘</code></pre>
+      <p><strong>libfuse 低階 API</strong>：</p>
+      <pre><code class="language-c">#include &lt;fuse3/fuse.h&gt;
+
+static int hello_getattr(const char *path, struct stat *st,
+                         struct fuse_file_info *fi) {
+    if (strcmp(path, &quot;/&quot;) == 0) {
+        st-&gt;st_mode = S_IFDIR | 0755;
+        st-&gt;st_nlink = 2;
+    } else if (strcmp(path, &quot;/hello.txt&quot;) == 0) {
+        st-&gt;st_mode = S_IFREG | 0444;
+        st-&gt;st_size = 13;
+    } else {
+        return -ENOENT;
+    }
+    return 0;
+}
+
+static int hello_read(const char *path, char *buf, size_t size,
+                      off_t offset, struct fuse_file_info *fi) {
+    if (strcmp(path, &quot;/hello.txt&quot;) != 0) return -ENOENT;
+    const char *content = &quot;Hello, FUSE!\n&quot;;
+    size_t len = strlen(content);
+    if (offset &gt;= len) return 0;
+    size = MIN(size, len - offset);
+    memcpy(buf, content + offset, size);
+    return size;
+}
+
+static struct fuse_operations ops = {
+    .getattr = hello_getattr,
+    .read    = hello_read,
+    // 實作越多 ops，支援的功能越多
+};
+
+int main(int argc, char *argv[]) {
+    return fuse_main(argc, argv, &amp;ops, NULL);
+}</code></pre>
+      <pre><code class="language-bash"># 掛載
+./hello_fuse /mnt/myfuse -f   # -f = foreground（除錯用）
+cat /mnt/myfuse/hello.txt     # 輸出 &quot;Hello, FUSE!&quot;
+fusermount -u /mnt/myfuse     # 卸載</code></pre>
+      <p class="en">FUSE intercepts VFS calls at the kernel level and routes them to a userspace daemon via `/dev/fuse`. Your daemon implements `fuse_operations` callbacks — `getattr`, `read`, `write`, `readdir`, `open`, `create`, `mkdir`, etc. Each is exactly one VFS operation. libfuse handles the message-passing loop; you just fill in the callbacks. The result is a complete, mountable filesystem implemented entirely in user space — no reboot, no kernel module signing, debuggable with `gdb`.</p>
+      <div class="src">出處 Source：libfuse3 documentation; nctu-ms07 OS HW5 FUSE Assignment; "To FUSE or Not to FUSE" (FAST 2017).</div>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
+      <p><strong>FUSE 的工程應用</strong>（不只是作業）：</p>
+          <table>
+          <thead>
+          <tr><th>應用</th><th>工具</th></tr>
+          </thead>
+          <tbody>
+          <tr><td>加密檔案系統</td><td>gocryptfs, encfs</td></tr>
+          <tr><td>雲端掛載</td><td>s3fs (S3), rclone（你在用！）</td></tr>
+          <tr><td>壓縮透明掛載</td><td>fuse-zip, archivemount</td></tr>
+          <tr><td>版本控制 FS</td><td>git-fuse</td></tr>
+          <tr><td>遠端 SSH 掛載</td><td>sshfs</td></tr>
+          </tbody>
+          </table>
+      <p>rclone 就是 FUSE 的應用：把 Google Drive 掛成本地目錄，`ls ~/gdrive` 實際上呼叫的是 rclone 的 FUSE daemon，它把 VFS 操作翻譯成 Drive API 呼叫。</p>
+      <p><strong>FUSE 的代價</strong>：每次 syscall 要多一次 user↔kernel 往返（相比 in-kernel FS 多 2 次上下文切換）。大量小 I/O 時性能明顯低於 ext4；大塊順序讀寫差距不大。</p>
+      <p class="en">Real-world FUSE examples you've probably used: `rclone mount` (Google Drive as a local directory — that's your machine), `sshfs` (remote directory over SSH). The performance cost: each VFS call involves an extra round-trip through `/dev/fuse` — roughly 2 extra context switches vs. an in-kernel filesystem. For metadata-heavy workloads (many small files, many `stat` calls), this hurts. For large sequential I/O, the gap is small. It's a worthwhile tradeoff for correctness, security isolation, and debuggability.</p>
+      <div class="src">出處 Source：Vangoor et al. "To FUSE or Not to FUSE" (FAST 2017); libfuse3 README; rclone source (backend/vfs). 作者整合。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
+      <p>FUSE = VFS 的鉤子，讓你在 user-space 用普通程式碼實作 Linux 檔案系統；代價是多一次 kernel↔user 往返，優點是不用寫 kernel module，可以 `gdb`，崩了也不會 panic 整台機器。</p>
+      <p class="en">FUSE = VFS hooks in user space. You implement `fuse_operations` callbacks, mount the filesystem with `fuse_main`, and the kernel routes every VFS call to your program. Cost: one extra kernel↔user round-trip per syscall. Benefit: no kernel module, fully debuggable, process-isolated — a crash is just an unmount, not a kernel panic.</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
+</body>
+</html>

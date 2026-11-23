@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fork / exec / wait — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站 · Research Lessons</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表 Back to lessons</a>
+  <article>
+    <h1>Process 生命週期：fork / exec / wait 三步曲<span class="en">Process Lifecycle: The fork / exec / wait Trilogy</span></h1>
+    <p class="summary">Unix process model 三個核心 syscall：fork 複製行程、exec 替換映像、wait 收割殭屍。理解這三步是寫 shell、daemon 或任何多行程程式的基礎。</p>
+    <p class="summary en">Three core syscalls define the Unix process model — fork copies a process, exec replaces its image, wait reaps the zombie. Understanding this trilogy is fundamental to writing shells, daemons, or any multiprocess program.</p>
+
+    <section class="card">
+      <h2>是什麼 <span class="en">· What it is</span></h2>
+      <p>Unix 的「生一個新行程」分兩個步驟，刻意設計如此：</p>
+      <pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;sys/wait.h&gt;
+
+pid_t pid = fork();   // 複製整個行程（copy-on-write）
+
+if (pid &lt; 0) {
+    perror(&quot;fork&quot;);   // 失敗
+} else if (pid == 0) {
+    // === 子行程 ===
+    execvp(&quot;ls&quot;, (char *[]){ &quot;ls&quot;, &quot;-l&quot;, NULL });
+    // exec 成功就不會回到這裡；失敗才繼續
+    perror(&quot;exec&quot;);
+    _exit(1);
+} else {
+    // === 父行程 ===
+    int status;
+    waitpid(pid, &amp;status, 0);   // 等子行程結束，回收資源
+    if (WIFEXITED(status))
+        printf(&quot;exit code: %d\n&quot;, WEXITSTATUS(status));
+}</code></pre>
+      <p><strong>三個動作的分工</strong>：</p>
+          <table>
+          <thead>
+          <tr><th>syscall</th><th>做什麼</th><th>回傳</th></tr>
+          </thead>
+          <tbody>
+          <tr><td>`fork()`</td><td>複製當前行程（包含 fd、記憶體映射，copy-on-write）</td><td>父=子PID，子=0</td></tr>
+          <tr><td>`exec*()`</td><td>把當前行程的映像換成新程式（不建新行程）</td><td>成功不返回，失敗返回 -1</td></tr>
+          <tr><td>`wait`/`waitpid`</td><td>父行程等子行程結束，讀取退出狀態並清除 PCB</td><td>子PID</td></tr>
+          </tbody>
+          </table>
+      <p><strong>殭屍行程（zombie）</strong>：子行程結束後，PCB 殘留直到父行程 `wait`。若父行程先死，init/systemd 接手 `wait`。</p>
+      <p class="en">Unix separates "create process" into two steps by design. `fork()` clones the calling process (copy-on-write, so no actual memory copy until write). `exec<em>()` replaces the process image with a new binary — it does </em>not<em> create a new PID. `waitpid` lets the parent reap the child's exit status and free its PCB entry. A child that has exited but not been waited on is a </em>zombie* — it holds a slot in the process table until the parent calls `wait`.</p>
+      <div class="src">出處 Source：APUE Ch. 8 (Process Control); POSIX.1-2017; nctu-ms07 OS HW1 Shell Assignment.</div>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
+      <p>Shell 的核心邏輯正是這個迴圈：</p>
+      <pre><code class="language-c">while (1) {
+    char *cmd = readline(&quot;$ &quot;);
+    pid_t pid = fork();
+    if (pid == 0) {
+        execvp(cmd, args);  // 子行程變成 cmd
+        _exit(127);
+    }
+    waitpid(pid, NULL, 0);  // 父（shell）等命令結束
+}</code></pre>
+      <p>理解 fork/exec 分離的理由：在 `exec` 之前，子行程可以 `dup2` 重導向 fd、`setpgid` 設 job group、`setsid` 建 daemon——這些都要在「已是子行程、尚未換成新程式」的視窗內完成。</p>
+      <p class="en">The shell is literally a `fork`→`exec`→`wait` loop. The deliberate gap between `fork` and `exec` is where you do I/O redirection (`dup2`), job control (`setpgid`), and daemonization (`setsid`). Without this two-step design, none of that would be possible without special kernel support.</p>
+      <div class="src">出處 Source：APUE Ch. 8; Richard Stevens "Advanced Programming in the UNIX Environment". 作者整合。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
+      <p>fork = 複印機，exec = 換靈魂，wait = 收屍；shell 的一切行程操作都是這三步的組合。</p>
+      <p class="en">fork = copier, exec = soul transplant, wait = reaper. Every process operation a shell does is a composition of these three primitives.</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
+</body>
+</html>
