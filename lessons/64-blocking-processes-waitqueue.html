@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>阻塞與 Wait Queue — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站 · Research Lessons</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表 Back to lessons</a>
+  <article>
+    <h1>Blocking 與 Wait Queue：讓 Kernel 優雅等待事件<span class="en">Blocking and Wait Queues: Letting the Kernel Wait for Events Gracefully</span></h1>
+    <p class="summary">當 kernel 需要等待事件（硬體就緒、資料到達），不應 busy-wait；用 wait queue 讓行程睡眠，事件發生時 wake_up 喚醒，CPU 在等待期間可排班其他工作。</p>
+    <p class="summary en">When the kernel needs to wait for an event (hardware ready, data arrived), it should not busy-wait. Use a wait queue to put the process to sleep; call `wake_up` when the event fires. The CPU is free to schedule other work while waiting.</p>
+
+    <section class="card">
+      <h2>是什麼 <span class="en">· What it is</span></h2>
+      <p><strong>Wait Queue</strong> 是 Linux kernel 的「事件等待清單」：一群行程睡在這個 queue 上，等某件事發生；事件發生時由其他行程或中斷呼叫 `wake_up` 喚醒。</p>
+      <p>```c
+#include <linux/wait.h></p>
+      <p>/<em> 宣告 </em>/
+static DECLARE_WAIT_QUEUE_HEAD(my_queue);
+static int condition = 0;  /<em> 等待的條件 </em>/</p>
+      <p>/<em> 生產者（如中斷處理/另一個行程）：設條件、喚醒 </em>/
+void some_event_handler(void) {
+    condition = 1;
+    wake_up(&my_queue);
+}</p>
+      <p>/<em> 消費者（如 read handler）：等到條件成立 </em>/
+static ssize_t my_read(...) {
+    wait_event_interruptible(my_queue, condition != 0);
+    if (signal_pending(current)) return -ERESTARTSYS;
+    // condition 成立，繼續處理
+    condition = 0;
+    ...
+}
+```</p>
+      <p><strong>`wait_event_interruptible`</strong> vs <strong>`wait_event`</strong>：</p>
+      <ul>
+        <li>`interruptible`：可被 signal 打斷（Ctrl-C）→ 回傳 `-ERESTARTSYS`；<strong>通常用這個</strong></li>
+        <li>非 interruptible：無法被 signal 打斷 → `kill -9` 也殺不掉，要非常謹慎</li>
+      </ul>
+      <p class="en">A <strong>wait queue</strong> is a list of sleeping processes waiting for a condition. The consumer calls `wait_event_interruptible(queue, condition)` to sleep; the producer sets the condition and calls `wake_up(&queue)` to wake everyone up. Use `wait_event_interruptible` (can be interrupted by signals, returns `-ERESTARTSYS`) in almost all cases; non-interruptible waits block even `SIGKILL` and must be used carefully.</p>
+      <div class="src">出處 Source：LKMPG Ch. 9 (Blocking Processes and Threads). sysprog21.github.io/lkmpg</div>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
+      <p><strong>Busy-wait（壞）vs Blocking（好）</strong>：</p>
+      <p>```c
+// ❌ 忙等 — 佔滿 CPU core，其他行程被餓死
+while (!condition) cpu_relax();</p>
+      <p>// ✅ 睡眠等 — 行程掛起，CPU 給其他人用
+wait_event_interruptible(my_queue, condition);
+```</p>
+      <p>`kfetch` 作業用 `mutex_trylock` 是「<strong>若鎖被佔用就直接拒絕（-EBUSY）</strong>」，不進入等待。這是刻意選擇：裝置是個簡單的一次性讀取工具，不值得讓第二個行程排隊等。</p>
+      <p>若要支援多個 reader 排隊等待，就需要 wait queue：
+```c
+// kfetch_open 改成等待版本：
+wait_event_interruptible(open_queue, !device_in_use);
+device_in_use = 1;
+```</p>
+      <p class="en"><strong>Busy-wait wastes CPU; blocking is cooperative</strong>. `kfetch` uses `mutex_trylock` (returns `-EBUSY` immediately if locked) — a deliberate choice for a simple one-shot device. If you wanted multiple readers to queue up, you'd replace it with a wait queue: `wait_event_interruptible(open_queue, !device_in_use)`.</p>
+      <div class="src">出處 Source：LKMPG Ch. 9. 作者對比整合。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
+      <p>Wait queue = kernel 的「叫號等待區」，讓行程睡眠而非忙轉；`wake_up` 是廣播器，`wait_event_interruptible` 是在等候室入睡，signal 可以把人喚醒離開。</p>
+      <p class="en">Wait queue = the kernel's "take-a-number waiting area" — processes sleep instead of spinning. `wake_up` broadcasts the wake; `wait_event_interruptible` is the sleep that signals can interrupt.</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
+</body>
+</html>

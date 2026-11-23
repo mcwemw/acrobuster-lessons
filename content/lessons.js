@@ -548,5 +548,41 @@ const LESSONS = [
     "summary": "Kernel 的共用資料要靠 mutex 保護；字元裝置的慣用做法是在 open 用 trylock（已鎖就回 EBUSY），在 release 解鎖，讓同一時間只有一個行程能存取裝置。",
     "summary_en": "Shared kernel data needs mutex protection. The idiomatic character device pattern uses `trylock` in open (returns `EBUSY` if already locked) and `unlock` in release — ensuring only one process accesses the device at a time.",
     "tag": "軟體工程"
+  },
+  {
+    "id": "62",
+    "slug": "proc-filesystem",
+    "title": "/proc 虛擬檔案系統：Kernel 資訊出口的輕量化管道",
+    "title_en": "/proc Virtual Filesystem: Lightweight Kernel Information Export",
+    "summary": "/proc 是 kernel 把內部狀態暴露給 user-space 的虛擬 FS；比字元裝置更輕量，不需要 major/minor number，適合唯讀的診斷資訊輸出。",
+    "summary_en": "/proc is a virtual filesystem the kernel uses to expose internal state to user-space. Lighter than a character device — no major/minor number required. Ideal for read-only diagnostic exports.",
+    "tag": "軟體工程"
+  },
+  {
+    "id": "63",
+    "slug": "system-calls",
+    "title": "System Call：User-Space 進 Kernel 的唯一正門",
+    "title_en": "System Calls: The Only Legitimate Gate from User-Space into the Kernel",
+    "summary": "System call 是 user-space 程式唯一能合法進入 kernel 的路徑；x86 透過 `syscall` 指令，RISC-V 透過 `ecall`，完成特權切換（ring 3 → ring 0）。",
+    "summary_en": "A system call is the only legitimate path from user-space into the kernel. On x86 it uses the `syscall` instruction; on RISC-V, `ecall`. Both trigger a privilege-level transition (user mode → kernel mode).",
+    "tag": "軟體工程"
+  },
+  {
+    "id": "64",
+    "slug": "blocking-processes-waitqueue",
+    "title": "Blocking 與 Wait Queue：讓 Kernel 優雅等待事件",
+    "title_en": "Blocking and Wait Queues: Letting the Kernel Wait for Events Gracefully",
+    "summary": "當 kernel 需要等待事件（硬體就緒、資料到達），不應 busy-wait；用 wait queue 讓行程睡眠，事件發生時 wake_up 喚醒，CPU 在等待期間可排班其他工作。",
+    "summary_en": "When the kernel needs to wait for an event (hardware ready, data arrived), it should not busy-wait. Use a wait queue to put the process to sleep; call `wake_up` when the event fires. The CPU is free to schedule other work while waiting.",
+    "tag": "軟體工程"
+  },
+  {
+    "id": "65",
+    "slug": "interrupt-handlers",
+    "title": "中斷處理：Top Half 要快，Bottom Half 才做事",
+    "title_en": "Interrupt Handlers: Top Half Must Be Fast, Bottom Half Does the Work",
+    "summary": "中斷處理器跑在中斷情境（不能睡眠、不能用 mutex），必須極快完成；真正的工作放到 bottom half（tasklet 或 workqueue）在 process context 完成。",
+    "summary_en": "Interrupt handlers run in interrupt context — no sleeping, no mutex. They must finish fast. Actual work goes into the bottom half (tasklet or workqueue) which runs in process context where sleeping is allowed.",
+    "tag": "軟體工程"
   }
 ];
