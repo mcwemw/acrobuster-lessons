@@ -19,10 +19,6 @@ try:
     import yaml
 except ImportError:
     sys.exit("Missing: pip install pyyaml")
-try:
-    import anthropic
-except ImportError:
-    sys.exit("Missing: pip install anthropic")
 
 
 # ── 1. Parse wiki markdown ─────────────────────────────────────────────────
@@ -123,14 +119,32 @@ Layouts available: "title" | "bullets" | "two-col" | "code-bullets" | "summary"
 """
 
 
-def plan_slides(wiki_text: str, model: str, client) -> list:
-    msg = client.messages.create(
-        model=model,
-        max_tokens=3000,
-        messages=[{"role": "user", "content": PLAN_PROMPT.format(wiki_text=wiki_text)}],
+def plan_slides(wiki_text: str, model: str, client=None) -> list:
+    import subprocess, shutil
+    prompt = PLAN_PROMPT.format(wiki_text=wiki_text)
+
+    # Prefer claude CLI (no API key needed); fall back to anthropic SDK
+    claude_bin = shutil.which("claude") or os.path.expandvars(
+        "/usr/local/lib/node_modules/@anthropic-ai/claude-code/bin/claude"
     )
-    raw = msg.content[0].text.strip()
-    # Strip markdown fences if model added them
+    if os.path.exists(claude_bin):
+        result = subprocess.run(
+            [claude_bin, "-p", prompt, "--output-format", "text"],
+            capture_output=True, text=True, timeout=120
+        )
+        if result.returncode != 0:
+            raise RuntimeError(f"claude CLI error: {result.stderr[:300]}")
+        raw = result.stdout.strip()
+    elif client is not None:
+        msg = client.messages.create(
+            model=model,
+            max_tokens=3000,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        raw = msg.content[0].text.strip()
+    else:
+        raise RuntimeError("No claude CLI found and no ANTHROPIC_API_KEY set")
+
     raw = re.sub(r"^```(?:json)?\n?", "", raw)
     raw = re.sub(r"\n?```$", "", raw)
     return json.loads(raw)
@@ -345,11 +359,14 @@ def main():
     frontmatter, body, sections = parse_wiki(wiki_path)
     print(f"    Found {len(sections)} sections, keywords: {frontmatter.get('keywords', [])}", flush=True)
 
+    client = None
     api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        sys.exit("ANTHROPIC_API_KEY not set")
-
-    client = anthropic.Anthropic(api_key=api_key)
+    if api_key:
+        try:
+            import anthropic
+            client = anthropic.Anthropic(api_key=api_key)
+        except ImportError:
+            pass  # will fall through to claude CLI
 
     print(f"🤖  Planning slides ({args.model})…", flush=True)
     plan = plan_slides(body, args.model, client)

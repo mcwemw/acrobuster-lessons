@@ -25,7 +25,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install anthropic pyyaml
+        run: pip install pyyaml anthropic 2>/dev/null || pip install pyyaml
 
       - name: Detect changed wiki pages
         id: changed
@@ -40,7 +40,7 @@ jobs:
 
       - name: Generate HTML slides
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}  # optional; omit to use claude CLI
         run: |
           FILES="${{ steps.changed.outputs.files }}"
           if [ -z "$FILES" ]; then
