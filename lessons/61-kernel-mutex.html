@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kernel 互斥鎖 — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站 · Research Lessons</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表 Back to lessons</a>
+  <article>
+    <h1>Kernel Mutex：DEFINE_MUTEX 與 mutex_trylock 防競態<span class="en">Kernel Mutex: DEFINE_MUTEX and mutex_trylock for Race-Free Device Access</span></h1>
+    <p class="summary">Kernel 的共用資料要靠 mutex 保護；字元裝置的慣用做法是在 open 用 trylock（已鎖就回 EBUSY），在 release 解鎖，讓同一時間只有一個行程能存取裝置。</p>
+    <p class="summary en">Shared kernel data needs mutex protection. The idiomatic character device pattern uses `trylock` in open (returns `EBUSY` if already locked) and `unlock` in release — ensuring only one process accesses the device at a time.</p>
+
+    <section class="card">
+      <h2>是什麼 <span class="en">· What it is</span></h2>
+      <p>Kernel 裡同樣有多執行緒（多 CPU 核心、中斷、並發系統呼叫）。若兩個行程同時 `open → read`，可能同時呼叫 `build_kfetch_buf()`，對同一個靜態 `kfetch_buf` 寫入 → <strong>data race</strong>。</p>
+      <p>Linux kernel mutex 的核心 API：</p>
+      <p>```c
+/<em> 靜態宣告（module 層級） </em>/
+static DEFINE_MUTEX(kfetch_mutex);</p>
+      <p>/<em> 嘗試加鎖（非阻塞）：成功回 1，已被鎖回 0 </em>/
+mutex_trylock(&kfetch_mutex);</p>
+      <p>/<em> 解鎖 </em>/
+mutex_unlock(&kfetch_mutex);</p>
+      <p>/<em> 阻塞加鎖（會睡眠等待） </em>/
+mutex_lock(&kfetch_mutex);
+```</p>
+      <p>字元裝置的慣用保護模式：</p>
+      <p>```c
+static int kfetch_open(struct inode <em>inode, struct file </em>filp) {
+    if (!mutex_trylock(&kfetch_mutex))
+        return -EBUSY;  /<em> 已有人開著，拒絕 </em>/
+    return 0;
+}</p>
+      <p>static int kfetch_release(struct inode <em>inode, struct file </em>filp) {
+    mutex_unlock(&kfetch_mutex);
+    return 0;
+}
+```</p>
+      <p><strong>為什麼用 `trylock` 而不是 `lock`？</strong> `mutex_lock` 會讓當前行程睡眠等待，可能在 open 路徑造成長時間阻塞。`trylock` 直接拒絕並回傳 `-EBUSY`，讓 user-space 程式自己決定要不要重試。</p>
+      <p class="en">Kernel code runs with multiple CPUs, concurrent syscalls, and interrupts. Two processes calling `open → read` simultaneously could both call `build_kfetch_buf()` and corrupt the shared `kfetch_buf` — a data race. Linux's mutex API: `DEFINE_MUTEX` to declare, `mutex_trylock` (non-blocking: returns 1 on success, 0 if already locked), `mutex_unlock`, and `mutex_lock` (sleeping wait). The idiomatic device pattern uses `trylock` in `open` (returns `-EBUSY` immediately if locked) — avoiding long blocking in the open path and letting user-space handle the retry.</p>
+      <div class="src">出處 Source：LKMPG Ch. 10 (Avoiding Collisions and Deadlocks). sysprog21.github.io/lkmpg</div>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
+          <table>
+          <thead>
+          <tr><th>情境</th><th>不加 mutex</th><th>加 mutex (trylock)</th></tr>
+          </thead>
+          <tbody>
+          <tr><td>兩個程式同時 open</td><td>兩者都進 read</td><td>第二個收到 EBUSY</td></tr>
+          <tr><td>並發 build_kfetch_buf</td><td>競態，輸出亂掉</td><td>序列化，輸出正確</td></tr>
+          <tr><td>其中一個 panic</td><td>kernel crash</td><td>仍可能 crash，但不會是競態</td></tr>
+          </tbody>
+          </table>
+      <p>Kernel mutex 與 user-space `pthread_mutex_t` 最大的差異：<strong>kernel mutex 不能在中斷處理器（interrupt handler）裡使用</strong>（中斷不能睡眠）。中斷場景改用 `spinlock`。這個 `kfetch` 裝置在一般系統呼叫路徑，可以安全用 mutex。</p>
+      <p class="en">Key difference from user-space `pthread_mutex_t`: <strong>kernel mutex cannot be used in interrupt handlers</strong> (interrupts can't sleep). Use `spinlock` there. The `kfetch` device runs in normal syscall context, so mutex is safe. The `trylock`-in-open / `unlock`-in-release pattern ensures only one process holds the device at a time, serializing buffer access without blocking indefinitely.</p>
+      <div class="src">出處 Source：LKMPG Ch. 10; LKD Ch. 9 (An Introduction to Kernel Synchronization). 作者整合。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
+      <p>Kernel 的共用資料用 `DEFINE_MUTEX` 保護；在 `open` 用 `trylock`（已鎖回 EBUSY），在 `release` 解鎖——比阻塞等待更適合裝置驅動的用法。</p>
+      <p class="en">Protect shared kernel data with `DEFINE_MUTEX`. Use `trylock` in `open` (returns `EBUSY` if locked) and `unlock` in `release` — cleaner than blocking-wait for device drivers.</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
+</body>
+</html>

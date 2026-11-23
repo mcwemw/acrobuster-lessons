@@ -512,5 +512,41 @@ const LESSONS = [
     "summary": "AI 的統一框架是「代理」：感測環境、依績效量度選行動；PEAS 刻劃任務，七維環境決定選哪種架構——從簡單反射到學習型五級。",
     "summary_en": "The unifying AI framework is 'agent': perceive the environment, select actions to maximise a performance measure. PEAS describes the task; seven environment dimensions determine which architecture—simple reflex through learning agent—is appropriate.",
     "tag": "模型原理"
+  },
+  {
+    "id": "58",
+    "slug": "linux-kernel-module-basics",
+    "title": "Linux Kernel Module：動態插拔的 Kernel 擴充單元",
+    "title_en": "Linux Kernel Module: Dynamically Loadable Kernel Extensions",
+    "summary": "Kernel module 讓你在不重新編譯 kernel 的情況下動態擴充功能；代價是不能用 C 標準函式庫，也不能假設自己跑在 user space。",
+    "summary_en": "Kernel modules let you extend the kernel at runtime without recompiling it — the trade-off is losing the C standard library and all user-space assumptions.",
+    "tag": "軟體工程"
+  },
+  {
+    "id": "59",
+    "slug": "linux-char-device-driver",
+    "title": "Character Device Driver：用 file_operations 把裝置接進 VFS",
+    "title_en": "Character Device Driver: Hooking a Device into the VFS via file_operations",
+    "summary": "字元裝置讓 user-space 程式可以像讀寫普通檔案一樣操作硬體；misc_register 是最簡潔的做法，自動搞定裝置號碼和 /dev/ 節點。",
+    "summary_en": "Character devices let user-space programs interact with hardware exactly like a regular file. `misc_register` is the cleanest path — it handles device numbers and /dev node creation automatically.",
+    "tag": "軟體工程"
+  },
+  {
+    "id": "60",
+    "slug": "kernel-user-data-transfer",
+    "title": "Kernel-User Space 資料轉移：copy_to_user / copy_from_user",
+    "title_en": "Kernel↔User Space Data Transfer: copy_to_user / copy_from_user",
+    "summary": "Kernel 和 user space 有各自獨立的位址空間；直接解參考 user pointer 是未定義行為。正確做法是透過 copy_to_user / copy_from_user 安全搬資料。",
+    "summary_en": "Kernel and user space have separate address spaces. Dereferencing a user pointer directly is undefined behavior — always use `copy_to_user` / `copy_from_user`.",
+    "tag": "軟體工程"
+  },
+  {
+    "id": "61",
+    "slug": "kernel-mutex",
+    "title": "Kernel Mutex：DEFINE_MUTEX 與 mutex_trylock 防競態",
+    "title_en": "Kernel Mutex: DEFINE_MUTEX and mutex_trylock for Race-Free Device Access",
+    "summary": "Kernel 的共用資料要靠 mutex 保護；字元裝置的慣用做法是在 open 用 trylock（已鎖就回 EBUSY），在 release 解鎖，讓同一時間只有一個行程能存取裝置。",
+    "summary_en": "Shared kernel data needs mutex protection. The idiomatic character device pattern uses `trylock` in open (returns `EBUSY` if already locked) and `unlock` in release — ensuring only one process accesses the device at a time.",
+    "tag": "軟體工程"
   }
 ];
