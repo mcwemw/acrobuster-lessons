@@ -32,3 +32,4 @@ RAG 減少幻覺，但**不保證消除**：生成器（BART）仍帶參數化�
 
 - primary paper arXiv:2005.11401 / NeurIPS 2020，可公開引用。
 - 機制描述 trace 論文 §2–3（DPR、BART、RAG-Sequence/Token formulation）。
+
