@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kernel 同步機制 — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站 · Research Lessons</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表 Back to lessons</a>
+  <article>
+    <h1>Kernel 同步：Spinlock、Semaphore 與 RCU<span class="en">Kernel Synchronization: Spinlock, Semaphore, and RCU</span></h1>
+    <p class="summary">Kernel 同步工具依「是否可睡眠」和「讀/寫比例」分工：spinlock 用於中斷情境（不能睡眠），mutex/semaphore 用於行程情境（可睡眠），RCU 專為多讀少寫的資料結構設計。</p>
+    <p class="summary en">Kernel synchronization tools specialize by context and access pattern. Spinlock for interrupt context (non-sleeping). Mutex/semaphore for process context (can sleep). RCU (Read-Copy-Update) for read-mostly data structures — readers are lock-free and wait-free.</p>
+
+    <section class="card">
+      <h2>是什麼 <span class="en">· What it is</span></h2>
+      <p>### 1. Spinlock — 忙等，不可睡眠</p>
+      <pre><code class="language-c">#include &lt;linux/spinlock.h&gt;
+
+static DEFINE_SPINLOCK(my_lock);
+
+// 在中斷情境或需要禁止 preemption 的地方
+spin_lock(&amp;my_lock);
+/* critical section */
+spin_unlock(&amp;my_lock);
+
+// 若 critical section 可能在中斷處理器中被訪問
+// → 用 spin_lock_irqsave（關本地中斷）
+unsigned long flags;
+spin_lock_irqsave(&amp;my_lock, flags);
+/* critical section */
+spin_unlock_irqrestore(&amp;my_lock, flags);</code></pre>
+      <p>### 2. Semaphore & Mutex — 可睡眠</p>
+      <pre><code class="language-c">#include &lt;linux/semaphore.h&gt;
+
+static DEFINE_SEMAPHORE(my_sem, 1);  // 初始值 1 = binary semaphore = mutex
+
+down(&amp;my_sem);        // 若 count=0，行程睡眠
+/* critical section */
+up(&amp;my_sem);          // 喚醒等待者
+
+// Mutex（比 semaphore 語義更嚴格：只有 lock 的人可以 unlock）
+#include &lt;linux/mutex.h&gt;
+static DEFINE_MUTEX(my_mutex);
+mutex_lock(&amp;my_mutex);
+/* critical section */
+mutex_unlock(&amp;my_mutex);</code></pre>
+      <p>### 3. RCU（Read-Copy-Update）— 無鎖讀</p>
+      <pre><code class="language-c">#include &lt;linux/rcupdate.h&gt;
+
+// 讀者：不需要鎖，只要在 RCU read-side critical section 內
+rcu_read_lock();
+struct Node *p = rcu_dereference(global_ptr);  // 安全解參考
+/* 使用 p，不能睡眠 */
+rcu_read_unlock();
+
+// 寫者：複製、修改、原子交換指標
+struct Node *new = kmalloc(...);
+*new = *old;        // 複製
+new-&gt;value = 42;    // 修改副本
+rcu_assign_pointer(global_ptr, new);    // 原子換指標
+synchronize_rcu();  // 等所有進行中的 reader 結束
+kfree(old);         // 安全釋放舊版本</code></pre>
+      <p class="en"><strong>Spinlock</strong>: CPU spins in a tight loop until the lock is free — no context switch, no sleeping. Fast for short critical sections; mandatory in interrupt context where sleeping is forbidden. `spin_lock_irqsave` also disables local interrupts, preventing deadlock when the same lock is used in an interrupt handler. <strong>Semaphore/Mutex</strong>: the waiting task goes to sleep (put on a wait queue), freeing the CPU. Only valid in process context. Use `mutex_lock` for exclusive access; it enforces the ownership invariant (only the locker may unlock). <strong>RCU</strong>: readers are always lock-free and can run concurrently with the writer. The writer atomically swaps a pointer to a new version, then waits for a "grace period" (all pre-existing readers finish) before freeing the old version. Ideal for routing tables, network protocol data, and any read-dominated data structure.</p>
+      <div class="src">出處 Source：NYCU OSDI Week 11 (Kernel Synchronization); LKD Ch. 9-10; McKenney "What is RCU, Fundamentally?" (LWN 2007).</div>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
+      <p><strong>選型決策樹</strong>：</p>
+      <pre><code>是否在中斷情境 / 不可睡眠？
+  是 → Spinlock（+ irqsave 若有 IRQ 競爭）
+  否（process context）→
+      讀多寫少（如 routing table）？
+        是 → RCU（讀者零開銷）
+        否 → 只需要排他存取 → Mutex
+             需要計數型信號（N 個並行）→ Semaphore</code></pre>
+      <p><strong>常見 bug</strong>：</p>
+          <table>
+          <thead>
+          <tr><th>Bug</th><th>後果</th></tr>
+          </thead>
+          <tbody>
+          <tr><td>spinlock 內呼叫 `kmalloc(GFP_KERNEL)`（可睡眠）</td><td>核心掛死或 BUG_ON</td></tr>
+          <tr><td>mutex_lock 後忘了 unlock（返回前有多條 path）</td><td>死鎖，`D` state 行程永遠掛著</td></tr>
+          <tr><td>RCU reader 在 `rcu_read_lock()` 內睡眠</td><td>破壞 grace period 保證，潛在 UAF</td></tr>
+          <tr><td>`spin_lock` 而非 `spin_lock_irqsave`（IRQ 也用同一鎖）</td><td>同 CPU 中斷打斷自己，自我死鎖</td></tr>
+          </tbody>
+          </table>
+      <p class="en">The most dangerous mistake: calling any function that might sleep (memory allocation with `GFP_KERNEL`, `mutex_lock`, `copy_from_user`) while holding a spinlock. The kernel will either BUG_ON or silently corrupt state. When in doubt about whether a function can sleep, check `might_sleep()` annotations in the kernel source — they insert debug assertions that fire in spinlock context. For lock-ordering, always document the lock order and use `lockdep` (CONFIG_PROVE_LOCKING) to automatically detect deadlock cycles in development.</p>
+      <div class="src">出處 Source：LKD Ch. 9 (An Introduction to Kernel Synchronization), Ch. 10 (Kernel Synchronization Methods); McKenney RCU articles at LWN.net. 作者整合。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
+      <p>Spinlock = 中斷情境的快鎖（不睡眠），Mutex = 行程情境的慢鎖（可睡眠），RCU = 讀者零成本、寫者複製後等 grace period；選錯情境就是死鎖或核心崩潰。</p>
+      <p class="en">Spinlock = fast non-sleeping lock for interrupt context. Mutex = sleeping lock for process context. RCU = zero-overhead readers via copy-on-write pointer swap. Pick the wrong one for the context and you get a deadlock or kernel BUG_ON.</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
+</body>
+</html>

@@ -629,5 +629,50 @@ const LESSONS = [
     "summary": "FUSE (Filesystem in Userspace) 讓你用普通使用者程式碼實作完整的 Linux 檔案系統，不用寫 kernel module；VFS 把操作透過 /dev/fuse 轉發，程序回傳結果，對上層完全透明。",
     "summary_en": "FUSE lets you implement a fully functional Linux filesystem as a regular user-space program — no kernel module needed. The kernel's VFS layer proxies all filesystem calls through /dev/fuse to your process, which handles them and returns results transparently.",
     "tag": "Linux"
+  },
+  {
+    "id": "71",
+    "slug": "booting-bootloader-kernel",
+    "title": "開機流程：從按下電源到 Kernel 接手",
+    "title_en": "Booting: From Power-On to Kernel Handoff",
+    "summary": "按下電源後，CPU 從固定位址取第一條指令，經 ROM Bootloader → 二階段 Bootloader（GRUB/U-Boot）→ 解壓 kernel image → 跳進 start_kernel()，整個過程在任何 OS 控制之前完成。",
+    "summary_en": "Power-on starts the CPU at a fixed reset vector. Control passes through ROM bootloader → second-stage bootloader (GRUB/U-Boot) → decompress kernel image → jump to start_kernel(). All of this happens before any OS code runs.",
+    "tag": "Linux"
+  },
+  {
+    "id": "72",
+    "slug": "memory-allocators-buddy-slab",
+    "title": "記憶體分配器：Buddy System 與 Slab",
+    "title_en": "Memory Allocators: Buddy System and Slab",
+    "summary": "Linux 實體記憶體用 Buddy System 管理（以 2^n 頁為單位，合併鄰居消除碎片）；小物件用 Slab/SLUB 分配器在 buddy 頁上切割，避免頻繁走 buddy 的高開銷。",
+    "summary_en": "Linux manages physical memory with the Buddy System — allocate/free in power-of-two page blocks, merge freed \"buddies\" to defragment. Small kernel objects use the Slab allocator which carves up buddy pages into fixed-size caches, avoiding repeated costly buddy calls.",
+    "tag": "Linux"
+  },
+  {
+    "id": "73",
+    "slug": "virtual-memory-paging",
+    "title": "虛擬記憶體與分頁：每個行程都有自己的位址空間",
+    "title_en": "Virtual Memory and Paging: Every Process Gets Its Own Address Space",
+    "summary": "虛擬記憶體用多層 Page Table 把每個行程的虛擬位址映射到實體位址；TLB 快取最近的映射；Page Fault 是 OS 的入口，可用來實作 COW、demand paging、swap。",
+    "summary_en": "Virtual memory uses a multi-level page table to map each process's virtual addresses to physical ones. The TLB caches recent mappings. Page faults are the kernel's hook for copy-on-write, demand paging, and swap-in.",
+    "tag": "Linux"
+  },
+  {
+    "id": "74",
+    "slug": "vfs-virtual-filesystem",
+    "title": "VFS：統一的虛擬檔案系統抽象層",
+    "title_en": "VFS: The Unified Virtual Filesystem Abstraction",
+    "summary": "VFS (Virtual File System) 是 Linux 的檔案系統抽象層，讓 ext4、tmpfs、procfs、FUSE 以及網路 FS 都能接受相同的 open/read/write/stat syscall；核心物件是 superblock、inode、dentry、file。",
+    "summary_en": "VFS is Linux's filesystem abstraction — it lets ext4, tmpfs, procfs, FUSE, and network filesystems all respond to the same open/read/write/stat system calls. The four core objects are superblock, inode, dentry, and file.",
+    "tag": "Linux"
+  },
+  {
+    "id": "75",
+    "slug": "kernel-synchronization",
+    "title": "Kernel 同步：Spinlock、Semaphore 與 RCU",
+    "title_en": "Kernel Synchronization: Spinlock, Semaphore, and RCU",
+    "summary": "Kernel 同步工具依「是否可睡眠」和「讀/寫比例」分工：spinlock 用於中斷情境（不能睡眠），mutex/semaphore 用於行程情境（可睡眠），RCU 專為多讀少寫的資料結構設計。",
+    "summary_en": "Kernel synchronization tools specialize by context and access pattern. Spinlock for interrupt context (non-sleeping). Mutex/semaphore for process context (can sleep). RCU (Read-Copy-Update) for read-mostly data structures — readers are lock-free and wait-free.",
+    "tag": "Linux"
   }
 ];

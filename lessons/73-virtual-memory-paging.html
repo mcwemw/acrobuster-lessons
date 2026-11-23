@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>虛擬記憶體 & 分頁 — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站 · Research Lessons</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表 Back to lessons</a>
+  <article>
+    <h1>虛擬記憶體與分頁：每個行程都有自己的位址空間<span class="en">Virtual Memory and Paging: Every Process Gets Its Own Address Space</span></h1>
+    <p class="summary">虛擬記憶體用多層 Page Table 把每個行程的虛擬位址映射到實體位址；TLB 快取最近的映射；Page Fault 是 OS 的入口，可用來實作 COW、demand paging、swap。</p>
+    <p class="summary en">Virtual memory uses a multi-level page table to map each process's virtual addresses to physical ones. The TLB caches recent mappings. Page faults are the kernel's hook for copy-on-write, demand paging, and swap-in.</p>
+
+    <section class="card">
+      <h2>是什麼 <span class="en">· What it is</span></h2>
+      <p><strong>多層頁表（x86-64 四層 / AArch64 四層）</strong>：</p>
+      <pre><code>虛擬位址（48-bit）：
+  [47:39] PGD index (9-bit)
+  [38:30] PUD index (9-bit)
+  [29:21] PMD index (9-bit)
+  [20:12] PTE index (9-bit)
+  [11:0]  Page offset (12-bit = 4KB)
+
+              CR3/TTBR0 → PGD → PUD → PMD → PTE → 實體頁 frame</code></pre>
+      <p>每個 entry 都有保護位元（R/W/X/User/Present），MMU 硬體自動 walk；走完得到實體位址：</p>
+      <pre><code>physical addr = PTE.PFN &lt;&lt; 12 | (virtual addr &amp; 0xFFF)</code></pre>
+      <p><strong>TLB（Translation Lookaside Buffer）</strong>：  </p>
+      <p>頁表 walk 要 4 次記憶體存取，代價高。TLB 是 MMU 內建的快取，存最近的 `virt → phys` 映射；context switch 時必須 flush（否則 A 行程的映射殘留在 B 的 TLB）：</p>
+      <pre><code class="language-c">// Linux context switch 時（arch/arm64/mm/proc.S）：
+cpu_switch_mm(mm-&gt;pgd, mm);    // 換 TTBR0_EL1，自動 TLB 刷新（ASID 機制可減少 flush）</code></pre>
+      <p><strong>AArch64 兩套 page table</strong>：</p>
+      <ul>
+        <li>`TTBR0_EL1`：user-space（0x0 ~ 0x0000_FFFF_FFFF_FFFF）</li>
+        <li>`TTBR1_EL1`：kernel-space（0xFFFF_0000_0000_0000 ~ ）</li>
+      </ul>
+      <p class="en">Virtual memory gives each process the illusion of its own full address space. The CPU's MMU walks the page table (4 levels on x86-64 and AArch64) to translate every memory access. This walk takes 4 sequential memory reads — prohibitively slow on every access. The TLB caches recent translations; a TLB miss triggers a hardware page-table walk. AArch64 has two sets of page-table registers (`TTBR0`/`TTBR1`), cleanly splitting user and kernel virtual address spaces — no "split" heuristic like x86's historical 3G/1G.</p>
+      <div class="src">出處 Source：OSC2022 Lab 6 (Virtual Memory); ARM Architecture Reference Manual §D5; Intel SDM Vol 3A §4; LKD Ch. 15.</div>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
+      <p><strong>Page Fault 是 OS 的核心槓桿</strong>：</p>
+          <table>
+          <thead>
+          <tr><th>Page Fault 類型</th><th>原因</th><th>OS 動作</th></tr>
+          </thead>
+          <tbody>
+          <tr><td><strong>Minor fault</strong></td><td>頁表項存在但 Present=0（demand paging）</td><td>分配物理頁，建 PTE，返回</td></tr>
+          <tr><td><strong>Copy-on-Write</strong></td><td>fork 後子行程寫父行程的唯讀頁</td><td>複製頁，更新 PTE，返回</td></tr>
+          <tr><td><strong>Major fault (swap-in)</strong></td><td>頁被 swap 到磁碟</td><td>從磁碟讀回頁，更新 PTE（慢！）</td></tr>
+          <tr><td><strong>Segfault</strong></td><td>存取不合法位址（no VMA covering it）</td><td>送 SIGSEGV</td></tr>
+          </tbody>
+          </table>
+      <p><strong>OSC2022 Lab 6 要點</strong>（AArch64 identity paging + user space mapping）：</p>
+      <pre><code class="language-c">// 建 identity paging（PA == VA）給 kernel 自身
+// TCR_EL1: T0SZ=25 (kernel), T1SZ=25 (user), granule=4KB
+// MAIR_EL1: define memory attributes (normal/device)
+
+// 建 user process page table：
+// 把 ELF .text/.data/stack 映射到低位址（TTBR0）
+// 系統呼叫時 TTBR0 → 切換到 kernel 的 TTBR1</code></pre>
+      <p class="en">Page faults are how the kernel implements lazy allocation (demand paging), copy-on-write (fork efficiency), and swap. When `fork` is called, instead of copying all parent pages, the kernel marks them read-only and shared. When either process writes, the MMU raises a page fault; the fault handler detects the COW case, copies the page, remaps it writable, and returns. The process never knows this happened. This is why `fork` is cheap even for processes with gigabytes of heap — no actual copying occurs until a write.</p>
+      <div class="src">出處 Source：OSC2022 Lab 6; LKD Ch. 15 (The Process Address Space); "Understanding the Linux Kernel" Ch. 2. 作者整合。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
+      <p>Page Table = 每個行程的「虛擬→實體」翻譯本，TLB 是翻譯快取，Page Fault 是 OS 實作 COW/swap/demand paging 的入口——OS 在頁表這個層面上做了大量「你看不見的魔法」。</p>
+      <p class="en">Page table is each process's private virtual→physical translation book. TLB caches it. Page fault is the kernel's hook for lazy allocation, copy-on-write, and swap. Almost every clever OS memory trick happens at the page-table level, invisible to the application.</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
+</body>
+</html>

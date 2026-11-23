@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>開機與 Bootloader — ACROBUSTER 研究講義站</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap"><h1><span class="ac">AC</span><span class="ro">ROBUST</span>er 研究講義站 · Research Lessons</h1></div>
+</header>
+<main>
+  <a class="back" href="../index.html">← 回講義列表 Back to lessons</a>
+  <article>
+    <h1>開機流程：從按下電源到 Kernel 接手<span class="en">Booting: From Power-On to Kernel Handoff</span></h1>
+    <p class="summary">按下電源後，CPU 從固定位址取第一條指令，經 ROM Bootloader → 二階段 Bootloader（GRUB/U-Boot）→ 解壓 kernel image → 跳進 start_kernel()，整個過程在任何 OS 控制之前完成。</p>
+    <p class="summary en">Power-on starts the CPU at a fixed reset vector. Control passes through ROM bootloader → second-stage bootloader (GRUB/U-Boot) → decompress kernel image → jump to start_kernel(). All of this happens before any OS code runs.</p>
+
+    <section class="card">
+      <h2>是什麼 <span class="en">· What it is</span></h2>
+      <pre><code>[電源]
+  ↓
+[CPU Reset Vector]  ← CPU 從固定位址（x86: 0xFFFFFFF0, ARM: 0x0 or EL3）取指令
+  ↓
+[ROM Bootloader / BIOS/UEFI / RPi GPU Firmware]
+  │  初始化 DDR、DRAM 時序；找開機媒體（SD/NVMe/USB）
+  ↓
+[第二階段 Bootloader]  ← GRUB2 (x86) / U-Boot (embedded) / RPi start.elf
+  │  載入 kernel image（zImage / vmlinuz / Image.gz）
+  │  載入 Initial Ramdisk（initrd / initramfs）
+  │  設定 kernel cmdline（/proc/cmdline）
+  │  跳到 kernel entry point
+  ↓
+[Kernel 解壓縮 + 自我重定位]
+  ↓
+[start_kernel()]  ← C 程式進入點，開始初始化各子系統
+  │  setup_arch(), mem_init(), trap_init()
+  │  sched_init(), init_IRQ(), console_init()
+  ↓
+[init process (PID 1)]  ← execve(&quot;/sbin/init&quot;) 或 systemd</code></pre>
+      <p><strong>Initial Ramdisk（initrd/initramfs）</strong>：  </p>
+      <p>Kernel 在掛載真正根 FS 之前，先用 initramfs（cpio 格式）跑一個最小 root，載入儲存控制器模組、LUKS 解密等，再 `pivot_root` 到真正的 `/`。</p>
+      <p class="en">Power-on puts the CPU at its reset vector — a fixed physical address. The first code that runs is ROM firmware (RPi: VideoCore GPU firmware; x86: UEFI). It initializes DRAM, finds a bootable device, and hands off to the second-stage bootloader (GRUB or U-Boot). The bootloader loads the kernel image and an optional initramfs (a minimal root in cpio format), passes the kernel cmdline, then jumps to the kernel entry point. `start_kernel()` is the first C function; it brings up the memory allocator, IRQ controller, scheduler, and finally spawns PID 1 (`init`/`systemd`).</p>
+      <div class="src">出處 Source：OSC2022 Lab 2 (Booting, UART Bootloader, Ramdisk); Linux kernel `init/main.c`; ARM Trusted Firmware-A docs.</div>
+    </section>
+
+    <section class="card">
+      <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
+      <p><strong>UART Bootloader（OSC2022 Lab 2 重點）</strong>：  </p>
+      <p>Raspberry Pi 3 開發時的 workflow：Bootloader 透過 UART 接收新 kernel image，不用每次重插 SD 卡：</p>
+      <pre><code>Host PC                          RPi3
+  │                               │
+  │──── UART (115200 baud) ──────→│
+  │  xmodem/custom protocol       │ bootloader 在 RAM 中接收 image
+  │                               │ 跳到 image entry point</code></pre>
+      <p><strong>CPIO Archive (initramfs 格式)</strong>：  </p>
+      <pre><code class="language-bash"># 解開：
+cpio -idmv &lt; initramfs.img
+# 建立：
+find . | cpio -o --format=newc | gzip &gt; initramfs.img</code></pre>
+      <p>OSC2022 Lab 2 要求實作解析這個格式，讀出其中的 `/init` 並執行。</p>
+      <p class="en">Embedded OS development (OSC2022, Raspberry Pi) uses a UART bootloader: the stub resident on the board receives a new kernel image over serial port on every boot, sparing you SD card re-flashing on each test cycle. The initramfs is a cpio archive; the kernel unpacks it into a tmpfs root, runs `/init`, and that script mounts the real filesystem before `pivot_root`. Understanding this two-stage root-mount is essential for debugging early-boot failures (the classic "kernel panic — not syncing: VFS: unable to mount root fs").</p>
+      <div class="src">出處 Source：OSC2022 Lab 2; Linux `Documentation/admin-guide/initrd.rst`; "Linux Device Drivers" Ch. 2. 作者整合。</div>
+    </section>
+
+    <section class="card">
+      <h2>一句話帶走 <span class="en">· Takeaway</span></h2>
+      <p>開機 = CPU 從固定位址醒來 → ROM firmware → bootloader 載 kernel → start_kernel() 初始化所有子系統 → PID 1；initramfs 是 kernel 掛真正根 FS 前的「緊急工具箱」。</p>
+      <p class="en">Boot = CPU wakes at reset vector → ROM firmware → bootloader loads kernel → `start_kernel()` initializes all subsystems → PID 1. The initramfs is the kernel's "rescue kit" before the real root filesystem is mounted.</p>
+    </section>
+  </article>
+</main>
+<footer class="site">ACROBUSTER · 内容為作者原創 Original content · 言而有據 Grounded</footer>
+</body>
+</html>
