@@ -38,32 +38,6 @@
       <p class="en">Russell & Norvig (AIMA 4th Ed. §1.1) organise the definitions of AI into a <strong>2×2 matrix</strong>: thinking vs. acting × human-like vs. rational. R&N commit to <strong>Acting Rationally (the rational-agent approach)</strong>: selecting actions that maximise expected performance given available percepts and built-in knowledge — without requiring human-like thought or strict logical deduction.</p>
       <div class="src">出處 Source：Russell & Norvig, <em>Artificial Intelligence: A Modern Approach</em>, 4th Ed., §1.1（pp. 19–22），作者改寫重述。Paraphrased from R&N AIMA 4th Ed. §1.1.</div>
       <p>---</p>
-      <p><strong>圖靈測試（Turing Test, §1.1）</strong></p>
-      <ul>
-        <li><strong>模仿遊戲</strong>：評審隔簾與機器對話，若無法辨別是人或機器，則「通過」。測的是<strong>行為表現</strong>，不問內部機制。</li>
-        <li>需要能力：自然語言處理（NLP）、知識表示、自動推理、機器學習；完整版（Total Turing Test）還需要視覺與機器人操控能力。</li>
-        <li>⚠️ <strong>批評：中文房間（Searle）</strong>——通過測試 ≠ 真正理解。一人按規則操作中文符號能「通過」測試，卻對中文一無所知。行為表現不等於語意理解。</li>
-        <li>AIMA 的立場：「造會飛的機器不必模仿鳥」→ <strong>理性取向不執著於像人</strong>，圖靈測試是充分但非必要條件。</li>
-      </ul>
-      <p class="en"><strong>Turing Test (§1.1)</strong>: The imitation game — a judge cannot distinguish machine from human in text conversation. Requires NLP, knowledge representation, automated reasoning, machine learning; the Total Turing Test adds vision and robotics. Critique: <strong>Chinese Room (Searle)</strong> — passing the test does not imply understanding; a person following symbol-manipulation rules can pass without semantic comprehension. R&N's position: rational behaviour, not human-like behaviour, is the goal — Turing Test is sufficient but not necessary for intelligence.</p>
-      <div class="src">出處 Source：AIMA 4th Ed. §1.1（pp. 20–21）+ Searle 1980 中文房間論證，作者改寫重述。</div>
-      <p>---</p>
-      <p><strong>AI 發展史：典範轉移（§1.3）</strong></p>
-      <table>
-      <thead>
-      <tr><th>時期</th><th>事件/典範</th><th>為何結束</th></tr>
-      </thead>
-      <tbody>
-      <tr><td>1943–1956 孕育</td><td>McCulloch-Pitts 神經元、圖靈、達特茅斯會議（命名「AI」）</td><td>—</td></tr>
-      <tr><td>1956–1974 早期樂觀</td><td>GPS、LISP、自然語言早期系統；過度樂觀預測</td><td>組合爆炸、感知機侷限（Minsky-Papert）→ <strong>第一次寒冬</strong></td></tr>
-      <tr><td>1980s 知識系統</td><td>專家系統商業化（XCON等）</td><td>知識取得瓶頸、維護困難、商業泡沫 → <strong>第二次寒冬</strong></td></tr>
-      <tr><td>1990s–2000s 統計轉向</td><td>機率推論、機器學習成主流；可驗證、資料驅動</td><td>—</td></tr>
-      <tr><td>2010s– 深度學習革命</td><td>大數據 + GPU + 深度神經網路；ImageNet、AlphaGo、GPT</td><td>持續進行中</td></tr>
-      </tbody>
-      </table>
-      <p class="en"><strong>AI history (§1.3)</strong>: Inception (1943–56, Turing/Dartmouth) → Early optimism → <strong>First winter</strong> (combinatorial explosion + Perceptron limits) → Knowledge systems/expert systems → <strong>Second winter</strong> (knowledge-acquisition bottleneck) → Statistical turn (probabilistic reasoning, ML) → Deep-learning revolution (2010s–, GPU + big data + neural networks).</p>
-      <div class="src">出處 Source：AIMA 4th Ed. §1.3（pp. 32–46）及 Wikipedia History of AI（CC BY-SA），作者改寫重述。</div>
-      <p>---</p>
       <p><strong>理性代理人（Rational Agent）</strong></p>
       <blockquote>對每一個可能的感知序列，理性代理人應選擇能最大化其<strong>績效測量（performance measure）</strong>期望值的行動——以感知序列提供的證據及代理人內建的知識為依據。（§2.2）</blockquote>
       <p>PEAS 框架（§2.3）——描述任務環境的四要素：</p>
@@ -85,45 +59,21 @@
       <p><strong>任務環境的七個維度</strong>（§2.3，高頻考點）</p>
           <table>
           <thead>
-          <tr><th>維度</th><th>選項</th><th>說明</th><th>範例（完全→部分，或兩端對比）</th></tr>
+          <tr><th>維度</th><th>選項</th><th>說明</th></tr>
           </thead>
           <tbody>
-          <tr><td><strong>可觀察性</strong></td><td>完全 / 部分</td><td>感測器能否看到環境完整狀態</td><td>✓完全：西洋棋（棋盤全可見）／✗部分：撲克牌（對手牌面遮住）、自駕車（有感測盲區）</td></tr>
-          <tr><td><strong>代理人數</strong></td><td>單一 / 多</td><td>是否有其他代理人影響結果</td><td>✓單一：掃地機器人（環境無對手）／✗多：西洋棋（對手）、交通（其他車輛）</td></tr>
-          <tr><td><strong>確定性</strong></td><td>確定 / 隨機<br>（/ 策略性）</td><td>下一狀態是否完全由當前狀態＋行動決定</td><td>✓確定：西洋棋（規則固定）／✗隨機：骰子遊戲、自駕車（路況不可預測）／⚠策略性：多代理人確定環境但對手有策略（如：雙陸棋）</td></tr>
-          <tr><td><strong>情節性</strong></td><td>情節 / 序列</td><td>行動是否影響未來情節</td><td>✓情節：垃圾郵件分類（每封 email 獨立）、影像辨識（每張圖獨立）／✗序列：西洋棋（每步影響後局）、自駕車（剎車影響後續軌跡）</td></tr>
-          <tr><td><strong>動態性</strong></td><td>靜態 / 動態<br>（/ 半動態）</td><td>環境是否在代理人決策時自行改變</td><td>✓靜態：填字遊戲（等你想都可以）／✗動態：自駕車（路況一直在變）／⚠半動態：西洋棋計時賽（棋盤不變但時鐘在跑，影響績效）</td></tr>
-          <tr><td><strong>離散性</strong></td><td>離散 / 連續</td><td>狀態/時間/感知/行動是否有限可數</td><td>✓離散：西洋棋（有限棋步和棋盤格）／✗連續：自駕車（速度/方向/位置皆連續）、機器手臂（關節角度連續）</td></tr>
-          <tr><td><strong>知識</strong></td><td>已知 / 未知</td><td>環境規則是否事先已知</td><td>✓已知：西洋棋（規則事先清楚）／✗未知：探索新星球（物理規律未知）、第一次玩新桌遊（規則要靠試誤學）</td></tr>
+          <tr><td>可觀察性</td><td>完全 / 部分</td><td>感測器能否看到環境完整狀態</td></tr>
+          <tr><td>代理人數</td><td>單一 / 多</td><td>是否有其他代理人影響結果</td></tr>
+          <tr><td>確定性</td><td>確定 / 隨機（/ 策略性）</td><td>下一狀態是否完全由當前狀態+行動決定</td></tr>
+          <tr><td>情節性</td><td>情節 / 序列</td><td>行動是否影響未來情節</td></tr>
+          <tr><td>動態性</td><td>靜態 / 動態（/ 半動態）</td><td>環境是否在代理人決策時自行改變</td></tr>
+          <tr><td>離散性</td><td>離散 / 連續</td><td>狀態/時間/感知/行動是否有限可數</td></tr>
+          <tr><td>知識</td><td>已知 / 未知</td><td>環境規則是否事先已知</td></tr>
           </tbody>
           </table>
-      <p>🔑 <strong>考試必背組合</strong>：西洋棋 = <em>完全</em>可觀察、<em>多</em>代理人、<em>確定</em>（/策略性）、<em>序列</em>、<em>靜態</em>（計時賽→半動態）、<em>離散</em>、<em>已知</em>。自駕車 = <em>部分</em>可觀察、<em>多</em>代理人、<em>隨機</em>、<em>序列</em>、<em>動態</em>、<em>連續</em>、<em>部分已知</em>。</p>
-      <p class="en">The <strong>seven dimensions of task environments</strong> (§2.3, frequently tested): Observability (fully / partially), Number of agents (single / multi), Determinism (deterministic / stochastic / strategic), Episodic vs sequential, Dynamics (static / dynamic / semidynamic), Discreteness (discrete / continuous), Known vs unknown. Key exam combinations — Chess: fully observable, multi-agent, deterministic/strategic, sequential, static (semidynamic with clock), discrete, known. Self-driving car: partially observable, multi-agent, stochastic, sequential, dynamic, continuous, partially known.</p>
+      <p>例：西洋棋 = 完全可觀察、雙代理人、確定、序列、靜態、離散、已知。</p>
+      <p class="en">The <strong>seven dimensions of task environments</strong> (§2.3, frequently tested): Observability (fully / partially), Number of agents (single / multi), Determinism (deterministic / stochastic), Episodic vs sequential, Dynamics (static / dynamic / semidynamic), Discreteness (discrete / continuous), Known vs unknown. Example: Chess = fully observable, multi-agent, deterministic, sequential, static, discrete, known.</p>
       <div class="src">出處 Source：AIMA 4th Ed. §2.3（pp. 60–65），作者改寫重述。Paraphrased from R&N §2.3.</div>
-    </section>
-
-    <section class="card">
-      <h2>考試陷阱 <span class="en">· Common Exam Traps</span></h2>
-      <table>
-      <thead>
-      <tr><th>常見錯誤</th><th>正確認知</th></tr>
-      </thead>
-      <tbody>
-      <tr><td>通過圖靈測試 = 有智慧 / 有理解</td><td>行為表現 ≠ 語意理解（中文房間）；圖靈測試是充分非必要條件</td></tr>
-      <tr><td>AI 一定要模仿人腦</td><td>AIMA 選<strong>理性行動</strong>，不必像人；造飛機不必仿鳥</td></tr>
-      <tr><td>AI 一路線性進步</td><td>歷經<strong>兩次寒冬</strong>；典範從符號 → 統計 → 深度學習三次轉移</td></tr>
-      <tr><td>強 AI = 弱 AI</td><td>弱 AI = 表現智慧行為；強 AI = 真有心智/意識（哲學爭議，目前未達到）</td></tr>
-      <tr><td>理性代理 = 全知 / 最優解</td><td>理性 = 在<strong>現有資訊</strong>下最大化期望績效；不保證全局最優（bounded rationality）</td></tr>
-      </tbody>
-      </table>
-      <p class="en"><strong>Common exam traps:</strong> Turing Test pass ≠ understanding (Chinese Room — sufficient not necessary); AI need not mimic humans (rational ≠ humanlike); AI history had two winters, not linear progress; strong AI ≠ weak AI (strong AI is a philosophical claim, not achieved); rational ≠ omniscient (bounded rationality — best expected action given available info).</p>
-    </section>
-
-    <section class="card">
-      <h2>互動視覺化 <span class="en">· Interactive Visualisations</span></h2>
-      <p><strong>jsurrea AIMA Visualizations — Chapter 01</strong>（<code>jsurrea.github.io/aima-visualizations/chapter-01/</code>）：互動模組涵蓋本章核心——AI 四象限定義、圖靈測試模擬、AI 歷史時間軸。建議搭配本卡片使用。</p>
-      <p><strong>AIMA 官方練習題</strong>（<code>github.com/aimacode/aima-exercises/tree/master/markdown/1-Introduction</code>）：涵蓋 §1.1–1.5，包含 2×2 定義判斷題、圖靈測試批評申論、歷史典範辨別題。</p>
-      <p class="en">Interactive modules at jsurrea's AIMA Visualizations site (chapter-01) cover the four AI definitions, Turing Test simulation, and AI history timeline. Official AIMA exercises (GitHub aimacode/aima-exercises, Ch.1 folder) include multiple-choice and essay questions on §1.1–1.5.</p>
     </section>
 
     <section class="card">
@@ -134,44 +84,32 @@
     </section>
 
     <section class="card">
-      <h2>練習題解答 <span class="en">· Exercise Answers (aimacode/aima-exercises Ch.1)</span></h2>
-      <p>以下為 <a href="https://github.com/aimacode/aima-exercises/tree/master/markdown/1-Introduction">官方練習題</a> 精選五題的參考解答。</p>
+      <h2>知識回答練習 <span class="en">· Knowledge Practice</span></h2>
+      <p><strong>Define in your own words: (a) intelligence, (b) artificial intelligence, (c) agent, (d) rationality, (e) logical reasoning.</strong></p>
+      <p><strong>(a) Intelligence（智慧）</strong></p>
+      <p>感知環境、在知識與目標的驅動下作出決策，使預期結果最佳化的能力——不只是遵循固定規則，還能在新情境中調整行為。</p>
+      <p><strong>(b) Artificial Intelligence（人工智慧）</strong></p>
+      <p>設計能<strong>感知</strong>環境並<strong>行動</strong>以達成目標的系統之學問。涵蓋推理、學習、規劃、感知四大領域；AIMA 採「理性代理人」取向：讓機器在各種環境下最大化績效期望值，而非複製人類思維。</p>
+      <p><strong>(c) Agent（代理人）</strong></p>
+      <p>透過<strong>感測器</strong>感知環境、透過<strong>執行器</strong>對環境施加影響的系統。核心是「感知→決策→行動」迴圈：任何能將輸入（感知序列）映射到輸出（行動）的實體，都是代理人——從溫控器到自駕車，從軟體助理到人類。</p>
+      <p><strong>(d) Rationality（理性）</strong></p>
+      <p>對每一個可能的感知序列，選擇能最大化<strong>績效測量</strong>期望值的行動——以至今的感知序列及內建知識為依據。理性 ≠ 全知：在資訊有限下做「預期最好的選擇」才是理性；若收集更多資訊能提升績效，理性代理人應去收集。</p>
+      <p><strong>(e) Logical Reasoning（邏輯推理）</strong></p>
+      <p>從已知前提出發，依形式規則（三段論、一階邏輯推導規則）得出必然結論的過程。對應 2×2 矩陣的「理性思考」象限。AIMA 承認其價值，但指出兩項限制：①非形式知識難以完整形式化；②推理步驟的計算量容易爆炸，不總能在有限時間內求解。</p>
+      <blockquote><strong>考試提示</strong>：這五個概念在 AIMA Ch.1 一起出現，出題常要求對比——特別是「rationality vs. logical reasoning」（理性行動≠邏輯推理：前者只要結果最佳；後者要求推導過程形式化，計算代價高）。</blockquote>
+      <p class="en"><strong>(a) Intelligence</strong>: The capacity to perceive an environment, reason under uncertainty, and act to maximise expected outcomes — going beyond fixed rules to adapt behaviour in novel situations.
 
-      <p><strong>Ex.1 — 定義五個核心概念</strong></p>
-      <ul>
-        <li><strong>(a) Intelligence（智慧）</strong>：感知環境、推理、學習、並在新情況中有效行動的能力——特別是在未見過的情境下仍能達成目標。</li>
-        <li><strong>(b) Artificial Intelligence（人工智慧）</strong>：讓機器（尤其是電腦程式）表現出智慧行為的科學與工程；AIMA 選「理性行動」作為操作型定義。</li>
-        <li><strong>(c) Agent（代理人）</strong>：透過感測器感知環境、透過致動器採取行動的任何實體（人、機器人、軟體均可）。</li>
-        <li><strong>(d) Rationality（理性）</strong>：在已知感知序列與內建知識下，選擇能<em>最大化績效期望值</em>的行動——不要求全知，而是在現有資訊下做最好的決策（bounded rationality）。</li>
-        <li><strong>(e) Logical Reasoning（邏輯推理）</strong>：從前提依形式規則推出結論（演繹推理）；與機率推理或啟發式推理不同，結論在前提為真時必然為真。</li>
-      </ul>
-      <p class="en"><strong>Ex.1 — Five core definitions:</strong> (a) <em>Intelligence</em>: the ability to perceive, reason, learn and act effectively — especially in novel situations. (b) <em>AI</em>: the science and engineering of making machines exhibit intelligent behaviour; R&N adopt "acting rationally" as the operational definition. (c) <em>Agent</em>: anything that perceives its environment via sensors and acts via actuators. (d) <em>Rationality</em>: selecting the action that maximises expected performance given the current percept sequence and built-in knowledge — not omniscience, but best-available decision (bounded rationality). (e) <em>Logical reasoning</em>: deriving conclusions from premises using formal inference rules (deduction); unlike probabilistic or heuristic reasoning, conclusions are guaranteed true when premises are true.</p>
+<strong>(b) Artificial Intelligence</strong>: The science and engineering of designing systems (agents) that perceive their environment and act to achieve goals. AIMA adopts the <strong>rational-agent</strong> view: maximising expected performance, not mimicking human thought.
 
-      <p><strong>Ex.4 — 反射動作（縮手）是理性的嗎？是智慧的嗎？</strong></p>
-      <ul>
-        <li><strong>理性？是</strong>——演化已校準反射動作以最大化存活期望值（縮手避免組織損傷）。從績效量度的角度，這是「在設計條件下最優的預設行動」。但反射無法依語境調整（例如必須繼續握著熱鍋時無法抑制），因此是受限的理性。</li>
-        <li><strong>智慧？否（以 AIMA 標準）</strong>——反射是預設的「條件→行動」規則，繞過推理過程。AIMA 的理性代理可以無推理地理性行動（恆溫器是理性的但不智慧）。智慧需要感知→推理→學習的完整迴路，純反射缺少學習與適應。</li>
-      </ul>
-      <p class="en"><strong>Ex.4 — Reflex actions (flinching from heat): rational? intelligent?</strong> <em>Rational: yes</em> — evolution has calibrated reflexes to maximise expected survival (withdrawing prevents tissue damage). From a performance-measure perspective this is the optimal default action under design conditions. However, reflexes cannot adapt to context (e.g. cannot suppress the flinch when you must hold the hot pan), making them narrowly rational. <em>Intelligent: no</em> (by AIMA's standard) — a reflex is a hardcoded condition-action rule that bypasses reasoning. A rational agent can act rationally without reasoning (a thermostat is rational but not intelligent). Intelligence requires the full perceive→reason→learn loop; pure reflexes lack learning and adaptation.</p>
+<strong>(c) Agent</strong>: Any entity that perceives its environment through sensors and acts on it through actuators. The defining loop is percept → decision → action. Examples range from a thermostat to a self-driving car.
 
-      <p><strong>Ex.5 — 難解／不可判定問題代表 AI 不可能嗎？</strong></p>
-      <p>不。理性不要求完美解——AIMA 的代理在<strong>有限理性（bounded rationality）</strong>下運作，以有限計算和時間做盡可能好的決策。現實中許多 AI 系統對 NP-hard 問題用啟發式搜尋或近似演算法取得足夠好的解（例如圍棋 AI 的 MCTS）。難解性排除「最優完美解」，不排除「夠好的近似解」——AI 的目標正是後者。</p>
-      <p class="en"><strong>Ex.5 — Do intractable/undecidable problems make AI impossible?</strong> No. Rationality does not require perfect solutions. AIMA's rational agent operates under <em>bounded rationality</em> — doing the best it can with finite computation and time. Many real-world AI systems solve NP-hard problems well enough using heuristic search or approximation algorithms (e.g. MCTS for Go). Intractability rules out the <em>optimal exact</em> solution; it does not rule out a <em>good-enough approximate</em> solution — and the latter is exactly AI's goal.</p>
+<strong>(d) Rationality</strong>: For each possible percept sequence, selecting the action that maximises the expected value of the performance measure, given available percepts and built-in knowledge. Rationality ≠ omniscience — it means doing the best possible with available information, including gathering more information when that improves expected performance.
 
-      <p><strong>Ex.6 — 若程式在 IQ 測試得 200 分，比人更有智慧嗎？</strong></p>
-      <p>不必然。IQ 測試測量的是<em>特定認知能力的窄帶</em>（模式識別、邏輯類比）；高分不代表通用智慧。智慧更廣泛地包含語言理解、具身推理、社交認知、創造力、在新情境中學習等。針對單一測試優化的程式不能泛化到其他任務。這呼應「acting rationally ≠ thinking humanly」：在某個基準上表現優異 ≠ 擁有一般智慧。</p>
-      <p class="en"><strong>Ex.6 — Does scoring 200 on an IQ test make a program more intelligent than a human?</strong> Not necessarily. IQ tests measure a <em>narrow band</em> of cognitive ability (pattern recognition, logical analogies). A high score does not imply general intelligence, which also requires language understanding, embodied reasoning, social cognition, creativity, and learning in novel domains. A program optimised for one benchmark cannot generalise. This echoes "acting rationally ≠ thinking humanly": excelling on a specific benchmark ≠ possessing general intelligence.</p>
+<strong>(e) Logical Reasoning</strong>: Deriving conclusions from premises via formal rules (syllogisms, first-order logic inference). Corresponds to the "Thinking Rationally" cell of the 2×2 matrix. AIMA notes two key limitations: (1) not all knowledge is easily formalised; (2) computation can explode, making it impractical as the sole approach to AI.
 
-      <p><strong>Ex.9 — 以下系統在多大程度上是 AI？</strong></p>
-      <ul>
-        <li><strong>超市條碼掃描器</strong>：幾乎不是——簡單模式匹配，無推理、無學習、無適應。</li>
-        <li><strong>網路搜尋引擎</strong>：中度 AI——涉及大量機器學習（排名、NLP、相關性學習），但非完全自主代理。</li>
-        <li><strong>語音電話選單</strong>：弱 AI——基本語音辨識，但後端通常是規則樹，推理能力有限。</li>
-        <li><strong>動態路由演算法</strong>：中度——能感知網路狀態並適應（像理性代理對環境回應），但無跨域學習。</li>
-      </ul>
-      <p>以 AIMA「感知環境→選行動最大化績效」的標準，四者都是不同程度的代理人；差異在複雜性與適應能力。</p>
-      <p class="en"><strong>Ex.9 — To what extent are these systems AI?</strong> <em>Barcode scanner</em>: minimal — simple pattern matching, no reasoning, learning, or adaptation. <em>Web search engine</em>: moderate AI — involves substantial ML (ranking, NLP, relevance learning) but not a fully autonomous agent. <em>Voice phone menus</em>: weak AI — basic speech recognition but typically backed by rule trees with limited reasoning. <em>Dynamic routing algorithms</em>: moderate — sense network state and adapt (like a rational agent responding to environment), but no cross-domain learning. By AIMA's "perceive → act to maximise performance" standard, all four qualify as agents to varying degrees; they differ in complexity and adaptability.</p>
-      <div class="src">出處：<a href="https://github.com/aimacode/aima-exercises/tree/master/markdown/1-Introduction">aimacode/aima-exercises Ch.1</a>（CC 授權），解答為作者原創重述，以 AIMA 4th Ed. 為依據。Source: aimacode/aima-exercises Ch.1 (CC-licensed); answers are the author's original paraphrase based on AIMA 4th Ed.</div>
+> <strong>Exam tip</strong>: The key contrast is <em>rationality vs. logical reasoning</em> — a rational agent does not need to use logical deduction; it only needs to pick the best-expected action. Logical reasoning is one possible mechanism, not a requirement.</p>
+      <div class="src">出處 Source：AIMA 4th Ed. §1.1–1.2 及作者整合重述。Author's synthesis based on R&N §1.1–1.2.</div>
+      <p>---</p>
     </section>
 
     <section class="card">

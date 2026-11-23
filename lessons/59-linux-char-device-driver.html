@@ -22,30 +22,27 @@
       <p>Linux 把所有輸入輸出都抽象成「檔案」。字元裝置（character device）是其中一種：每次讀寫都是串流式的，`/dev/tty`、`/dev/random` 都是例子。</p>
       <p>實作字元裝置需要兩件事：</p>
       <p><strong>1. 填 `file_operations` 結構</strong>（你的 handler table）</p>
-      <p>```c
-static const struct file_operations kfetch_ops = {
+      <pre><code class="language-c">static const struct file_operations kfetch_ops = {
     .owner   = THIS_MODULE,
     .open    = kfetch_open,
     .release = kfetch_release,
     .read    = kfetch_read,
     .write   = kfetch_write,
-};
-```</p>
+};</code></pre>
       <p><strong>2. 用 `misc_register` 註冊</strong>（最簡方式，自動分配 minor number 並建立 `/dev/kfetch`）</p>
-      <p>```c
-static struct miscdevice kfetch_misc = {
+      <pre><code class="language-c">static struct miscdevice kfetch_misc = {
     .minor = MISC_DYNAMIC_MINOR,
-    .name  = "kfetch",           /<em> /dev/kfetch </em>/
-    .fops  = &kfetch_ops,
-    .mode  = 0666,               /<em> rw-rw-rw- </em>/
-};</p>
-      <p>static int __init kfetch_init(void) {
-    return misc_register(&kfetch_misc);
+    .name  = &quot;kfetch&quot;,           /* /dev/kfetch */
+    .fops  = &amp;kfetch_ops,
+    .mode  = 0666,               /* rw-rw-rw- */
+};
+
+static int __init kfetch_init(void) {
+    return misc_register(&amp;kfetch_misc);
 }
 static void __exit kfetch_exit(void) {
-    misc_deregister(&kfetch_misc);
-}
-```</p>
+    misc_deregister(&amp;kfetch_misc);
+}</code></pre>
       <p>`misc_register` 透過 Linux devtmpfs 在模組載入瞬間自動創建 `/dev/kfetch`，不需要手動 `mknod`。</p>
       <p class="en">Linux abstracts all I/O as "files." A character device is one variant: byte-stream, like `/dev/tty` or `/dev/random`. Implementing one requires two things: (1) fill a `file_operations` struct with your handler callbacks, and (2) register with `misc_register` — it auto-assigns a minor number and auto-creates the `/dev/kfetch` node via devtmpfs. No manual `mknod` needed.</p>
       <div class="src">出處 Source：LKMPG Ch. 4 (Character Device Drivers), Ch. 9 (Talking to Device Files). sysprog21.github.io/lkmpg</div>

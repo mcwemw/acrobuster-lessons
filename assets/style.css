@@ -54,3 +54,9 @@ h3 .en,h1 .en{display:block;font-weight:600;font-size:0.72em;color:#8a93b2;margi
 section.card h2 .en{font-size:0.72em;color:#8a93b2;font-weight:600}
 footer.site{border-top:1px solid var(--line);color:#8a93b2;font-size:13px;
   text-align:center;padding:22px}
+pre{background:#1c2538;color:#e8ecf4;border-radius:10px;padding:14px 16px;
+  overflow-x:auto;margin:12px 0;font-size:13.5px;line-height:1.55}
+pre code{font-family:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Monaco,Consolas,monospace;
+  background:none;padding:0;color:inherit;font-size:inherit}
+code{font-family:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Monaco,Consolas,monospace;
+  background:#eef0f8;border-radius:4px;padding:1px 5px;font-size:0.88em;color:#2d3561}

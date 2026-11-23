@@ -27,18 +27,18 @@
         <li>✅ 可以讀/寫硬體暫存器</li>
         <li>✅ 可以 `spin_lock`（不睡眠的鎖）</li>
       </ul>
-      <p>```c
-#include <linux/interrupt.h></p>
-      <p>/<em> 請求 IRQ </em>/
+      <pre><code class="language-c">#include &lt;linux/interrupt.h&gt;
+
+/* 請求 IRQ */
 int request_irq(unsigned int irq, irq_handler_t handler,
-                unsigned long flags, const char <em>name, void </em>dev);</p>
-      <p>/<em> IRQ handler — 必須超快！只做最少的工作 </em>/
+                unsigned long flags, const char *name, void *dev);
+
+/* IRQ handler — 必須超快！只做最少的工作 */
 static irqreturn_t my_irq_handler(int irq, void *dev_id) {
     // 只清旗標、喚醒 wait queue，把真正的工作推到 bottom half
-    wake_up(&my_queue);
+    wake_up(&amp;my_queue);
     return IRQ_HANDLED;
-}
-```</p>
+}</code></pre>
       <p><strong>Top half / Bottom half 分離</strong>：</p>
       <ul>
         <li><strong>Top half</strong> = IRQ handler，極短，只確認硬體、推任務</li>

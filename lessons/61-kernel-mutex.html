@@ -21,28 +21,28 @@
       <h2>是什麼 <span class="en">· What it is</span></h2>
       <p>Kernel 裡同樣有多執行緒（多 CPU 核心、中斷、並發系統呼叫）。若兩個行程同時 `open → read`，可能同時呼叫 `build_kfetch_buf()`，對同一個靜態 `kfetch_buf` 寫入 → <strong>data race</strong>。</p>
       <p>Linux kernel mutex 的核心 API：</p>
-      <p>```c
-/<em> 靜態宣告（module 層級） </em>/
-static DEFINE_MUTEX(kfetch_mutex);</p>
-      <p>/<em> 嘗試加鎖（非阻塞）：成功回 1，已被鎖回 0 </em>/
-mutex_trylock(&kfetch_mutex);</p>
-      <p>/<em> 解鎖 </em>/
-mutex_unlock(&kfetch_mutex);</p>
-      <p>/<em> 阻塞加鎖（會睡眠等待） </em>/
-mutex_lock(&kfetch_mutex);
-```</p>
+      <pre><code class="language-c">/* 靜態宣告（module 層級） */
+static DEFINE_MUTEX(kfetch_mutex);
+
+/* 嘗試加鎖（非阻塞）：成功回 1，已被鎖回 0 */
+mutex_trylock(&amp;kfetch_mutex);
+
+/* 解鎖 */
+mutex_unlock(&amp;kfetch_mutex);
+
+/* 阻塞加鎖（會睡眠等待） */
+mutex_lock(&amp;kfetch_mutex);</code></pre>
       <p>字元裝置的慣用保護模式：</p>
-      <p>```c
-static int kfetch_open(struct inode <em>inode, struct file </em>filp) {
-    if (!mutex_trylock(&kfetch_mutex))
-        return -EBUSY;  /<em> 已有人開著，拒絕 </em>/
-    return 0;
-}</p>
-      <p>static int kfetch_release(struct inode <em>inode, struct file </em>filp) {
-    mutex_unlock(&kfetch_mutex);
+      <pre><code class="language-c">static int kfetch_open(struct inode *inode, struct file *filp) {
+    if (!mutex_trylock(&amp;kfetch_mutex))
+        return -EBUSY;  /* 已有人開著，拒絕 */
     return 0;
 }
-```</p>
+
+static int kfetch_release(struct inode *inode, struct file *filp) {
+    mutex_unlock(&amp;kfetch_mutex);
+    return 0;
+}</code></pre>
       <p><strong>為什麼用 `trylock` 而不是 `lock`？</strong> `mutex_lock` 會讓當前行程睡眠等待，可能在 open 路徑造成長時間阻塞。`trylock` 直接拒絕並回傳 `-EBUSY`，讓 user-space 程式自己決定要不要重試。</p>
       <p class="en">Kernel code runs with multiple CPUs, concurrent syscalls, and interrupts. Two processes calling `open → read` simultaneously could both call `build_kfetch_buf()` and corrupt the shared `kfetch_buf` — a data race. Linux's mutex API: `DEFINE_MUTEX` to declare, `mutex_trylock` (non-blocking: returns 1 on success, 0 if already locked), `mutex_unlock`, and `mutex_lock` (sleeping wait). The idiomatic device pattern uses `trylock` in `open` (returns `-EBUSY` immediately if locked) — avoiding long blocking in the open path and letting user-space handle the retry.</p>
       <div class="src">出處 Source：LKMPG Ch. 10 (Avoiding Collisions and Deadlocks). sysprog21.github.io/lkmpg</div>

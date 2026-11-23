@@ -20,20 +20,16 @@
     <section class="card">
       <h2>是什麼 <span class="en">· What it is</span></h2>
       <p>當 user-space 程式呼叫 `read(fd, buf, n)` 時，發生的事情：</p>
-      <p>```
-user-space:  libc read() → 把 syscall number 放進暫存器 → syscall/ecall 指令
+      <pre><code>user-space:  libc read() → 把 syscall number 放進暫存器 → syscall/ecall 指令
                                            ↓ 特權切換（ring 3 → ring 0）
 kernel-space: 系統呼叫分派表 → sys_read() → VFS → driver → copy_to_user → 返回
-                                           ↑ 特權恢復（ring 0 → ring 3）
-```</p>
+                                           ↑ 特權恢復（ring 0 → ring 3）</code></pre>
       <p><strong>RISC-V 細節</strong>：`ecall`（Environment Call）指令觸發 trap，CPU 跳到 `stvec` 暫存器指向的 trap handler；系統呼叫號放在 `a7`，參數在 `a0–a5`。</p>
       <p>從 kernel module 視角，系統呼叫就是你實作的 `file_operations` 被呼叫的時機：user 呼叫 `read(fd, ...)` → 最終進入你的 `kfetch_read()`。</p>
       <p><strong>系統呼叫攔截</strong>（LKMPG Ch. 8 的示範概念，不建議生產使用）：</p>
-      <p>```c
-// 找到 sys_call_table 並替換某個 entry
+      <pre><code class="language-c">// 找到 sys_call_table 並替換某個 entry
 // 需要先關掉寫保護，完事後再開回來
-// ⚠️ 這會影響整個系統——只用於學習/研究
-```</p>
+// ⚠️ 這會影響整個系統——只用於學習/研究</code></pre>
       <p class="en">When user-space calls `read(fd, buf, n)`: libc puts the syscall number in a register, executes `syscall` (x86) or `ecall` (RISC-V), triggering a privilege transition to ring 0. The kernel dispatches through the syscall table to `sys_read()`, which flows through VFS → driver → `copy_to_user`, then returns to user mode. From a module's perspective, your `file_operations` callbacks <em>are</em> the system call implementation — `read(fd)` eventually reaches your `kfetch_read()`.</p>
       <div class="src">出處 Source：LKMPG Ch. 8 (System Calls). sysprog21.github.io/lkmpg; RISC-V ISA Spec §3.2 (ecall)</div>
     </section>

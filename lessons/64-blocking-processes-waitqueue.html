@@ -20,25 +20,26 @@
     <section class="card">
       <h2>是什麼 <span class="en">· What it is</span></h2>
       <p><strong>Wait Queue</strong> 是 Linux kernel 的「事件等待清單」：一群行程睡在這個 queue 上，等某件事發生；事件發生時由其他行程或中斷呼叫 `wake_up` 喚醒。</p>
-      <p>```c
-#include <linux/wait.h></p>
-      <p>/<em> 宣告 </em>/
+      <pre><code class="language-c">#include &lt;linux/wait.h&gt;
+
+/* 宣告 */
 static DECLARE_WAIT_QUEUE_HEAD(my_queue);
-static int condition = 0;  /<em> 等待的條件 </em>/</p>
-      <p>/<em> 生產者（如中斷處理/另一個行程）：設條件、喚醒 </em>/
+static int condition = 0;  /* 等待的條件 */
+
+/* 生產者（如中斷處理/另一個行程）：設條件、喚醒 */
 void some_event_handler(void) {
     condition = 1;
-    wake_up(&my_queue);
-}</p>
-      <p>/<em> 消費者（如 read handler）：等到條件成立 </em>/
+    wake_up(&amp;my_queue);
+}
+
+/* 消費者（如 read handler）：等到條件成立 */
 static ssize_t my_read(...) {
     wait_event_interruptible(my_queue, condition != 0);
     if (signal_pending(current)) return -ERESTARTSYS;
     // condition 成立，繼續處理
     condition = 0;
     ...
-}
-```</p>
+}</code></pre>
       <p><strong>`wait_event_interruptible`</strong> vs <strong>`wait_event`</strong>：</p>
       <ul>
         <li>`interruptible`：可被 signal 打斷（Ctrl-C）→ 回傳 `-ERESTARTSYS`；<strong>通常用這個</strong></li>
@@ -51,19 +52,16 @@ static ssize_t my_read(...) {
     <section class="card">
       <h2>為什麼重要 <span class="en">· Why it matters</span></h2>
       <p><strong>Busy-wait（壞）vs Blocking（好）</strong>：</p>
-      <p>```c
-// ❌ 忙等 — 佔滿 CPU core，其他行程被餓死
-while (!condition) cpu_relax();</p>
-      <p>// ✅ 睡眠等 — 行程掛起，CPU 給其他人用
-wait_event_interruptible(my_queue, condition);
-```</p>
+      <pre><code class="language-c">// ❌ 忙等 — 佔滿 CPU core，其他行程被餓死
+while (!condition) cpu_relax();
+
+// ✅ 睡眠等 — 行程掛起，CPU 給其他人用
+wait_event_interruptible(my_queue, condition);</code></pre>
       <p>`kfetch` 作業用 `mutex_trylock` 是「<strong>若鎖被佔用就直接拒絕（-EBUSY）</strong>」，不進入等待。這是刻意選擇：裝置是個簡單的一次性讀取工具，不值得讓第二個行程排隊等。</p>
-      <p>若要支援多個 reader 排隊等待，就需要 wait queue：
-```c
-// kfetch_open 改成等待版本：
+      <p>若要支援多個 reader 排隊等待，就需要 wait queue：</p>
+      <pre><code class="language-c">// kfetch_open 改成等待版本：
 wait_event_interruptible(open_queue, !device_in_use);
-device_in_use = 1;
-```</p>
+device_in_use = 1;</code></pre>
       <p class="en"><strong>Busy-wait wastes CPU; blocking is cooperative</strong>. `kfetch` uses `mutex_trylock` (returns `-EBUSY` immediately if locked) — a deliberate choice for a simple one-shot device. If you wanted multiple readers to queue up, you'd replace it with a wait queue: `wait_event_interruptible(open_queue, !device_in_use)`.</p>
       <div class="src">出處 Source：LKMPG Ch. 9. 作者對比整合。</div>
     </section>

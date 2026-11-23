@@ -176,9 +176,20 @@ def render_blocks(text):
                 q.append(re.sub(r"^>\s?", "", lines[i].strip())); i += 1
             out.append(f'      <blockquote>{"<br>".join(inline(x) for x in q)}</blockquote>')
             continue
+        # fenced code block: ```lang ... ```
+        if line.strip().startswith("```"):
+            lang = line.strip()[3:].strip()
+            buf = []; i += 1
+            while i < len(lines) and not lines[i].strip().startswith("```"):
+                buf.append(lines[i]); i += 1
+            i += 1  # skip closing ```
+            code = html.escape("\n".join(buf))
+            cls = f' class="language-{lang}"' if lang else ""
+            out.append(f'      <pre><code{cls}>{code}</code></pre>')
+            continue
         # 一般段落(連續非空行到空行為止)
         buf = []
-        while i < len(lines) and lines[i].strip() and not lines[i].strip().startswith((":::", "|", "-", "*", ">", "<")):
+        while i < len(lines) and lines[i].strip() and not lines[i].strip().startswith((":::", "|", "-", "*", ">", "<", "`")):
             buf.append(lines[i]); i += 1
         if not buf:   # 單一特殊字元開頭但未被上面接到,保險:原樣一行
             buf = [lines[i]]; i += 1

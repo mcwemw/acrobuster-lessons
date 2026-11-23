@@ -21,24 +21,22 @@
       <h2>是什麼 <span class="en">· What it is</span></h2>
       <p>Linux 把虛擬位址空間分成兩半：<strong>user space</strong>（應用程式）和 <strong>kernel space</strong>（作業系統）。兩者互相隔離，kernel 不能直接讀寫 user 傳進來的指標——可能是無效位址、swap-out 的頁面、或惡意構造的值。</p>
       <p>Kernel 提供兩個安全拷貝函式：</p>
-      <p>```c
-/<em> kernel 緩衝區 → user 緩衝區 (read 實作用) </em>/
-unsigned long copy_to_user(void __user <em>to, const void </em>from, unsigned long n);</p>
-      <p>/<em> user 緩衝區 → kernel 緩衝區 (write 實作用) </em>/
-unsigned long copy_from_user(void <em>to, const void __user </em>from, unsigned long n);
-```</p>
+      <pre><code class="language-c">/* kernel 緩衝區 → user 緩衝區 (read 實作用) */
+unsigned long copy_to_user(void __user *to, const void *from, unsigned long n);
+
+/* user 緩衝區 → kernel 緩衝區 (write 實作用) */
+unsigned long copy_from_user(void *to, const void __user *from, unsigned long n);</code></pre>
       <p>兩者回傳「<strong>未能複製的 bytes 數</strong>」：0 = 全部成功，非零 = 部分失敗 → 應回傳 `-EFAULT`。</p>
       <p>實際用法：</p>
-      <p>```c
-/<em> kfetch read：把 kernel 內的字串送給 user </em>/
+      <pre><code class="language-c">/* kfetch read：把 kernel 內的字串送給 user */
 if (copy_to_user(buffer, kfetch_buf, len))
-    return -EFAULT;</p>
-      <p>/<em> kfetch write：從 user 讀一個 int（bitmask） </em>/
-int mask_info;
-if (copy_from_user(&mask_info, buffer, sizeof(mask_info)))
     return -EFAULT;
-info_mask = mask_info;
-```</p>
+
+/* kfetch write：從 user 讀一個 int（bitmask） */
+int mask_info;
+if (copy_from_user(&amp;mask_info, buffer, sizeof(mask_info)))
+    return -EFAULT;
+info_mask = mask_info;</code></pre>
       <p>`__user` 是 Sparse（靜態分析工具）標記，不影響執行期行為，但讓工具能偵測「你直接解 user pointer」的錯誤。</p>
       <p class="en">Linux splits virtual address space: <strong>user space</strong> (apps) and <strong>kernel space</strong> (OS). They're isolated — kernel cannot directly dereference user-provided pointers (invalid address, swapped-out page, or malicious value). The safe API: `copy_to_user` (kernel → user, for `read`) and `copy_from_user` (user → kernel, for `write`). Both return the number of bytes <strong>not</strong> copied: 0 = success, nonzero = partial failure → return `-EFAULT`. The `__user` annotation is a Sparse hint for static analysis; it has no runtime effect.</p>
       <div class="src">出處 Source：LKMPG Ch. 4 (Character Device Drivers), copy_to/from_user section. sysprog21.github.io/lkmpg</div>
@@ -49,14 +47,13 @@ info_mask = mask_info;
       <p>這個設計背後有兩個理由：</p>
       <p><strong>安全性</strong>：user 傳進任意指標，如果 kernel 直接解參考，攻擊者可以讓 kernel 讀寫任意記憶體（kernel 跑在 ring 0，沒有更高層級的保護）。</p>
       <p><strong>可靠性</strong>：user-space 頁面可能被 swap 出去；`copy_from_user` 在內部處理 page fault，不會直接 panic。</p>
-      <p>常見錯誤（別這樣做）：
-```c
-// ❌ 直接解參考 user pointer — 未定義行為
-int mask = <em>(int </em>)buffer;</p>
-      <p>// ✅ 正確
+      <p>常見錯誤（別這樣做）：</p>
+      <pre><code class="language-c">// ❌ 直接解參考 user pointer — 未定義行為
+int mask = *(int *)buffer;
+
+// ✅ 正確
 int mask;
-copy_from_user(&mask, buffer, sizeof(mask));
-```</p>
+copy_from_user(&amp;mask, buffer, sizeof(mask));</code></pre>
       <p class="en">Two reasons this design exists: <strong>Security</strong> — a user-supplied pointer could be anything; with ring-0 access, a direct dereference lets attackers read/write arbitrary memory. <strong>Reliability</strong> — user-space pages may be swapped out; `copy_from_user` handles page faults internally. Common bug to avoid: `<em>(int</em>)buffer` bypasses all checks.</p>
       <div class="src">出處 Source：LKMPG Ch. 4; Linux Kernel Security section on user pointer validation. 作者整合。</div>
     </section>
