@@ -26,13 +26,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
       - name: Install dependencies
-        run: pip install pyyaml anthropic 2>/dev/null || pip install pyyaml
+        run: /usr/local/bin/python3.12 -m pip install pyyaml anthropic 2>/dev/null || /usr/local/bin/python3.12 -m pip install pyyaml
 
       - name: Detect changed wiki pages
         id: changed
@@ -58,7 +53,7 @@ jobs:
           while IFS= read -r f; do
             [ -z "$f" ] && continue
             echo "▶ Generating slides for: $f"
-            python tools/wiki2slides.py "$f"
+            /usr/local/bin/python3.12 tools/wiki2slides.py "$f"
             GENERATED=$((GENERATED+1))
           done <<< "$FILES"
           echo "Generated $GENERATED slide file(s)."
