@@ -1,7 +1,7 @@
 ---
 id: "61"
 slug: kernel-mutex
-tag: 軟體工程
+tag: OS
 title: Kernel Mutex：DEFINE_MUTEX 與 mutex_trylock 防競態
 title_en: "Kernel Mutex: DEFINE_MUTEX and mutex_trylock for Race-Free Device Access"
 title_short: Kernel 互斥鎖

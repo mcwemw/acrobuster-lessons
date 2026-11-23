@@ -1,7 +1,7 @@
 ---
 id: "62"
 slug: proc-filesystem
-tag: 軟體工程
+tag: OS
 title: /proc 虛擬檔案系統：Kernel 資訊出口的輕量化管道
 title_en: "/proc Virtual Filesystem: Lightweight Kernel Information Export"
 title_short: /proc 檔案系統

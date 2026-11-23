@@ -1,7 +1,7 @@
 ---
 id: "59"
 slug: linux-char-device-driver
-tag: 軟體工程
+tag: OS
 title: Character Device Driver：用 file_operations 把裝置接進 VFS
 title_en: "Character Device Driver: Hooking a Device into the VFS via file_operations"
 title_short: 字元裝置驅動
