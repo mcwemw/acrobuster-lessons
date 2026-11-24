@@ -1,6 +1,14 @@
 // 由 build_notes.py 從 notes_md/*.md 生成,勿手改。
 const NOTES = [
   {
+    "date": "2026-11-25",
+    "title": "Copying Is Not Grounding — faithfulness reward 被複製 hack 了",
+    "title_en": "Copying Is Not Grounding — Training Faithful Long-Form RAG with Authored-Sentence Credit",
+    "source": "Pham et al. 2026-10-13 · arXiv preprint · 授權待查",
+    "img": "2026-11-25_copying-not-grounding.png",
+    "tag": "RAG"
+  },
+  {
     "date": "2026-11-24",
     "title": "Rubric Semantics or Numerical Priors? — LLM 評審的量表方向偏誤",
     "title_en": "Rubric Semantics or Numerical Priors? Auditing Scale-Direction Bias in LLM Judges",

@@ -45,6 +45,57 @@
   </div>
   <div class="filterbar" id="filterbar"></div>
   <div id="notes">
+    <article class="note" data-tag="RAG" data-search="2026-11-25 copying is not grounding — faithfulness reward 被複製 hack 了 copying is not grounding — training faithful long-form rag with authored-sentence credit pham et al. 2026-10-13 · arxiv preprint · 授權待查 rag 核心問題 · question rag 模型「抄」檢索段落就算 supported — 怎麼分辨真忠實 vs. 複製湊數? 🔴 背景與痛點 · red pham, vu, doan, nguyen, luu (2026-10-13)，arxiv preprint，zotero rag evaluation (245mjvu8) 痛點：faithfulness reward 被 copying hack——抄來的句子自動算 supported，模型學會複製而非真 grounding 授權：arxiv preprint（cc 授權待查） 🟡 概念 · yellow faithfulness reward hacking 忠實度獎勵被破解 authored-sentence credit (asc) 作者句子計分法 grpo sentence-level advantage（對比 grpo 的答案級別 advantage） copying vs. grounding 的結構區分 → 我的 faithfulness llm-judge 設計 → warn 類別 = 真事實但無 retrieval 脈絡支撐 🔵 原文依據 · blue (quotes) 「in search engines and assistants, long-form rag answers can mislead readers with claims their sources do not support.」 「a sentence copied from the passages is supported almost by construction, so trained models learn to copy rather than ground what they write.」 「asc credits only sentences that are authored rather than copied, say more than the question, and are supported by the passages.」 「rewarding correct answers buys nothing in citation faithfulness, so faithfulness has to be trained and measured on its own terms.」 「only asc lowers the error rate of authored sentences」 🟠 我的想法 · takeaway 核心洞見：faithfulness reward ≠ correctness reward — copying hack 讓前者毫無意義 → 我的接地三層分類研究：warn（真事實但非脈絡內）正是「non-grounded but accurate」的子類，與本文洞見高度一致 → 閘門設計要能區分「作者寫的句子 vs. 抄來的句子」，不能只看 supported/not supported → 對 algocoach rag pipeline 的啟示：評測忠實度時要用 authored-sentence 而非 coverage 指標">
+      <div class="id">2026-11-25</div>
+      <h2 style="margin:4px 0 2px">Copying Is Not Grounding — faithfulness reward 被複製 hack 了<span class="en">Copying Is Not Grounding — Training Faithful Long-Form RAG with Authored-Sentence Credit</span></h2>
+      <div class="src">出處 Source：Pham et al. 2026-10-13 · arXiv preprint · 授權待查</div>
+    <section class="card">
+      <h2>核心問題 <span class="en">· Question</span></h2>
+      <p>RAG 模型「抄」檢索段落就算 supported — 怎麼分辨真忠實 vs. 複製湊數?</p>
+    </section>
+
+    <section class="card">
+      <h2>🔴 背景與痛點 <span class="en">· Red</span></h2>
+      <ul>
+        <li>Pham, Vu, Doan, Nguyen, Luu (2026-10-13)，arXiv preprint，Zotero RAG Evaluation (245MJVU8)</li>
+        <li>痛點：faithfulness reward 被 copying hack——抄來的句子自動算 supported，模型學會複製而非真 grounding</li>
+        <li>授權：arXiv preprint（CC 授權待查）</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🟡 概念 <span class="en">· Yellow</span></h2>
+      <ul>
+        <li>faithfulness reward hacking 忠實度獎勵被破解</li>
+        <li>Authored-Sentence Credit (ASC) 作者句子計分法</li>
+        <li>GRPO sentence-level advantage（對比 GRPO 的答案級別 advantage）</li>
+        <li>copying vs. grounding 的結構區分</li>
+        <li>→ 我的 faithfulness LLM-judge 設計</li>
+        <li>→ WARN 類別 = 真事實但無 retrieval 脈絡支撐</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🔵 原文依據 <span class="en">· Blue (quotes)</span></h2>
+      <blockquote>「In search engines and assistants, long-form RAG answers can mislead readers with claims their sources do not support.」</blockquote>
+      <blockquote>「A sentence copied from the passages is supported almost by construction, so trained models learn to copy rather than ground what they write.」</blockquote>
+      <blockquote>「ASC credits only sentences that are authored rather than copied, say more than the question, and are supported by the passages.」</blockquote>
+      <blockquote>「Rewarding correct answers buys nothing in citation faithfulness, so faithfulness has to be trained and measured on its own terms.」</blockquote>
+      <blockquote>「only ASC lowers the error rate of authored sentences」</blockquote>
+    </section>
+
+    <section class="card">
+      <h2>🟠 我的想法 <span class="en">· Takeaway</span></h2>
+      <ul>
+        <li>核心洞見：faithfulness reward ≠ correctness reward — copying hack 讓前者毫無意義</li>
+        <li>→ 我的接地三層分類研究：WARN（真事實但非脈絡內）正是「non-grounded but accurate」的子類，與本文洞見高度一致</li>
+        <li>→ 閘門設計要能區分「作者寫的句子 vs. 抄來的句子」，不能只看 supported/not supported</li>
+        <li>→ 對 AlgoCoach RAG pipeline 的啟示：評測忠實度時要用 authored-sentence 而非 coverage 指標</li>
+      </ul>
+    </section>
+    <details><summary>原卡圖 Card image</summary><p><img src="notes/2026-11-25_copying-not-grounding.png" alt="Copying Is Not Grounding — faithfulness reward 被複製 hack 了" style="width:100%;border:1px solid var(--line);border-radius:10px"></p></details>
+      <span class="note-tag" data-tag="RAG">RAG</span>
+    </article>
     <article class="note" data-tag="RAG" data-search="2026-11-24 rubric semantics or numerical priors? — llm 評審的量表方向偏誤 rubric semantics or numerical priors? auditing scale-direction bias in llm judges kim et al. 2026 · arxiv preprint · 非 cc 授權，僅供研究引用 rag 核心問題 · question llm 評審真的按評分標準（rubric）的語意打分，還是只跟著分數的「大小感」走？ 🔴 背景與痛點 · red kim, kim, song, lee, park（2026），arxiv preprint，2026-11-19 上傳 痛點：benchmark 越來越靠 llm-as-a-judge，但這個典範預設「模型讀懂 rubric 語意」——本文質疑這點 實驗規模：5 個 meta-evaluation benchmarks × 7 個 llm judges（開源＋私有） 授權：arxiv preprint，非 cc 授權，僅供研究引用 🟡 概念 · yellow semantic faithfulness（新概念）：語意等價的 rubric 必須給出一致分數 scale-reversal probe：翻轉分數錨（1=好 ↔ 5=好），評標準不變，看分數是否一致 floor normalization：校正模型內建的隨機性，確保跨模型比較公平 bidirectional anchor averaging：雙向平均 → 降低對單一錨方向的依賴，不損失與人類評分的對齊 → 我的 faithfulness llm-judge 設計 → warn 失效類別研究中的判官可信度問題 🔵 原文依據 · blue (quotes) 「this paradigm assumes llms evaluate based on the rubric's semantic meaning rather than its numeric scale」 「widespread violations of semantic faithfulness」（5 benchmarks, 7 llm judges） 「raw reversal agreement alone is misleading」 「bidirectional anchor averaging reduces dependence on any single anchor direction without compromising alignment with human judgments」 「trustworthy llm judges must reliably follow rubric semantics, not just correlate with human ratings」 🟠 我的想法 · takeaway 核心洞見：llm 評審受「數字先驗」影響 — 1 分永遠像低分、5 分永遠像高分，不管文字說什麼 → 我的 faithfulness judge 若用 1-5 likert rubric，要用雙向平均（bidirectional averaging）才可靠 → warn 研究若採 llm 評分，scale-reversal probe 是判官可信度的必要驗證手段；或改用 rubric-free comparative judge">
       <div class="id">2026-11-24</div>
       <h2 style="margin:4px 0 2px">Rubric Semantics or Numerical Priors? — LLM 評審的量表方向偏誤<span class="en">Rubric Semantics or Numerical Priors? Auditing Scale-Direction Bias in LLM Judges</span></h2>
