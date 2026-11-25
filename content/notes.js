@@ -1,6 +1,14 @@
 // 由 build_notes.py 從 notes_md/*.md 生成,勿手改。
 const NOTES = [
   {
+    "date": "2026-11-26",
+    "title": "StitchRAG — 壓縮 context 仍保真：anchor + diffusion 縫合",
+    "title_en": "StitchRAG — Compact and Evidence-Preserving RAG Context via Diffusion-Based Stitching",
+    "source": "Kim et al. 2026 · arXiv preprint",
+    "img": "2026-11-26_stitchrag.png",
+    "tag": "RAG"
+  },
+  {
     "date": "2026-11-25",
     "title": "Copying Is Not Grounding — faithfulness reward 被複製 hack 了",
     "title_en": "Copying Is Not Grounding — Training Faithful Long-Form RAG with Authored-Sentence Credit",
