@@ -1,6 +1,14 @@
 // 由 build_notes.py 從 notes_md/*.md 生成,勿手改。
 const NOTES = [
   {
+    "date": "2026-11-27",
+    "title": "不確定性什麼時候能量測 RAG 幻覺風險?",
+    "title_en": "When Does Uncertainty Measure RAG Hallucination Risk?",
+    "source": "Ansari & Agrahari (2026) · arXiv preprint · Zotero RAG Evaluation (RJIEUA44)",
+    "img": "2026-11-27_uncertainty-rag-hallucination.png",
+    "tag": "RAG"
+  },
+  {
     "date": "2026-11-26",
     "title": "StitchRAG — 壓縮 context 仍保真：anchor + diffusion 縫合",
     "title_en": "StitchRAG — Compact and Evidence-Preserving RAG Context via Diffusion-Based Stitching",

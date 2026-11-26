@@ -45,6 +45,56 @@
   </div>
   <div class="filterbar" id="filterbar"></div>
   <div id="notes">
+    <article class="note" data-tag="RAG" data-search="2026-11-27 不確定性什麼時候能量測 rag 幻覺風險? when does uncertainty measure rag hallucination risk? ansari &amp; agrahari (2026) · arxiv preprint · zotero rag evaluation (rjieua44) rag 核心問題 · question perplexity（模型不確定性）能偵測 rag 幻覺嗎？什麼條件下才有效，答案在哪裡？ 🔴 背景與痛點 · red ansari &amp; agrahari (2026)，arxiv preprint 痛點：現有幻覺偵測不清楚「不確定性」在什麼條件下才等於幻覺風險 當檢索覆蓋不足時，模型可用 parametric 知識蒙混，仍給出高置信度的錯誤答案 授權：arxiv 預印本（非 cc，導讀/學術引用可用） 🟡 概念 · yellow uncertainty / perplexity 不確定性 hallucination risk 幻覺風險 retrieval coverage 檢索覆蓋率 auroc 判別力指標（receiver operating characteristic） semantic-drift score 語意漂移分數 → 我的 warn 閾值設計（faithfulness 分類） → 與 emma 的 harness 共用同一資料集（ragtruth） 🔵 原文依據 · blue (quotes) 「uncertainty can measure hallucination risk … but only when retrieved evidence constrains the answer」「perplexity reaches 0.81–0.91 auroc on targeted unsupported edits」「detection can weaken with only the top-ranked passage, then recover after adding a second passage」「a combined uncertainty and semantic-drift score improves calibration」「measurements remain above chance on ragtruth qa」 🟠 我的想法 · takeaway perplexity 是條件性幻覺偵測器：有檢索覆蓋才可靠，否則模型用 parametric 知識蒙混過關 retrieval depth 要夠（至少兩段）：一段不夠，第二段加入才讓 perplexity 鑑別力回升 純長度分類器接近隨機：幻覺偵測不能靠長度，要靠不確定性 + 語意漂移 → emma 的 harness 裡 nli+llm-judge 也是條件性的——檢索覆蓋差時 warn 類別更難分離 → 加 semantic-drift 分數 ≈ 我的 embedding 距離指標，可在 ragtruth 上交叉對照此 auroc 標竿">
+      <div class="id">2026-11-27</div>
+      <h2 style="margin:4px 0 2px">不確定性什麼時候能量測 RAG 幻覺風險?<span class="en">When Does Uncertainty Measure RAG Hallucination Risk?</span></h2>
+      <div class="src">出處 Source：Ansari & Agrahari (2026) · arXiv preprint · Zotero RAG Evaluation (RJIEUA44)</div>
+    <section class="card">
+      <h2>核心問題 <span class="en">· Question</span></h2>
+      <p>perplexity（模型不確定性）能偵測 RAG 幻覺嗎？什麼條件下才有效，答案在哪裡？</p>
+    </section>
+
+    <section class="card">
+      <h2>🔴 背景與痛點 <span class="en">· Red</span></h2>
+      <ul>
+        <li>Ansari & Agrahari (2026)，arXiv preprint</li>
+        <li>痛點：現有幻覺偵測不清楚「不確定性」在什麼條件下才等於幻覺風險</li>
+        <li>當檢索覆蓋不足時，模型可用 parametric 知識蒙混，仍給出高置信度的錯誤答案</li>
+        <li>授權：arXiv 預印本（非 CC，導讀/學術引用可用）</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🟡 概念 <span class="en">· Yellow</span></h2>
+      <ul>
+        <li>uncertainty / perplexity 不確定性</li>
+        <li>hallucination risk 幻覺風險</li>
+        <li>retrieval coverage 檢索覆蓋率</li>
+        <li>AUROC 判別力指標（receiver operating characteristic）</li>
+        <li>semantic-drift score 語意漂移分數</li>
+        <li>→ 我的 WARN 閾值設計（faithfulness 分類）</li>
+        <li>→ 與 Emma 的 harness 共用同一資料集（RAGTruth）</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🔵 原文依據 <span class="en">· Blue (quotes)</span></h2>
+      <blockquote>「Uncertainty can measure hallucination risk … but only when retrieved evidence constrains the answer」<br>「perplexity reaches 0.81–0.91 AUROC on targeted unsupported edits」<br>「detection can weaken with only the top-ranked passage, then recover after adding a second passage」<br>「A combined uncertainty and semantic-drift score improves calibration」<br>「measurements remain above chance on RAGTruth QA」</blockquote>
+    </section>
+
+    <section class="card">
+      <h2>🟠 我的想法 <span class="en">· Takeaway</span></h2>
+      <ul>
+        <li>perplexity 是條件性幻覺偵測器：有檢索覆蓋才可靠，否則模型用 parametric 知識蒙混過關</li>
+        <li>retrieval depth 要夠（至少兩段）：一段不夠，第二段加入才讓 perplexity 鑑別力回升</li>
+        <li>純長度分類器接近隨機：幻覺偵測不能靠長度，要靠不確定性 + 語意漂移</li>
+        <li>→ Emma 的 harness 裡 NLI+LLM-judge 也是條件性的——檢索覆蓋差時 WARN 類別更難分離</li>
+        <li>→ 加 semantic-drift 分數 ≈ 我的 embedding 距離指標，可在 RAGTruth 上交叉對照此 AUROC 標竿</li>
+      </ul>
+    </section>
+    <details><summary>原卡圖 Card image</summary><p><img src="notes/2026-11-27_uncertainty-rag-hallucination.png" alt="不確定性什麼時候能量測 RAG 幻覺風險?" style="width:100%;border:1px solid var(--line);border-radius:10px"></p></details>
+      <span class="note-tag" data-tag="RAG">RAG</span>
+    </article>
     <article class="note" data-tag="RAG" data-search="2026-11-26 stitchrag — 壓縮 context 仍保真：anchor + diffusion 縫合 stitchrag — compact and evidence-preserving rag context via diffusion-based stitching kim et al. 2026 · arxiv preprint rag 核心問題 · question rag 的 context 又長又雜，能壓縮又不失關鍵證據嗎？ 🔴 背景與痛點 · red kim, lim, cho, baek (2026)，arxiv preprint 痛點：長 context 帶來高計算開銷，noisy / 不相關內容反而傷 rag 效能 授權：arxiv preprint（導讀用途屬合理使用） 🟡 概念 · yellow compact context construction 緊密 context 建構 utility maximization（保留資訊 vs 計算成本 trade-off） anchor = answer candidates + query-related keywords text diffusion stitching（縫合斷句為連貫 context） dynamic size allocation（每段動態壓縮比） → 壓縮忠實度研究（cross-lingual-compression-faithfulness） → algocoach 檢索壓縮效能 🔵 原文依據 · blue (quotes) &quot;rag improves factuality by grounding large language models (llms) in external evidence&quot;&quot;long retrieved contexts incur computational overhead and can even hurt performance due to noisy or irrelevant content&quot;&quot;stitchrag builds a faithful, information-dense context while dynamically compressing the retrieved passages&quot;&quot;utility maximization trading-off the retained information and computation costs&quot;&quot;extract answer candidates and query-related keywords from passages as anchors&quot;&quot;connect or stitch the collected sentences together using text diffusion to form a coherent and natural context&quot;&quot;consistently outperforms diverse multi-step and compression baselines&quot; (5 open-domain qa benchmarks) 🟠 我的想法 · takeaway 想法：壓縮不能只看長度——以 anchor 為錨點保真再 stitch，這正是 faithfulness 的核心問題 → warn 類型：有事實但脈絡外的句子在壓縮時最易被截掉，anchor 機制正是保住這類句子的關鍵設計 → diffusion stitching 讓壓縮後 context coherent：對下游 llm-judge 的 faithfulness 判定更公平 → dynamic size allocation 比固定壓縮比更貼近「每段資訊密度不同」的現實">
       <div class="id">2026-11-26</div>
       <h2 style="margin:4px 0 2px">StitchRAG — 壓縮 context 仍保真：anchor + diffusion 縫合<span class="en">StitchRAG — Compact and Evidence-Preserving RAG Context via Diffusion-Based Stitching</span></h2>
