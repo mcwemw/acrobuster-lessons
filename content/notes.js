@@ -1,6 +1,14 @@
 // 由 build_notes.py 從 notes_md/*.md 生成,勿手改。
 const NOTES = [
   {
+    "date": "2026-11-28",
+    "title": "Faithful in Steps — QDRAG 拆題消 over-citation",
+    "title_en": "Faithful in Steps — Improving Generalization and Citation in RAG via Query Decomposition",
+    "source": "Liu et al. 2026 · arXiv preprint · Zotero RAG Evaluation (A46GMFFW)",
+    "img": "2026-11-28_qdrag-faithful-steps.png",
+    "tag": "RAG"
+  },
+  {
     "date": "2026-11-27",
     "title": "不確定性什麼時候能量測 RAG 幻覺風險?",
     "title_en": "When Does Uncertainty Measure RAG Hallucination Risk?",

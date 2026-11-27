@@ -45,6 +45,58 @@
   </div>
   <div class="filterbar" id="filterbar"></div>
   <div id="notes">
+    <article class="note" data-tag="RAG" data-search="2026-11-28 faithful in steps — qdrag 拆題消 over-citation faithful in steps — improving generalization and citation in rag via query decomposition liu et al. 2026 · arxiv preprint · zotero rag evaluation (a46gmffw) rag 核心問題 · question 引文式 rag 在 multi-hop 問題上過引、泛化差——問題出在哪？怎麼修？ 🔴 背景與痛點 · red liu, ru, di, zhang, zhang, zhou (2026-11-11)，arxiv preprint 痛點：ragq（帶 quote 的 rag）遇 multi-hop / 多模態問題三大失效：over-citation / 隱式實體辨識失敗 / 跨域泛化差 授權：arxiv preprint，metadata 未列 cc 授權，導讀僅引 abstract 字句 🟡 概念 · yellow ragq：生成帶 quotes 的可追溯答案，提升 verifiability qdrag：把問題拆成 atomic subquestions，找出隱式實體 qd-c：context knowledge 驅動的 zero-shot 拆題 qd-r：retrieval reward 驅動的 zero-shot 拆題 reranker 剪掉 context distractors，消除 over-citation 關鍵發現：qd task finetune 泛化 &gt; 直接 ragq task finetune → 引文可追溯是閘門設計的一環（faithfulness-gate-backing） → 拆題粒度影響 judge 判斷準確性（llm-final-judge-candidates） 🔵 原文依據 · blue (quotes) &quot;the quotes indicate which input contexts support the rag to derive the answers, enhancing the answer's verifiability and trustworthiness.&quot; &quot;qdrag breaks down the input question into atomic subquestions to identify the implicit entities.&quot; &quot;the reranker prunes context distractors to eliminate the downstream over-citation&quot; &quot;finetuning on the qd task shows better generalizability compared to directly finetuning on the downstream ragq task&quot; &quot;significantly outperforms all the baselines on both in-domain and out-of-domain tests, even surpassing gemini-pro&quot; 🟠 我的想法 · takeaway 想法：三步驟拆解 over-citation 根因——複合問題 → 原子化 → 隱式實體辨識 → rerank 去雜訊 → judge-pilot：複合評測題也先「原子化拆解再評」→ 減少假陰性 / 假陽性 → emma 的 warn 分類：問題拆細後能更精確診斷「正確事實但脈絡外」這個失效類別">
+      <div class="id">2026-11-28</div>
+      <h2 style="margin:4px 0 2px">Faithful in Steps — QDRAG 拆題消 over-citation<span class="en">Faithful in Steps — Improving Generalization and Citation in RAG via Query Decomposition</span></h2>
+      <div class="src">出處 Source：Liu et al. 2026 · arXiv preprint · Zotero RAG Evaluation (A46GMFFW)</div>
+    <section class="card">
+      <h2>核心問題 <span class="en">· Question</span></h2>
+      <p>引文式 RAG 在 multi-hop 問題上過引、泛化差——問題出在哪？怎麼修？</p>
+    </section>
+
+    <section class="card">
+      <h2>🔴 背景與痛點 <span class="en">· Red</span></h2>
+      <ul>
+        <li>Liu, Ru, Di, Zhang, Zhang, Zhou (2026-11-11)，arXiv preprint</li>
+        <li>痛點：RAGQ（帶 quote 的 RAG）遇 multi-hop / 多模態問題三大失效：over-citation / 隱式實體辨識失敗 / 跨域泛化差</li>
+        <li>授權：arXiv preprint，metadata 未列 CC 授權，導讀僅引 abstract 字句</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🟡 概念 <span class="en">· Yellow</span></h2>
+      <ul>
+        <li>RAGQ：生成帶 quotes 的可追溯答案，提升 verifiability</li>
+        <li>QDRAG：把問題拆成 atomic subquestions，找出隱式實體</li>
+        <li>QD-C：context knowledge 驅動的 zero-shot 拆題</li>
+        <li>QD-R：retrieval reward 驅動的 zero-shot 拆題</li>
+        <li>reranker 剪掉 context distractors，消除 over-citation</li>
+        <li>關鍵發現：QD task finetune 泛化 > 直接 RAGQ task finetune</li>
+        <li>→ 引文可追溯是閘門設計的一環（faithfulness-gate-backing）</li>
+        <li>→ 拆題粒度影響 judge 判斷準確性（llm-final-judge-candidates）</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🔵 原文依據 <span class="en">· Blue (quotes)</span></h2>
+      <blockquote>"The quotes indicate which input contexts support the RAG to derive the answers, enhancing the answer's verifiability and trustworthiness."</blockquote>
+      <blockquote>"QDRAG breaks down the input question into atomic subquestions to identify the implicit entities."</blockquote>
+      <blockquote>"the reranker prunes context distractors to eliminate the downstream over-citation"</blockquote>
+      <blockquote>"finetuning on the QD task shows better generalizability compared to directly finetuning on the downstream RAGQ task"</blockquote>
+      <blockquote>"significantly outperforms all the baselines on both in-domain and out-of-domain tests, even surpassing Gemini-Pro"</blockquote>
+    </section>
+
+    <section class="card">
+      <h2>🟠 我的想法 <span class="en">· Takeaway</span></h2>
+      <ul>
+        <li>想法：三步驟拆解 over-citation 根因——複合問題 → 原子化 → 隱式實體辨識 → rerank 去雜訊</li>
+        <li>→ judge-pilot：複合評測題也先「原子化拆解再評」→ 減少假陰性 / 假陽性</li>
+        <li>→ Emma 的 WARN 分類：問題拆細後能更精確診斷「正確事實但脈絡外」這個失效類別</li>
+      </ul>
+    </section>
+    <details><summary>原卡圖 Card image</summary><p><img src="notes/2026-11-28_qdrag-faithful-steps.png" alt="Faithful in Steps — QDRAG 拆題消 over-citation" style="width:100%;border:1px solid var(--line);border-radius:10px"></p></details>
+      <span class="note-tag" data-tag="RAG">RAG</span>
+    </article>
     <article class="note" data-tag="RAG" data-search="2026-11-27 不確定性什麼時候能量測 rag 幻覺風險? when does uncertainty measure rag hallucination risk? ansari &amp; agrahari (2026) · arxiv preprint · zotero rag evaluation (rjieua44) rag 核心問題 · question perplexity（模型不確定性）能偵測 rag 幻覺嗎？什麼條件下才有效，答案在哪裡？ 🔴 背景與痛點 · red ansari &amp; agrahari (2026)，arxiv preprint 痛點：現有幻覺偵測不清楚「不確定性」在什麼條件下才等於幻覺風險 當檢索覆蓋不足時，模型可用 parametric 知識蒙混，仍給出高置信度的錯誤答案 授權：arxiv 預印本（非 cc，導讀/學術引用可用） 🟡 概念 · yellow uncertainty / perplexity 不確定性 hallucination risk 幻覺風險 retrieval coverage 檢索覆蓋率 auroc 判別力指標（receiver operating characteristic） semantic-drift score 語意漂移分數 → 我的 warn 閾值設計（faithfulness 分類） → 與 emma 的 harness 共用同一資料集（ragtruth） 🔵 原文依據 · blue (quotes) 「uncertainty can measure hallucination risk … but only when retrieved evidence constrains the answer」「perplexity reaches 0.81–0.91 auroc on targeted unsupported edits」「detection can weaken with only the top-ranked passage, then recover after adding a second passage」「a combined uncertainty and semantic-drift score improves calibration」「measurements remain above chance on ragtruth qa」 🟠 我的想法 · takeaway perplexity 是條件性幻覺偵測器：有檢索覆蓋才可靠，否則模型用 parametric 知識蒙混過關 retrieval depth 要夠（至少兩段）：一段不夠，第二段加入才讓 perplexity 鑑別力回升 純長度分類器接近隨機：幻覺偵測不能靠長度，要靠不確定性 + 語意漂移 → emma 的 harness 裡 nli+llm-judge 也是條件性的——檢索覆蓋差時 warn 類別更難分離 → 加 semantic-drift 分數 ≈ 我的 embedding 距離指標，可在 ragtruth 上交叉對照此 auroc 標竿">
       <div class="id">2026-11-27</div>
       <h2 style="margin:4px 0 2px">不確定性什麼時候能量測 RAG 幻覺風險?<span class="en">When Does Uncertainty Measure RAG Hallucination Risk?</span></h2>
